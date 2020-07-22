@@ -1,5 +1,9 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
+import debugDraw from '../utils/collisionDebugger';
+import Lizards from '../gameObjects/enemies/lizards';
+import createLizardAnims from '../gameObjects/anims/enemyAnims';
+import createFauneAnims from '../gameObjects/anims/fauneAnims';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -13,97 +17,22 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+
+    createFauneAnims(this.anims);
+    createLizardAnims(this.anims);
     const map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
 
     map.createStaticLayer('Floor', tileset);
     const wallLayers = map.createStaticLayer('Walls', tileset);
+
     wallLayers.setCollisionByProperty({ collides: true });
-    const debugGraphics = this.add.graphics().setAlpha(0.7);
-    wallLayers.renderDebug(debugGraphics, {
-      tileColor: null,
-      collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255),
-    });
+
+    debugDraw(wallLayers, this);
 
     this.lizard = this.physics.add.sprite(640, 280, 'lizard');
 
     this.faune = this.physics.add.sprite(600, 280, 'faune');
-
-    this.anims.create({
-      key: 'faune-idle-down',
-      frames: [{ key: 'faune', frame: 'walk-down-3.png' }],
-    });
-
-    this.anims.create({
-      key: 'faune-idle-up',
-      frames: [{ key: 'faune', frame: 'walk-up-3.png' }],
-    });
-
-    this.anims.create({
-      key: 'faune-idle-side',
-      frames: [{ key: 'faune', frame: 'walk-side-3.png' }],
-    });
-
-    this.anims.create({
-      key: 'faune-run-down',
-      frames: this.anims.generateFrameNames('faune', {
-        start: 1,
-        end: 8,
-        prefix: 'run-down-',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 15,
-    });
-
-    this.anims.create({
-      key: 'faune-run-up',
-      frames: this.anims.generateFrameNames('faune', {
-        start: 1,
-        end: 8,
-        prefix: 'run-up-',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 15,
-    });
-
-    this.anims.create({
-      key: 'faune-run-side',
-      frames: this.anims.generateFrameNames('faune', {
-        start: 1,
-        end: 8,
-        prefix: 'run-side-',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 15,
-    });
-
-    this.anims.create({
-      key: 'lizard-idle',
-      frames: this.anims.generateFrameNames('lizard', {
-        start: 0,
-        end: 3,
-        prefix: 'lizard_m_idle_anim_f',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-
-    this.anims.create({
-      key: 'lizard-run',
-      frames: this.anims.generateFrameNames('lizard', {
-        start: 0,
-        end: 3,
-        prefix: 'lizard_m_run_anim_f',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
 
     this.faune.anims.play('faune-idle-down');
     this.lizard.anims.play('lizard-idle');

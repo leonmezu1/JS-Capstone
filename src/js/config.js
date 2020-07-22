@@ -22,7 +22,7 @@ const config = () => {
       pixelArt: true,
     },
     scale: {
-      zoom: 2,
+      zoom: 1.8,
     },
   };
   // eslint-disable-next-line no-unused-vars
