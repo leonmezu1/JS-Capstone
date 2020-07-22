@@ -17,12 +17,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
     const map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
-
     map.createStaticLayer('Floor', tileset);
     const wallLayers = map.createStaticLayer('Walls', tileset);
 
@@ -30,13 +28,19 @@ export default class MainScene extends Phaser.Scene {
 
     debugDraw(wallLayers, this);
 
-    this.lizard = this.physics.add.sprite(640, 280, 'lizard');
-
     this.faune = this.physics.add.sprite(600, 280, 'faune');
 
-    this.faune.anims.play('faune-idle-down');
-    this.lizard.anims.play('lizard-idle');
+    const lizards = this.physics.add.group({
+      classType: Lizards,
+      createCallback: (go) => { // Go stands for game object
+        const lizGo = go;
+        lizGo.body.onCollide = true;
+      },
+    });
+
+    lizards.get(660, 280, 'lizard');
     this.physics.add.collider(this.faune, wallLayers);
+    this.physics.add.collider(lizards, wallLayers);
     this.faune.body.setSize(this.faune.width * 0.5, this.faune.height * 0.8);
     this.cameras.main.startFollow(this.faune, true);
   }
