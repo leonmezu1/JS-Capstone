@@ -30,17 +30,17 @@ export default class MainScene extends Phaser.Scene {
   create() {
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
+
     const map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
+
     map.createStaticLayer('Floor', tileset);
     const wallLayers = map.createStaticLayer('Walls', tileset);
 
     wallLayers.setCollisionByProperty({ collides: true });
-
     debugDraw(wallLayers, this);
 
     this.faune = new Faune(this, 660, 240, 'faune');
-
     const lizards = this.physics.add.group({
       classType: Lizards,
       createCallback: (go) => {
@@ -48,8 +48,8 @@ export default class MainScene extends Phaser.Scene {
         lizGo.body.onCollide = true;
       },
     });
-
     lizards.get(660, 280, 'lizard');
+
     this.physics.add.collider(this.faune, wallLayers);
     this.physics.add.collider(lizards, wallLayers);
     this.physics.add.collider(

@@ -3,5 +3,6 @@ export const Handler = {
   scenes: {
     boot: 'BootScene',
     main: 'MainScene',
+    ui: 'UiScene',
   },
 };
