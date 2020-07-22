@@ -28,6 +28,8 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    this.scene.run(Handler.scenes.ui);
+
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
 
