@@ -81,7 +81,32 @@ export default class MainScene extends Phaser.Scene {
       frameRate: 15,
     });
 
+    this.anims.create({
+      key: 'lizard-idle',
+      frames: this.anims.generateFrameNames('lizard', {
+        start: 0,
+        end: 3,
+        prefix: 'lizard_m_idle_anim_f',
+        suffix: '.png',
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
+    this.anims.create({
+      key: 'lizard-run',
+      frames: this.anims.generateFrameNames('lizard', {
+        start: 0,
+        end: 3,
+        prefix: 'lizard_m_run_anim_f',
+        suffix: '.png',
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
     this.faune.anims.play('faune-idle-down');
+    this.lizard.anims.play('lizard-idle');
     this.physics.add.collider(this.faune, wallLayers);
     this.faune.body.setSize(this.faune.width * 0.5, this.faune.height * 0.8);
     this.cameras.main.startFollow(this.faune, true);
