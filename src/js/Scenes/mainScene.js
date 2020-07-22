@@ -112,6 +112,7 @@ export default class MainScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.faune, true);
   }
 
+  // eslint-disable-next-line no-unused-vars
   update(time, delta) {
     if (!this.cursors || !this.faune) { return; }
 
