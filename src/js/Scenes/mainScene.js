@@ -70,54 +70,9 @@ export default class MainScene extends Phaser.Scene {
       if (this.hit > 7) this.hit = 0;
       return;
     }
-    if (!this.cursors || !this.faune) { return; }
 
-    const speed = 128;
-    if (this.cursors.right.isDown === true) {
-      this.faune.setVelocityX(speed, 0);
-      this.faune.scaleX = 1;
-      this.faune.body.offset.x = 8;
-    }
-
-    if (this.cursors.up.isDown === true) {
-      this.faune.setVelocityY(-speed, 0);
-      this.faune.scaleX = 1;
-      this.faune.body.offset.x = 8;
-    }
-
-    if (this.cursors.down.isDown === true) {
-      this.faune.setVelocityY(speed, 0);
-      this.faune.scaleX = 1;
-      this.faune.body.offset.x = 8;
-    }
-
-    if (this.cursors.left.isDown === true) {
-      this.faune.setVelocityX(-speed, 0);
-      this.faune.scaleX = -1;
-      this.faune.body.offset.x = 24;
-    }
-    if (this.cursors.left.isUp && this.cursors.right.isUp) {
-      this.faune.setVelocityX(0);
-    }
-    if (this.cursors.up.isUp && this.cursors.down.isUp) {
-      this.faune.setVelocityY(0);
-    }
-    if (this.faune.body.velocity.x > 0) {
-      this.faune.play('faune-run-side', true);
-    } else if (this.faune.body.velocity.x < 0) {
-      this.faune.play('faune-run-side', true);
-    }
-
-    if (this.faune.body.velocity.y < 0 && this.faune.body.velocity.x === 0) {
-      this.faune.play('faune-run-up', true);
-    } else if (this.faune.body.velocity.y > 0 && this.faune.body.velocity.x === 0) {
-      this.faune.play('faune-run-down', true);
-    }
-
-    if (this.faune.body.velocity.x === 0 && this.faune.body.velocity.y === 0) {
-      this.faune.scaleX = 1;
-      this.faune.play('faune-idle-down', true);
-      this.faune.body.offset.x = 8;
+    if (this.faune) {
+      this.faune.update(this.cursors);
     }
   }
 }

@@ -11,4 +11,56 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
   preUpdate(t, dt) {
     super.preUpdate(t, dt);
   }
+
+  update(cursors) {
+    if (!cursors) { return; }
+
+    const speed = 128;
+    if (cursors.right.isDown === true) {
+      this.setVelocityX(speed, 0);
+      this.scaleX = 1;
+      this.body.offset.x = 8;
+    }
+
+    if (cursors.up.isDown === true) {
+      this.setVelocityY(-speed, 0);
+      this.scaleX = 1;
+      this.body.offset.x = 8;
+    }
+
+    if (cursors.down.isDown === true) {
+      this.setVelocityY(speed, 0);
+      this.scaleX = 1;
+      this.body.offset.x = 8;
+    }
+
+    if (cursors.left.isDown === true) {
+      this.setVelocityX(-speed, 0);
+      this.scaleX = -1;
+      this.body.offset.x = 24;
+    }
+    if (cursors.left.isUp && cursors.right.isUp) {
+      this.setVelocityX(0);
+    }
+    if (cursors.up.isUp && cursors.down.isUp) {
+      this.setVelocityY(0);
+    }
+    if (this.body.velocity.x > 0) {
+      this.play('faune-run-side', true);
+    } else if (this.body.velocity.x < 0) {
+      this.play('faune-run-side', true);
+    }
+
+    if (this.body.velocity.y < 0 && this.body.velocity.x === 0) {
+      this.play('faune-run-up', true);
+    } else if (this.body.velocity.y > 0 && this.body.velocity.x === 0) {
+      this.play('faune-run-down', true);
+    }
+
+    if (this.body.velocity.x === 0 && this.body.velocity.y === 0) {
+      this.scaleX = 1;
+      this.play('faune-idle-down', true);
+      this.body.offset.x = 8;
+    }
+  }
 }
