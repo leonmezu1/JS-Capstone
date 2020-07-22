@@ -26,7 +26,9 @@ export default class MainScene extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255),
     });
 
-    this.faune = this.physics.add.sprite(600, 300, 'faune');
+    this.lizard = this.physics.add.sprite(640, 280, 'lizard');
+
+    this.faune = this.physics.add.sprite(600, 280, 'faune');
 
     this.anims.create({
       key: 'faune-idle-down',
@@ -89,28 +91,48 @@ export default class MainScene extends Phaser.Scene {
     if (!this.cursors || !this.faune) { return; }
 
     const speed = 128;
-    if (this.cursors.left.isDown) {
+    if (this.cursors.right.isDown === true) {
+      this.faune.setVelocityX(speed, 0);
+      this.faune.scaleX = 1;
+      this.faune.body.offset.x = 8;
+    }
+
+    if (this.cursors.up.isDown === true) {
+      this.faune.setVelocityY(-speed, 0);
+      this.faune.scaleX = 1;
+      this.faune.body.offset.x = 8;
+    }
+
+    if (this.cursors.down.isDown === true) {
+      this.faune.setVelocityY(speed, 0);
+      this.faune.scaleX = 1;
+      this.faune.body.offset.x = 8;
+    }
+
+    if (this.cursors.left.isDown === true) {
       this.faune.setVelocityX(-speed, 0);
-      this.faune.play('faune-run-side', true);
       this.faune.scaleX = -1;
       this.faune.body.offset.x = 24;
-    } else if (this.cursors.right.isDown) {
-      this.faune.setVelocityX(speed, 0);
+    }
+    if (this.cursors.left.isUp && this.cursors.right.isUp) {
+      this.faune.setVelocityX(0);
+    }
+    if (this.cursors.up.isUp && this.cursors.down.isUp) {
+      this.faune.setVelocityY(0);
+    }
+    if (this.faune.body.velocity.x > 0) {
       this.faune.play('faune-run-side', true);
-      this.faune.scaleX = 1;
-      this.faune.body.offset.x = 8;
-    } else if (this.cursors.down.isDown) {
-      this.faune.setVelocityY(speed, 0);
-      this.faune.play('faune-run-down', true);
-      this.faune.scaleX = 1;
-      this.faune.body.offset.x = 8;
-    } else if (this.cursors.up.isDown) {
-      this.faune.setVelocityY(-speed, 0);
+    } else if (this.faune.body.velocity.x < 0) {
+      this.faune.play('faune-run-side', true);
+    }
+
+    if (this.faune.body.velocity.y < 0 && this.faune.body.velocity.x === 0) {
       this.faune.play('faune-run-up', true);
-      this.faune.scaleX = 1;
-      this.faune.body.offset.x = 8;
-    } else {
-      this.faune.setVelocity(0);
+    } else if (this.faune.body.velocity.y > 0 && this.faune.body.velocity.x === 0) {
+      this.faune.play('faune-run-down', true);
+    }
+
+    if (this.faune.body.velocity.x === 0 && this.faune.body.velocity.y === 0) {
       this.faune.scaleX = 1;
       this.faune.play('faune-idle-down', true);
       this.faune.body.offset.x = 8;

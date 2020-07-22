@@ -12,6 +12,7 @@ export default class BootScene extends Scene {
     this.load.image('dungeon_tile', 'assets/sprites/0x72_DungeonTilesetII_v1.3_extruded.png');
     this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
     this.load.atlas('faune', 'assets/public/character/fauna.png', 'assets/public/character/fauna.json');
+    this.load.atlas('lizard', 'assets/public/enemies/lizard.png', 'assets/public/enemies/lizard.json');
     const loadingBar = this.add.graphics({
       fillStyle: {
         color: 0xffffff,
