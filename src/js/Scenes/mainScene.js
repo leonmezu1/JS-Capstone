@@ -18,8 +18,7 @@ export default class MainScene extends Phaser.Scene {
     const lizard = obj2;
     const dx = this.faune.x - lizard.x;
     const dy = this.faune.y - lizard.y;
-    const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200);
-    this.faune.setVelocity(dir.x, dir.y);
+    this.faune.handleDamage(dx, dy);
     this.hit = 1;
   }
 
@@ -40,7 +39,7 @@ export default class MainScene extends Phaser.Scene {
 
     debugDraw(wallLayers, this);
 
-    this.faune = new Faune(this, 350, 400, 'faune');
+    this.faune = new Faune(this, 660, 240, 'faune');
 
     const lizards = this.physics.add.group({
       classType: Lizards,

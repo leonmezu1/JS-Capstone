@@ -1,15 +1,46 @@
 import Phaser from 'phaser';
 
+let HealthState;
+(function fauneHealth(HealthState) {
+  HealthState[HealthState.IDLE = 0] = 'IDLE';
+  HealthState[HealthState.DAMAGE = 1] = 'DAMAGE';
+  HealthState[HealthState.DEAD = 2] = 'DEAD';
+}(HealthState || (HealthState = {})));
+
 export default class Faune extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
+    this.healthState = HealthState.IDLE;
+    this.damageTime = 0;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.8);
     scene.add.existing(this);
   }
 
+  handleDamage(dx, dy) {
+    if (this.healthState === HealthState.DAMAGE) { return; }
+    const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200);
+    this.setTint(0xff0000);
+    this.setVelocity(dir.x, dir.y);
+    this.healthState = HealthState.DAMAGE;
+  }
+
   preUpdate(t, dt) {
     super.preUpdate(t, dt);
+    switch (this.healthState) {
+      case HealthState.IDLE:
+        break;
+      case HealthState.DAMAGE:
+        this.damageTime += dt;
+        if (this.damageTime >= 200) {
+          this.healthState = HealthState.IDLE;
+          this.setTint(0xffffff);
+          this.damageTime = 0;
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   update(cursors) {
