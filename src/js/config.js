@@ -5,8 +5,8 @@ import MainScene from './Scenes/mainScene';
 const config = () => {
   const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 300,
     scene: [BootScene, MainScene],
     parent: 'gameContainer',
     physics: {
@@ -20,6 +20,9 @@ const config = () => {
     },
     render: {
       pixelArt: true,
+    },
+    scale: {
+      zoom: 2,
     },
   };
   // eslint-disable-next-line no-unused-vars
