@@ -4,13 +4,25 @@ import debugDraw from '../utils/collisionDebugger';
 import Lizards from '../gameObjects/enemies/lizards';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
+import Faune from '../gameObjects/characters/faune';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super({
       key: Handler.scenes.main,
     });
+    this.hit = 0;
   }
+
+  handlePlayerLizardCollision(obj1, obj2) {
+    const lizard = obj2;
+    const dx = this.faune.x - lizard.x;
+    const dy = this.faune.y - lizard.y;
+    const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200);
+    this.faune.setVelocity(dir.x, dir.y);
+    this.hit = 1;
+  }
+
 
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -28,11 +40,11 @@ export default class MainScene extends Phaser.Scene {
 
     debugDraw(wallLayers, this);
 
-    this.faune = this.physics.add.sprite(600, 280, 'faune');
+    this.faune = new Faune(this, 350, 400, 'faune');
 
     const lizards = this.physics.add.group({
       classType: Lizards,
-      createCallback: (go) => { // Go stands for game object
+      createCallback: (go) => {
         const lizGo = go;
         lizGo.body.onCollide = true;
       },
@@ -41,12 +53,23 @@ export default class MainScene extends Phaser.Scene {
     lizards.get(660, 280, 'lizard');
     this.physics.add.collider(this.faune, wallLayers);
     this.physics.add.collider(lizards, wallLayers);
-    this.faune.body.setSize(this.faune.width * 0.5, this.faune.height * 0.8);
+    this.physics.add.collider(
+      lizards,
+      this.faune,
+      this.handlePlayerLizardCollision,
+      undefined,
+      this,
+    );
     this.cameras.main.startFollow(this.faune, true);
   }
 
   // eslint-disable-next-line no-unused-vars
   update(time, delta) {
+    if (this.hit > 0) {
+      this.hit += 1;
+      if (this.hit > 7) this.hit = 0;
+      return;
+    }
     if (!this.cursors || !this.faune) { return; }
 
     const speed = 128;

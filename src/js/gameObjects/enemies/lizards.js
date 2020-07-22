@@ -24,7 +24,7 @@ export default class Lizard extends Phaser.Physics.Arcade.Sprite {
       Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this,
     );
     this.moveEvent = scene.time.addEvent({
-      delay: 2000,
+      delay: 4000,
       callback: () => {
         this.direction = randomDirection(this.direction);
       },
@@ -37,8 +37,8 @@ export default class Lizard extends Phaser.Physics.Arcade.Sprite {
     super.destroy(fromScene);
   }
 
-  handleTileCollision(go, tile) {
-    if (go !== this) {
+  handleTileCollision(gO) {
+    if (gO !== this) {
       return;
     }
     this.direction = randomDirection(this.direction);
