@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 import debugDraw from '../utils/collisionDebugger';
+import sceneEvents from '../events/events';
 import Lizards from '../gameObjects/enemies/lizards';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
@@ -20,6 +21,8 @@ export default class MainScene extends Phaser.Scene {
     const dy = this.faune.y - lizard.y;
     this.faune.handleDamage(dx, dy);
     this.hit = 1;
+
+    sceneEvents.emit('player-damaged', this.faune.getHealth());
   }
 
 

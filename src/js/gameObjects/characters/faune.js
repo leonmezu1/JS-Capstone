@@ -12,9 +12,26 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture);
     this.healthState = HealthState.IDLE;
     this.damageTime = 0;
+    this.health = 600;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.8);
     scene.add.existing(this);
+  }
+
+  getHealth() {
+    return this.health;
+  }
+
+  damagedBy(damage) {
+    if (damage > -1) {
+      this.health -= damage;
+    }
+  }
+
+  healedBy(heal) {
+    if (heal > -1) {
+      this.health += heal;
+    }
   }
 
   handleDamage(dx, dy) {
@@ -23,6 +40,10 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.setTint(0xff0000);
     this.setVelocity(dir.x, dir.y);
     this.healthState = HealthState.DAMAGE;
+    this.damagedBy(100);
+    if (this.health <= 0) {
+      console.log('Faune Dies');
+    }
   }
 
   preUpdate(t, dt) {
