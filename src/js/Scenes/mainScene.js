@@ -52,13 +52,13 @@ export default class MainScene extends Phaser.Scene {
     this.map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = this.map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
 
-    const floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
-    const wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
+    this.floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
+    this.wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
 
     this.sys.animatedTiles.init(this.map);
 
 
-    wallLayers.setCollisionByProperty({ collides: true });
+    this.wallLayers.setCollisionByProperty({ collides: true });
 
     this.faune = new Faune(this, 660, 240, 'faune');
     const lizards = this.physics.add.group({
@@ -80,11 +80,11 @@ export default class MainScene extends Phaser.Scene {
 
     this.faune.setKnives(knives);
 
-    this.fauneLizardCollision = this.physics.add.collider(this.faune, wallLayers);
-    this.physics.add.collider(lizards, wallLayers);
+    this.fauneLizardCollision = this.physics.add.collider(this.faune, this.wallLayers);
+    this.physics.add.collider(lizards, this.wallLayers);
     this.physics.add.collider(
       knives,
-      wallLayers, (knives) => { knives.destroy(); },
+      this.wallLayers, (knives) => { knives.destroy(); },
       undefined,
       this,
     );
