@@ -3,8 +3,10 @@ import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
 import Lizards from '../gameObjects/enemies/lizards';
+import debugDraw from '../utils/collisionDebugger';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
+import createChestAnims from '../gameObjects/anims/chestAnims';
 import Faune from '../gameObjects/characters/faune';
 
 export default class MainScene extends Phaser.Scene {
@@ -19,8 +21,8 @@ export default class MainScene extends Phaser.Scene {
     const lizard = obj2;
     const dx = this.faune.x - lizard.x;
     const dy = this.faune.y - lizard.y;
-    this.faune.handleDamage(dx, dy);
     this.hit = 1;
+    this.faune.handleDamage(dx, dy);
 
     sceneEvents.emit('player-damaged', this.faune.getHealth());
     if (this.faune.getHealth() <= 0) {
@@ -48,16 +50,22 @@ export default class MainScene extends Phaser.Scene {
 
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
+    createChestAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = this.map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
 
     this.floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
     this.wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
+    this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
+
 
     this.sys.animatedTiles.init(this.map);
 
-
+    this.chests = this.physics.add.staticGroup();
+    this.chestsObjectsLayer.objects.forEach(chestObject => {
+      this.chests.get(chestObject.x + 8, chestObject.y - 8, 'treasure');
+    });
     this.wallLayers.setCollisionByProperty({ collides: true });
 
     this.faune = new Faune(this, 660, 240, 'faune');
@@ -78,10 +86,13 @@ export default class MainScene extends Phaser.Scene {
       classType: Phaser.Physics.Arcade.Image,
     });
 
+    this.add.sprite(616, 260, 'treasure');
+
     this.faune.setKnives(knives);
 
     this.fauneLizardCollision = this.physics.add.collider(this.faune, this.wallLayers);
     this.physics.add.collider(lizards, this.wallLayers);
+    this.physics.add.collider(this.faune, this.chests);
     this.physics.add.collider(
       knives,
       this.wallLayers, (knives) => { knives.destroy(); },

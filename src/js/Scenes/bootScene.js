@@ -14,9 +14,10 @@ export default class BootScene extends Scene {
     this.load.image('half_heart', 'assets/public/ui/ui_heart_half.png');
     this.load.image('empty_heart', 'assets/public/ui/ui_heart_empty.png');
     this.load.image('knife', 'assets/public/weapons/weapon_knife.png');
-    this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
+    this.load.atlas('treasure', 'assets/public/items/treasure.png', 'assets/public/items/treasure.json');
     this.load.atlas('faune', 'assets/public/character/fauna.png', 'assets/public/character/fauna.json');
     this.load.atlas('lizard', 'assets/public/enemies/lizard.png', 'assets/public/enemies/lizard.json');
+    this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
     const loadingBar = this.add.graphics({
       fillStyle: {
         color: 0xffffff,

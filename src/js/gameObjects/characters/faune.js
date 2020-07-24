@@ -10,14 +10,19 @@ let HealthState;
 export default class Faune extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
-    this.healthState = HealthState.IDLE;
     this.damageTime = 0;
+    this.healthState = HealthState.IDLE;
     this.health = 600;
-    this.score = 0;
     this.knives = Phaser.Physics.Arcade.GROUP;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
-    this.body.setSize(this.body.width * 0.5, this.body.height * 0.8);
+    this.score = 0;
+    this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
+    this.body.offset.y = 12;
     scene.add.existing(this);
+  }
+
+  setCharacterBodySize(xMultiplier, yMultiplier) {
+    this.body.setSize(this.body.width * xMultiplier, this.body.height * yMultiplier);
   }
 
   getHealth() {
