@@ -2,13 +2,17 @@ import Phaser from 'phaser';
 import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
-import Lizards from '../gameObjects/enemies/lizards';
 import debugDraw from '../utils/collisionDebugger';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
+import createLavaFountainAnims from '../gameObjects/anims/lavaFountainAnims';
 import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
+import Lizards from '../gameObjects/enemies/lizards';
+import LavaFountains from '../gameObjects/items/lavaFountains';
+import createPikeAnims from '../gameObjects/anims/pikesAnims';
+import Pikes from '../gameObjects/items/pikes';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -55,14 +59,16 @@ export default class MainScene extends Phaser.Scene {
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
     createChestAnims(this.anims);
+    createLavaFountainAnims(this.anims);
+    createPikeAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = this.map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
 
     this.floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
     this.wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
-    this.pikesObjectsObjectsLayer = this.map.getObjectLayer('LavaFountains');
-    this.lavaFountainsObjectsLayer = this.map.getObjectLayer('Pikes');
+    this.pikesObjectsLayer = this.map.getObjectLayer('Pikes');
+    this.lavaFountainsObjectsLayer = this.map.getObjectLayer('LavaFountains');
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
     this.LizardsLayer = this.map.getObjectLayer('Lizards');
     this.wallLayers.setCollisionByProperty({ collides: true });
@@ -71,9 +77,13 @@ export default class MainScene extends Phaser.Scene {
 
     this.sys.animatedTiles.init(this.map);
 
-    this.lavaFountains = this.physics.add.staticGroup();
+    this.pikes = this.physics.add.staticGroup({
+      classType: Pikes,
+    });
 
-    this.pikes = this.physics.add.staticGroup();
+    this.lavaFountains = this.physics.add.staticGroup({
+      classType: LavaFountains,
+    });
 
     this.chests = this.physics.add.staticGroup({
       classType: Chest,
@@ -88,6 +98,14 @@ export default class MainScene extends Phaser.Scene {
         const lizGo = go;
         lizGo.body.onCollide = true;
       },
+    });
+
+    this.pikesObjectsLayer.objects.forEach(pikeTile => {
+      this.pikes.get(pikeTile.x + 8, pikeTile.y - 8, 'pikes');
+    });
+
+    this.lavaFountainsObjectsLayer.objects.forEach(fountain => {
+      this.lavaFountains.get(fountain.x + 8, fountain.y - 8, 'lava');
     });
 
     this.chestsObjectsLayer.objects.forEach(chestObject => {
