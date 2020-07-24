@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import sceneEvents from '../../events/events';
+
 
 let HealthState;
 (function fauneHealth(HealthState) {
@@ -177,7 +179,8 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
         this.incrementCoins(this.chestItems[0]);
         this.healedBy(this.chestItems[1]);
         this.chestItems = [];
-        console.log(this.coins);
+        sceneEvents.emit('player-coins-changed', this.getCoins());
+        sceneEvents.emit('player-healed', this.getHealth());
       } else {
         this.throwKnife();
       }

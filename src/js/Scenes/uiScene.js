@@ -10,7 +10,13 @@ export default class UiScene extends Phaser.Scene {
   }
 
   handlePlayerScore(scoreInput) {
-    this.text.setText(`Score: ${scoreInput}`);
+    this.scoreText.setText(`Score: ${scoreInput}`);
+  }
+
+  handlePlayerCoins(coinsInput) {
+    setTimeout(() => {
+      this.coinsText.setText(`Coins: ${coinsInput}`);
+    }, 200);
   }
 
   handlePlayerHealth(health) {
@@ -51,13 +57,21 @@ export default class UiScene extends Phaser.Scene {
       quantity: 3,
     });
 
-    this.text = this.add.text(this.game.renderer.width - 70, 2, 'Score: ', {
+    this.scoreText = this.add.text(this.game.renderer.width - 70, 2, 'Score: ', {
       font: '12px Arial',
       fill: '#fff',
       align: 'center',
     });
 
+    this.add.image(6, 26, 'treasure', 'coin_anim_f0.png').setScale(1.1);
+
+    this.coinsText = this.add.text(16, 20, 'Coins: ', {
+      fontSize: '14',
+    });
+
     sceneEvents.on('player-damaged', this.handlePlayerHealth, this);
+    sceneEvents.on('player-healed', this.handlePlayerHealth, this);
     sceneEvents.on('player-score-changed', this.handlePlayerScore, this);
+    sceneEvents.on('player-coins-changed', this.handlePlayerCoins, this);
   }
 }
