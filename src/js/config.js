@@ -13,17 +13,14 @@ const config = () => {
     physics: {
       default: 'arcade',
       arcade: {
-        debug: true,
-        arcade: {
-          debug: true,
-        },
+        debug: false,
       },
     },
     render: {
       pixelArt: true,
     },
     scale: {
-      zoom: 1.8,
+      zoom: 2.5,
     },
   };
   // eslint-disable-next-line no-unused-vars

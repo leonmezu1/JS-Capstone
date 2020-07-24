@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
+import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles';
 import { Handler } from './scenesHandler';
-import debugDraw from '../utils/collisionDebugger';
 import sceneEvents from '../events/events';
 import Lizards from '../gameObjects/enemies/lizards';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
@@ -23,11 +23,24 @@ export default class MainScene extends Phaser.Scene {
     this.hit = 1;
 
     sceneEvents.emit('player-damaged', this.faune.getHealth());
+    if (this.faune.getHealth() <= 0) {
+      if (this.fauneLizardCollision) {
+        this.fauneLizardCollision.world.destroy();
+      }
+    }
+  }
+
+  handleKnifeLizzardCollision(obj1, obj2) {
+    obj1.destroy();
+    obj2.destroy();
+    this.faune.setScore(100);
+    sceneEvents.emit('player-score-changed', this.faune.getScore());
   }
 
 
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.load.scenePlugin('animatedTiles', AnimatedTiles, 'animatedTiles', 'animatedTiles');
   }
 
   create() {
@@ -36,14 +49,16 @@ export default class MainScene extends Phaser.Scene {
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
 
-    const map = this.make.tilemap({ key: 'dungeon_map' });
-    const tileset = map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
+    this.map = this.make.tilemap({ key: 'dungeon_map' });
+    const tileset = this.map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
 
-    map.createStaticLayer('Floor', tileset);
-    const wallLayers = map.createStaticLayer('Walls', tileset);
+    const floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
+    const wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
+
+    this.sys.animatedTiles.init(this.map);
+
 
     wallLayers.setCollisionByProperty({ collides: true });
-    debugDraw(wallLayers, this);
 
     this.faune = new Faune(this, 660, 240, 'faune');
     const lizards = this.physics.add.group({
@@ -54,9 +69,32 @@ export default class MainScene extends Phaser.Scene {
       },
     });
     lizards.get(660, 280, 'lizard');
+    lizards.get(660, 300, 'lizard');
+    lizards.get(690, 280, 'lizard');
+    lizards.get(670, 280, 'lizard');
+    lizards.get(620, 280, 'lizard');
 
-    this.physics.add.collider(this.faune, wallLayers);
+    const knives = this.physics.add.group({
+      classType: Phaser.Physics.Arcade.Image,
+    });
+
+    this.faune.setKnives(knives);
+
+    this.fauneLizardCollision = this.physics.add.collider(this.faune, wallLayers);
     this.physics.add.collider(lizards, wallLayers);
+    this.physics.add.collider(
+      knives,
+      wallLayers, (knives) => { knives.destroy(); },
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(knives,
+      lizards,
+      this.handleKnifeLizzardCollision,
+      undefined,
+      this);
+
     this.physics.add.collider(
       lizards,
       this.faune,
@@ -64,6 +102,7 @@ export default class MainScene extends Phaser.Scene {
       undefined,
       this,
     );
+
     this.cameras.main.startFollow(this.faune, true);
   }
 

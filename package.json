@@ -14,7 +14,8 @@
     "start": "webpack-dev-server --mode development --open --config ./webpack.config.js "
   },
   "dependencies": {
-    "phaser": "^3.24.0"
+    "phaser": "^3.24.0",
+    "phaser-animated-tiles": "^2.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.4",

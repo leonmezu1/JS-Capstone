@@ -9,6 +9,10 @@ export default class UiScene extends Phaser.Scene {
     });
   }
 
+  handlePlayerScore(scoreInput) {
+    this.text.setText(`Score: ${scoreInput}`);
+  }
+
   handlePlayerHealth(health) {
     const children = this.hearts.getChildren();
     switch (health) {
@@ -31,7 +35,6 @@ export default class UiScene extends Phaser.Scene {
         children[0].setTexture('empty_heart');
         break;
       default:
-        children.every(heart => heart.setTexture('full_heart'));
         break;
     }
   }
@@ -48,6 +51,13 @@ export default class UiScene extends Phaser.Scene {
       quantity: 3,
     });
 
+    this.text = this.add.text(this.game.renderer.width - 70, 2, 'Score: ', {
+      font: '12px Arial',
+      fill: '#fff',
+      align: 'center',
+    });
+
     sceneEvents.on('player-damaged', this.handlePlayerHealth, this);
+    sceneEvents.on('player-score-changed', this.handlePlayerScore, this);
   }
 }

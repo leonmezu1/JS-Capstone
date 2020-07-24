@@ -13,6 +13,8 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.healthState = HealthState.IDLE;
     this.damageTime = 0;
     this.health = 600;
+    this.score = 0;
+    this.knives = Phaser.Physics.Arcade.GROUP;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.8);
     scene.add.existing(this);
@@ -28,10 +30,54 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  setScore(increment) {
+    this.score += increment;
+  }
+
+  getScore() {
+    return this.score;
+  }
+
   healedBy(heal) {
     if (heal > -1) {
       this.health += heal;
     }
+  }
+
+  setKnives(knives) {
+    this.knives = knives;
+  }
+
+  throwKnife() {
+    if (!this.knives) return;
+    if (!this.anims.currentAnim) return;
+
+    const parts = this.anims.currentAnim.key.split('-');
+    const direction = parts[2];
+    const velocityVector = new Phaser.Math.Vector2(0, 0);
+
+    switch (direction) {
+      case 'up':
+        velocityVector.y = -1;
+        break;
+      case 'down':
+        velocityVector.y = 1;
+        break;
+      case 'side':
+        if (this.scaleX < 0) {
+          velocityVector.x = -1;
+        } else {
+          velocityVector.x = 1;
+        }
+        break;
+      default:
+        break;
+    }
+
+    const angle = velocityVector.angle();
+    const knife = this.knives.get(this.x + velocityVector.x * 16, this.y + velocityVector.y * 16, 'knife');
+    knife.setVelocity(velocityVector.x * 250, velocityVector.y * 250);
+    knife.setRotation(angle + 1.5708);
   }
 
   handleDamage(dx, dy) {
@@ -42,7 +88,11 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.healthState = HealthState.DAMAGE;
     this.damagedBy(100);
     if (this.health <= 0) {
-      console.log('Faune Dies');
+      this.healthState = HealthState.DEAD;
+      this.setTint(0xffffff);
+      this.anims.play('faune-faint');
+      this.body.setVelocity(0, 0);
+      this.body.immovable = true;
     }
   }
 
@@ -66,53 +116,45 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
 
   update(cursors) {
     if (!cursors) { return; }
+    if (this.healthState === HealthState.DEAD) {
+      return;
+    }
 
     const speed = 128;
-    if (cursors.right.isDown === true) {
-      this.setVelocityX(speed, 0);
-      this.scaleX = 1;
-      this.body.offset.x = 8;
-    }
 
-    if (cursors.up.isDown === true) {
-      this.setVelocityY(-speed, 0);
-      this.scaleX = 1;
-      this.body.offset.x = 8;
-    }
+    const leftDown = cursors.left.isDown;
+    const rightDown = cursors.right.isDown;
+    const upDown = cursors.up.isDown;
+    const downDown = cursors.down.isDown;
+    const spaceDown = cursors.space.isDown;
 
-    if (cursors.down.isDown === true) {
-      this.setVelocityY(speed, 0);
-      this.scaleX = 1;
-      this.body.offset.x = 8;
-    }
+    if (leftDown) {
+      this.anims.play('faune-run-side', true);
+      this.setVelocity(-speed, 0);
 
-    if (cursors.left.isDown === true) {
-      this.setVelocityX(-speed, 0);
       this.scaleX = -1;
       this.body.offset.x = 24;
-    }
-    if (cursors.left.isUp && cursors.right.isUp) {
-      this.setVelocityX(0);
-    }
-    if (cursors.up.isUp && cursors.down.isUp) {
-      this.setVelocityY(0);
-    }
-    if (this.body.velocity.x > 0) {
-      this.play('faune-run-side', true);
-    } else if (this.body.velocity.x < 0) {
-      this.play('faune-run-side', true);
-    }
+    } else if (rightDown) {
+      this.anims.play('faune-run-side', true);
+      this.setVelocity(speed, 0);
 
-    if (this.body.velocity.y < 0 && this.body.velocity.x === 0) {
-      this.play('faune-run-up', true);
-    } else if (this.body.velocity.y > 0 && this.body.velocity.x === 0) {
-      this.play('faune-run-down', true);
-    }
-
-    if (this.body.velocity.x === 0 && this.body.velocity.y === 0) {
       this.scaleX = 1;
-      this.play('faune-idle-down', true);
       this.body.offset.x = 8;
+    } else if (upDown) {
+      this.anims.play('faune-run-up', true);
+      this.setVelocity(0, -speed);
+    } else if (downDown) {
+      this.anims.play('faune-run-down', true);
+      this.setVelocity(0, speed);
+    } else if (this.anims.currentAnim) {
+      const parts = this.anims.currentAnim.key.split('-');
+      parts[1] = 'idle';
+      this.anims.play(parts.join('-'));
+      this.setVelocity(0, 0);
+    }
+
+    if (spaceDown) {
+      this.throwKnife();
     }
   }
 }
