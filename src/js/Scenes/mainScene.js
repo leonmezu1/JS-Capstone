@@ -22,8 +22,7 @@ export default class MainScene extends Phaser.Scene {
     this.hit = 0;
   }
 
-  handlePlayerLizardCollision(obj1, obj2) {
-    const lizard = obj2;
+  handlePlayerLizardCollision(faune, lizard) {
     const dx = this.faune.x - lizard.x;
     const dy = this.faune.y - lizard.y;
     this.hit = 1;
@@ -35,6 +34,11 @@ export default class MainScene extends Phaser.Scene {
         this.fauneLizardCollision.world.destroy();
       }
     }
+  }
+
+  handleFaunePikeCollide() {
+    this.faune.handleStaticDamage();
+    sceneEvents.emit('player-damaged', this.faune.getHealth());
   }
 
   handleKnifeLizzardCollision(knife, lizzard) {
@@ -121,6 +125,10 @@ export default class MainScene extends Phaser.Scene {
 
 
     this.physics.add.collider(this.lizards, this.wallLayers);
+    this.physics.add.collider(this.lizards, this.lavaFountains);
+    this.physics.add.collider(this.lizards, this.pikes);
+    this.physics.add.collider(this.lizards, this.chests);
+    this.physics.add.collider(this.faune, this.lavaFountains);
     this.fauneLizardCollision = this.physics.add.collider(this.faune, this.wallLayers);
     this.physics.add.collider(
       this.faune,
@@ -146,6 +154,14 @@ export default class MainScene extends Phaser.Scene {
       this.lizards,
       this.faune,
       this.handlePlayerLizardCollision,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.faune,
+      this.pikes,
+      this.handleFaunePikeCollide,
       undefined,
       this,
     );

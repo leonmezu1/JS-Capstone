@@ -23,19 +23,27 @@ export default class UiScene extends Phaser.Scene {
     const children = this.hearts.getChildren();
     switch (health) {
       case 500:
+        children.slice(0, 1).every(heart => heart.setTexture('full_heart'));
         children[2].setTexture('half_heart');
         break;
       case 400:
+        children.slice(0, 1).every(heart => heart.setTexture('full_heart'));
         children[2].setTexture('empty_heart');
         break;
       case 300:
+        children[0].setTexture('full_heart');
         children[1].setTexture('half_heart');
+        children[2].setTexture('empty_heart');
         break;
       case 200:
+        children[0].setTexture('full_heart');
         children[1].setTexture('empty_heart');
+        children[2].setTexture('empty_heart');
         break;
       case 100:
         children[0].setTexture('half_heart');
+        children[1].setTexture('empty_heart');
+        children[2].setTexture('empty_heart');
         break;
       case 0:
         children.every(heart => heart.setTexture('empty_heart'));
@@ -60,8 +68,6 @@ export default class UiScene extends Phaser.Scene {
 
     this.scoreText = this.add.text(this.game.renderer.width - 70, 2, 'Score: ', {
       font: '12px Arial',
-      fill: '#fff',
-      align: 'center',
     });
 
     this.add.image(6, 26, 'treasure', 'coin_anim_f0.png').setScale(1.1);

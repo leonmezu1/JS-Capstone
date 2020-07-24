@@ -6,6 +6,8 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
     this.coins = Phaser.Math.Between(5, 50);
     this.hearts = Phaser.Math.Between(0, 1, 2);
     this.anims.play('chest-closed');
+    this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.STATIC_BODY);
+    this.body.setSize(this.body.width * 0.7, this.body.height * 0.7);
   }
 
   open() {
