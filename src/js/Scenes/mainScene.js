@@ -8,6 +8,7 @@ import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import Faune from '../gameObjects/characters/faune';
+import Chest from '../gameObjects/items/chests';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -39,6 +40,10 @@ export default class MainScene extends Phaser.Scene {
     sceneEvents.emit('player-score-changed', this.faune.getScore());
   }
 
+  handlePlayerChestCollision(obj1, obj2) {
+    console.log(obj1, obj2);
+  }
+
 
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -58,56 +63,59 @@ export default class MainScene extends Phaser.Scene {
     this.floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
     this.wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
+    this.wallLayers.setCollisionByProperty({ collides: true });
 
+    debugDraw(this.wallLayers, this);
 
     this.sys.animatedTiles.init(this.map);
 
-    this.chests = this.physics.add.staticGroup();
-    this.chestsObjectsLayer.objects.forEach(chestObject => {
-      this.chests.get(chestObject.x + 8, chestObject.y - 8, 'treasure');
+    this.chests = this.physics.add.staticGroup({
+      classType: Chest,
     });
-    this.wallLayers.setCollisionByProperty({ collides: true });
 
-    this.faune = new Faune(this, 660, 240, 'faune');
-    const lizards = this.physics.add.group({
+    this.knives = this.physics.add.group({
+      classType: Phaser.Physics.Arcade.Image,
+    });
+    this.lizards = this.physics.add.group({
       classType: Lizards,
       createCallback: (go) => {
         const lizGo = go;
         lizGo.body.onCollide = true;
       },
     });
-    lizards.get(660, 280, 'lizard');
-    lizards.get(660, 300, 'lizard');
-    lizards.get(690, 280, 'lizard');
-    lizards.get(670, 280, 'lizard');
-    lizards.get(620, 280, 'lizard');
 
-    const knives = this.physics.add.group({
-      classType: Phaser.Physics.Arcade.Image,
+    this.chestsObjectsLayer.objects.forEach(chestObject => {
+      this.chests.get(chestObject.x + 8, chestObject.y - 8, 'treasure');
     });
 
-    this.add.sprite(616, 260, 'treasure');
+    this.faune = new Faune(this, 660, 240, 'faune');
+    this.faune.setKnives(this.knives);
 
-    this.faune.setKnives(knives);
 
+    this.physics.add.collider(this.lizards, this.wallLayers);
     this.fauneLizardCollision = this.physics.add.collider(this.faune, this.wallLayers);
-    this.physics.add.collider(lizards, this.wallLayers);
-    this.physics.add.collider(this.faune, this.chests);
     this.physics.add.collider(
-      knives,
+      this.faune,
+      this.chests,
+      this.handlePlayerChestCollision,
+      undefined,
+      this,
+    );
+    this.physics.add.collider(
+      this.knives,
       this.wallLayers, (knives) => { knives.destroy(); },
       undefined,
       this,
     );
 
-    this.physics.add.collider(knives,
-      lizards,
+    this.physics.add.collider(this.knives,
+      this.lizards,
       this.handleKnifeLizzardCollision,
       undefined,
       this);
 
     this.physics.add.collider(
-      lizards,
+      this.lizards,
       this.faune,
       this.handlePlayerLizardCollision,
       undefined,
