@@ -38,9 +38,10 @@ export default class UiScene extends Phaser.Scene {
         children[0].setTexture('half_heart');
         break;
       case 0:
-        children[0].setTexture('empty_heart');
+        children.every(heart => heart.setTexture('empty_heart'));
         break;
       default:
+        children.every(heart => heart.setTexture('full_heart'));
         break;
     }
   }

@@ -64,6 +64,7 @@ export default class MainScene extends Phaser.Scene {
     this.pikesObjectsObjectsLayer = this.map.getObjectLayer('LavaFountains');
     this.lavaFountainsObjectsLayer = this.map.getObjectLayer('Pikes');
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
+    this.LizardsLayer = this.map.getObjectLayer('Lizards');
     this.wallLayers.setCollisionByProperty({ collides: true });
 
     debugDraw(this.wallLayers, this);
@@ -91,6 +92,10 @@ export default class MainScene extends Phaser.Scene {
 
     this.chestsObjectsLayer.objects.forEach(chestObject => {
       this.chests.get(chestObject.x + 8, chestObject.y - 8, 'treasure');
+    });
+
+    this.LizardsLayer.objects.forEach(lizardFromLayer => {
+      this.lizards.get(lizardFromLayer.x + 8, lizardFromLayer.y - 8, 'lizard');
     });
 
     this.faune = new Faune(this, 660, 240, 'faune');
