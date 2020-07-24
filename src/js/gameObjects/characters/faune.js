@@ -14,15 +14,22 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.healthState = HealthState.IDLE;
     this.health = 600;
     this.knives = Phaser.Physics.Arcade.GROUP;
+    this.activeChest = Phaser.Physics.Arcade.GROUP;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.score = 0;
+    this.coins = 0;
+    this.chestItems = [];
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
     this.body.offset.y = 12;
     scene.add.existing(this);
   }
 
-  setCharacterBodySize(xMultiplier, yMultiplier) {
-    this.body.setSize(this.body.width * xMultiplier, this.body.height * yMultiplier);
+  getCoins() {
+    return this.coins;
+  }
+
+  getScore() {
+    return this.score;
   }
 
   getHealth() {
@@ -39,18 +46,24 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.score += increment;
   }
 
-  getScore() {
-    return this.score;
+  incrementCoins(coins) {
+    this.coins += coins;
   }
 
-  healedBy(heal) {
-    if (heal > -1) {
-      this.health += heal;
+  healedBy(hearts) {
+    if (hearts > -1) {
+      this.health += hearts * 100;
     }
+
+    if (this.health > 600) this.health = 600;
   }
 
   setKnives(knives) {
     this.knives = knives;
+  }
+
+  setChest(chest) {
+    this.activeChest = chest;
   }
 
   throwKnife() {
@@ -159,7 +172,19 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (spaceDown) {
-      this.throwKnife();
+      if (this.activeChest) {
+        this.chestItems = this.activeChest.open();
+        this.incrementCoins(this.chestItems[0]);
+        this.healedBy(this.chestItems[1]);
+        this.chestItems = [];
+        console.log(this.coins);
+      } else {
+        this.throwKnife();
+      }
+    }
+
+    if (leftDown || rightDown || upDown || downDown) {
+      this.activeChest = undefined;
     }
   }
 }

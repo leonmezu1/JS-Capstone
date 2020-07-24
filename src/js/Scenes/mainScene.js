@@ -33,17 +33,16 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  handleKnifeLizzardCollision(obj1, obj2) {
-    obj1.destroy();
-    obj2.destroy();
+  handleKnifeLizzardCollision(knife, lizzard) {
+    knife.destroy();
+    lizzard.destroy();
     this.faune.setScore(100);
     sceneEvents.emit('player-score-changed', this.faune.getScore());
   }
 
-  handlePlayerChestCollision(obj1, obj2) {
-    console.log(obj1, obj2);
+  handlePlayerChestCollision(faune, chest) {
+    this.faune.setChest(chest);
   }
-
 
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -62,12 +61,18 @@ export default class MainScene extends Phaser.Scene {
 
     this.floorLayer = this.map.createDynamicLayer('Floor', tileset, 0, 0);
     this.wallLayers = this.map.createStaticLayer('Walls', tileset, 0, 0);
+    this.pikesObjectsObjectsLayer = this.map.getObjectLayer('LavaFountains');
+    this.lavaFountainsObjectsLayer = this.map.getObjectLayer('Pikes');
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
     this.wallLayers.setCollisionByProperty({ collides: true });
 
     debugDraw(this.wallLayers, this);
 
     this.sys.animatedTiles.init(this.map);
+
+    this.lavaFountains = this.physics.add.staticGroup();
+
+    this.pikes = this.physics.add.staticGroup();
 
     this.chests = this.physics.add.staticGroup({
       classType: Chest,

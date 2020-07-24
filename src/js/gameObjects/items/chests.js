@@ -3,19 +3,21 @@ import Phaser from 'phaser';
 export default class Chest extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
-
+    this.coins = Phaser.Math.Between(1, 3);
+    this.hearts = Phaser.Math.Between(0, 1, 2);
     this.anims.play('chest-closed');
-    this.quantity = Phaser.Math.Between(1, 3);
-  }
-
-  getHearts() {
-    if (!this.anims.currentAnim) return;
-    if (this.anims.currentAnim.key !== 'chest-closed') {
-      this.quantity = 0;
-    }
   }
 
   open() {
-    this.anims.play('chest-open');
+    let items;
+    if (this.anims.currentAnim) {
+      if (this.anims.currentAnim.key !== 'chest-closed') {
+        items = [0, 0];
+      } else {
+        this.anims.play('chest-open');
+        items = [this.coins, this.hearts];
+      }
+    }
+    return items;
   }
 }
