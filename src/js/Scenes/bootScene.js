@@ -10,6 +10,7 @@ export default class BootScene extends Scene {
 
   preload() {
     this.load.image('dungeon_tile', 'assets/sprites/0x72_DungeonTilesetII_v1.3_extruded.png');
+    this.load.image('town_tile', 'assets/sprites/Overworld.png');
     this.load.image('full_heart', 'assets/public/ui/ui_heart_full.png');
     this.load.image('half_heart', 'assets/public/ui/ui_heart_half.png');
     this.load.image('empty_heart', 'assets/public/ui/ui_heart_empty.png');
@@ -20,6 +21,7 @@ export default class BootScene extends Scene {
     this.load.atlas('faune', 'assets/public/character/fauna.png', 'assets/public/character/fauna.json');
     this.load.atlas('lizard', 'assets/public/enemies/lizard.png', 'assets/public/enemies/lizard.json');
     this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
+    this.load.tilemapTiledJSON('town_map', 'assets/maps/town.json');
     const loadingBar = this.add.graphics({
       fillStyle: {
         color: 0xffffff,
@@ -30,7 +32,7 @@ export default class BootScene extends Scene {
     });
     this.load.on('complete', () => {
       setTimeout(() => {
-        this.scene.start(Handler.scenes.main);
+        this.scene.start(Handler.scenes.town);
       }, 1000);
     });
   }

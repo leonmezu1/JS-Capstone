@@ -4,5 +4,6 @@ export const Handler = {
     boot: 'BootScene',
     main: 'MainScene',
     ui: 'UiScene',
+    town: 'TownScene',
   },
 };

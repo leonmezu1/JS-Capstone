@@ -21,8 +21,8 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.score = 0;
     this.coins = 0;
     this.chestItems = [];
-    this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
-    this.body.offset.y = 12;
+    this.body.setSize(this.body.width * 0.3, this.body.height * 0.3);
+    this.body.offset.y = 16;
     scene.add.existing(this);
   }
 
@@ -167,13 +167,13 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
       this.setVelocity(-speed, 0);
 
       this.scaleX = -1;
-      this.body.offset.x = 24;
+      this.body.offset.x = 20;
     } else if (rightDown) {
       this.anims.play('faune-run-side', true);
       this.setVelocity(speed, 0);
 
       this.scaleX = 1;
-      this.body.offset.x = 8;
+      this.body.offset.x = 12;
     } else if (upDown) {
       this.anims.play('faune-run-up', true);
       this.setVelocity(0, -speed);
