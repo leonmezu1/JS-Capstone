@@ -5,5 +5,7 @@ export const Handler = {
     main: 'MainScene',
     ui: 'UiScene',
     town: 'TownScene',
+    fauneRoom: 'FauneRoomScene',
+    intro: 'IntroScene',
   },
 };

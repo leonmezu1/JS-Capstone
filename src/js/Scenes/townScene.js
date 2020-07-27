@@ -1,13 +1,10 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
-import sceneEvents from '../events/events';
 import debugDraw from '../utils/collisionDebugger';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import Faune from '../gameObjects/characters/faune';
-import Chest from '../gameObjects/items/chests';
-import Lizards from '../gameObjects/enemies/lizards';
 
 export default class TownScene extends Phaser.Scene {
   constructor() {
