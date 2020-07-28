@@ -1,14 +1,17 @@
-import { Scene } from 'phaser';
+import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 
-export default class BootScene extends Scene {
+export default class BootScene extends Phaser.Scene {
   constructor() {
     super({
       key: Handler.scenes.boot,
     });
   }
 
+
   preload() {
+    this.width = this.game.renderer.width;
+    this.height = this.game.renderer.height;
     this.load.image('dungeon_tile', 'assets/sprites/0x72_DungeonTilesetII_v1.3_extruded.png');
     this.load.image('town_tile', 'assets/sprites/Overworld.png');
     this.load.image('room_tile', 'assets/sprites/Inner.png');
@@ -24,18 +27,76 @@ export default class BootScene extends Scene {
     this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
     this.load.tilemapTiledJSON('town_map', 'assets/maps/town.json');
     this.load.tilemapTiledJSON('fauneRoom_map', 'assets/maps/fauneHouse.json');
-    const loadingBar = this.add.graphics({
+
+    this.loadingBar = this.add.graphics({
       fillStyle: {
         color: 0xffffff,
       },
     });
-    this.load.on('progress', percent => {
-      loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50);
+    this.loadingBarBox = this.add.graphics({
+      fillStyle: {
+        color: 0x222222,
+        alpha: 0.8,
+      },
+      fillRect: {
+        color: 0xf0ffff,
+      },
     });
+
+    this.loadingText = this.make.text({
+      x: this.width / 2 - 180,
+      y: 100,
+      text: 'Loading game assets',
+      style: {
+        font: '16px Arial',
+        fill: '#ffffff',
+      },
+    });
+
+    this.percentageText = this.make.text({
+      x: this.width / 2,
+      y: this.height / 2 - 25,
+      text: '0%',
+      style: {
+        font: '16px Arial',
+        fill: '#ffffff',
+      },
+    });
+
+    this.assetsText = this.make.text({
+      x: this.width / 2,
+      y: this.height / 2 - 50,
+      text: '',
+      style: {
+        font: '16px Arial',
+        fill: '#ffffff',
+      },
+    });
+
+    const texts = [this.loadingText, this.percentageText, this.assetsText];
+
+    texts.forEach(text => {
+      text.setOrigin(0, 0);
+    });
+
+    this.load.on('progress', percentage => {
+      this.loadingBar.fillRect(0, this.height / 2, this.width * percentage, 50);
+      this.percentageText.setText(`${parseInt(percentage * 100, 10)}%`);
+    });
+
+    this.load.on('fileprogress', (file) => {
+      this.assetsText.setText(`Loading asset: ${file.key}`);
+    });
+
     this.load.on('complete', () => {
       setTimeout(() => {
+        this.loadingBar.destroy();
+        this.loadingBarBox.destroy();
+        this.loadingText.destroy();
+        this.percentageText.destroy();
+        this.assetsText.destroy();
         this.scene.start(Handler.scenes.fauneRoom);
-      }, 1000);
+      }, 5000);
     });
   }
 }

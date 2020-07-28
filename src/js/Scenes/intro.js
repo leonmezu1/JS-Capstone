@@ -10,6 +10,8 @@ export default class IntroScene extends Phaser.Scene {
   }
 
   preload() {
+    this.width = this.game.renderer.width;
+    this.height = this.game.renderer.height;
     this.load.spritesheet(
       'phaserIntro',
       'assets/intro/phaserSprite.png ',
@@ -43,29 +45,33 @@ export default class IntroScene extends Phaser.Scene {
     logoAnims(this.anims);
 
     this.logo = this.add.sprite(
-      this.game.renderer.width / 2,
-      this.game.renderer.height / 2,
+      this.width / 2,
+      this.height / 2,
       'phaserLogo',
     ).setScale(0.5);
 
     this.logo.play('phaser-anim');
     this.logo.on('animationcomplete', () => {
       this.logo.destroy();
+
       this.microverse = this.add.sprite(
-        this.game.renderer.width / 2,
-        this.game.renderer.height / 2,
+        this.width / 2,
+        this.height / 2,
         'microverseIntro',
       ).setScale(0.5);
+
       this.microverse.play('microverse-anim');
       this.microverse.on('animationcomplete', () => {
         this.microverse.destroy();
         this.github = this.add.sprite(
-          this.game.renderer.width / 2,
-          this.game.renderer.height / 2,
+          this.width / 2,
+          this.height / 2,
           'githubIntro',
         ).setScale(0.5);
+
         this.github.play('github-anim');
         this.github.on('animationcomplete', () => {
+          this.github.destroy();
           this.scene.start(Handler.scenes.boot);
         });
       });
