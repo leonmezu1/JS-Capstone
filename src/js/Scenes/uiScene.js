@@ -77,7 +77,7 @@ export default class UiScene extends Phaser.Scene {
     });
 
     sceneEvents.on('player-damaged', this.handlePlayerHealth, this);
-    sceneEvents.on('player-healed', this.handlePlayerHealth, this);
+    sceneEvents.on('player-health-event', this.handlePlayerHealth, this);
     sceneEvents.on('player-score-changed', this.handlePlayerScore, this);
     sceneEvents.on('player-coins-changed', this.handlePlayerCoins, this);
   }

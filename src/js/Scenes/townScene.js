@@ -13,6 +13,14 @@ export default class TownScene extends Phaser.Scene {
     });
   }
 
+  init(data) {
+    this.initScore = data.score;
+    this.initCoins = data.coins;
+    this.initHealth = data.health;
+    this.initPosition = data.position;
+    this.initLooking = data.looking;
+  }
+
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -50,7 +58,24 @@ export default class TownScene extends Phaser.Scene {
       this.caveEntranceLayer,
     ];
 
-    this.faune = new Faune(this, 100, 100, 'faune');
+    this.faune = new Faune(
+      this,
+      this.initPosition.x = this.initPosition.x || 100,
+      this.initPosition.y = this.initPosition.y || 100,
+      'faune',
+    );
+    this.faune.setScore(
+      this.initScore = this.initScore || 0,
+    );
+    this.faune.setHealth(
+      this.initHealth = this.initHealth || 0,
+    );
+    this.faune.incrementCoins(
+      this.initCoins = this.initCoins || 0,
+    );
+    if (this.initLooking) {
+      this.faune.anims.play(`faune-idle-${this.initLooking}`);
+    }
     this.faune.setKnives(this.knives);
 
     layers.forEach(layer => {
@@ -72,6 +97,7 @@ export default class TownScene extends Phaser.Scene {
 
     this.physics.world.setBounds(0, 0, 790, 790);
     this.faune.setCollideWorldBounds(true);
+    this.knives.world.setBoundsCollision(true);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
     this.scene.sendToBack();

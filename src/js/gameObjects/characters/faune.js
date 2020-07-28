@@ -21,10 +21,15 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.score = 0;
     this.coins = 0;
+    this.settedScale = 1;
     this.chestItems = [];
     this.body.setSize(this.body.width * 0.3, this.body.height * 0.3);
     this.body.offset.y = 16;
     scene.add.existing(this);
+  }
+
+  setCharacterScale(scale) {
+    this.settedScale = scale;
   }
 
   getCoins() {
@@ -43,22 +48,30 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     if (damage > -1) {
       this.health -= damage;
     }
+    sceneEvents.emit('player-damaged', this.getHealth());
   }
 
   setScore(increment) {
     this.score += increment;
+    sceneEvents.emit('player-score-changed', this.getScore());
+  }
+
+  setHealth(health) {
+    this.health = health;
+    sceneEvents.emit('player-health-event', this.getHealth());
   }
 
   incrementCoins(coins) {
     this.coins += coins;
+    sceneEvents.emit('player-coins-changed', this.getCoins());
   }
 
   healedBy(hearts) {
-    if (hearts > -1) {
+    if (hearts > 0) {
       this.health += hearts * 100;
     }
-
     if (this.health > 600) this.health = 600;
+    sceneEvents.emit('player-health-event', this.getHealth());
   }
 
   setKnives(knives) {
@@ -160,6 +173,8 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
+    const scale = this.settedScale !== 1 ? this.settedScale : 1;
+
     const speed = 128;
 
     const leftDown = cursors.left.isDown;
@@ -172,13 +187,13 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
       this.anims.play('faune-run-side', true);
       this.setVelocity(-speed, 0);
 
-      this.scaleX = -1;
+      this.scaleX = -scale;
       this.body.offset.x = 20;
     } else if (rightDown) {
       this.anims.play('faune-run-side', true);
       this.setVelocity(speed, 0);
 
-      this.scaleX = 1;
+      this.scaleX = scale;
       this.body.offset.x = 12;
     } else if (upDown) {
       this.anims.play('faune-run-up', true);
@@ -199,8 +214,6 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
         this.incrementCoins(this.chestItems[0]);
         this.healedBy(this.chestItems[1]);
         this.chestItems = [];
-        sceneEvents.emit('player-coins-changed', this.getCoins());
-        sceneEvents.emit('player-healed', this.getHealth());
       } else {
         this.throwKnife();
       }

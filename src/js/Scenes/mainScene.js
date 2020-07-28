@@ -23,8 +23,8 @@ export default class MainScene extends Phaser.Scene {
   }
 
   handlePlayerLizardCollision(faune, lizard) {
-    const dx = this.faune.x - lizard.x;
-    const dy = this.faune.y - lizard.y;
+    const dx = faune.x - lizard.x;
+    const dy = faune.y - lizard.y;
     this.hit = 1;
     this.faune.handleDamage(dx, dy);
 
@@ -38,14 +38,12 @@ export default class MainScene extends Phaser.Scene {
 
   handleFaunePikeCollide() {
     this.faune.handleStaticDamage();
-    sceneEvents.emit('player-damaged', this.faune.getHealth());
   }
 
   handleKnifeLizzardCollision(knife, lizzard) {
     knife.destroy();
     lizzard.destroy();
     this.faune.setScore(100);
-    sceneEvents.emit('player-score-changed', this.faune.getScore());
   }
 
   handlePlayerChestCollision(faune, chest) {
@@ -76,6 +74,8 @@ export default class MainScene extends Phaser.Scene {
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
     this.LizardsLayer = this.map.getObjectLayer('Lizards');
     this.wallLayers.setCollisionByProperty({ collides: true });
+    this.physics.world.setBounds(0, 0, 2000, 2000);
+
 
     debugDraw(this.wallLayers, this);
 

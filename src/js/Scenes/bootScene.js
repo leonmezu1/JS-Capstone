@@ -14,7 +14,7 @@ export default class BootScene extends Phaser.Scene {
     this.height = this.game.renderer.height;
     this.load.image('dungeon_tile', 'assets/sprites/0x72_DungeonTilesetII_v1.3_extruded.png');
     this.load.image('town_tile', 'assets/sprites/Overworld_extruded.png');
-    this.load.image('room_tile', 'assets/sprites/Inner.png');
+    this.load.image('room_tile', 'assets/sprites/Inner_extruded.png');
     this.load.image('full_heart', 'assets/public/ui/ui_heart_full.png');
     this.load.image('half_heart', 'assets/public/ui/ui_heart_half.png');
     this.load.image('empty_heart', 'assets/public/ui/ui_heart_empty.png');
@@ -98,7 +98,7 @@ export default class BootScene extends Phaser.Scene {
         this.loadingText.destroy();
         this.percentageText.destroy();
         this.assetsText.destroy();
-        this.scene.start(Handler.scenes.town);
+        this.scene.start(Handler.scenes.fauneRoom);
       }, 2500);
     });
   }
