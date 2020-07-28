@@ -107,7 +107,6 @@ export default class TownScene extends Phaser.Scene {
     if (this.faune) {
       this.faune.update(this.cursors);
     }
-
     console.log(this.faune.body.x, this.faune.body.y);
   }
 }
