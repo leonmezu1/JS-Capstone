@@ -16,6 +16,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.healthState = HealthState.IDLE;
     this.health = 600;
     this.knives = Phaser.Physics.Arcade.GROUP;
+    this.knivesLifeSpan = 6000;
     this.activeChest = Phaser.Physics.Arcade.GROUP;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.score = 0;
@@ -96,8 +97,13 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
 
     const angle = velocityVector.angle();
     const knife = this.knives.get(this.x + velocityVector.x * 16, this.y + velocityVector.y * 16, 'knife');
+    knife.onWorldBounds = true;
+    knife.setCollideWorldBounds(true);
     knife.setVelocity(velocityVector.x * 250, velocityVector.y * 250);
     knife.setRotation(angle + 1.5708);
+    setTimeout(() => {
+      knife.destroy();
+    }, this.knivesLifeSpan);
   }
 
   handleDamage(dx, dy) {
