@@ -27,6 +27,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
     this.load.tilemapTiledJSON('town_map', 'assets/maps/town.json');
     this.load.tilemapTiledJSON('fauneRoom_map', 'assets/maps/fauneHouse.json');
+    this.load.tilemapTiledJSON('topRightHouse_map', 'assets/maps/topRightHouse.json');
+    this.load.tilemapTiledJSON('bottomLeftHouse_map', 'assets/maps/bottomLeftHouse.json');
+    this.load.tilemapTiledJSON('bottomRightHouse_map', 'assets/maps/bottomRightHouse.json');
 
 
     this.loadingBar = this.add.graphics({

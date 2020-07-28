@@ -7,5 +7,8 @@ export const Handler = {
     town: 'TownScene',
     fauneRoom: 'FauneRoomScene',
     intro: 'IntroScene',
+    bottomRightHouse: 'bottomRightHouseScene',
+    bottomLeftHouse: 'bottomLeftHouseScene',
+    topRightHouse: 'topRightHouseScene',
   },
 };
