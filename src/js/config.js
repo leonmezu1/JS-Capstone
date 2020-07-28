@@ -1,8 +1,11 @@
 import Phaser from 'phaser';
 import BootScene from './Scenes/bootScene';
+import BottomLeftHouseScene from './Scenes/bottomLeftHouseScene';
+import BottomRightHouseScene from './Scenes/bottomRightHouseScene';
 import FauneRoomScene from './Scenes/fauneRoomScene';
 import IntroScene from './Scenes/intro';
 import MainScene from './Scenes/mainScene';
+import TopRightHouseScene from './Scenes/topRightHouse';
 import TownScene from './Scenes/townScene';
 import UiScene from './Scenes/uiScene';
 
@@ -19,6 +22,9 @@ const config = () => {
       MainScene,
       TownScene,
       FauneRoomScene,
+      BottomRightHouseScene,
+      BottomLeftHouseScene,
+      TopRightHouseScene,
     ],
     parent: 'gameContainer',
     physics: {

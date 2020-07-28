@@ -14,11 +14,16 @@ export default class TownScene extends Phaser.Scene {
   }
 
   init(data) {
-    this.initScore = data.score;
-    this.initCoins = data.coins;
-    this.initHealth = data.health;
-    this.initPosition = data.position;
-    this.initLooking = data.looking;
+    if (data.dataToPass !== undefined) {
+      this.dataProvided = true;
+      this.initScore = data.dataToPass.score;
+      this.initCoins = data.dataToPass.coins;
+      this.initHealth = data.dataToPass.health;
+      this.initPosition = data.dataToPass.position;
+      this.initLooking = data.dataToPass.looking;
+    } else {
+      this.dataProvided = false;
+    }
   }
 
   preload() {
@@ -107,6 +112,47 @@ export default class TownScene extends Phaser.Scene {
     if (this.faune) {
       this.faune.update(this.cursors);
     }
+    if (this.faune.body.x < 151 && this.faune.body.x > 144 && this.faune.body.y < 195) {
+      const dataToPass = {
+        score: this.faune.getScore(),
+        coins: this.faune.getCoins(),
+        health: this.faune.getHealth(),
+        position: { x: 100, y: 100 },
+        looking: 'up',
+      };
+      this.scene.start(Handler.scenes.fauneRoom, { dataToPass });
+    } else if (this.faune.body.x < 295 && this.faune.body.x > 288 && this.faune.body.y > 402) {
+      const dataToPass = {
+        score: this.faune.getScore(),
+        coins: this.faune.getCoins(),
+        health: this.faune.getHealth(),
+        position: { x: 100, y: 100 },
+        looking: 'down',
+      };
+      this.scene.start(Handler.scenes.bottomRightHouse, { dataToPass });
+    }
+
+    /* else if (this.faune.body.x < 151 && this.faune.body.x > 144 && this.faune.body.y > 403) {
+      const dataToPass = {
+        score: this.faune.getScore(),
+        coins: this.faune.getCoins(),
+        health: this.faune.getHealth(),
+        position: { x: 148, y: 200 },
+        looking: 'down',
+      };
+      this.scene.start(Handler.scenes.bottomLeftHouse, dataToPass);
+    } */
+
+    /* else if (this.faune.body.x < 295 && this.faune.body.x > 288 && this.faune.body.y < 201) {
+      const dataToPass = {
+        score: this.faune.getScore(),
+        coins: this.faune.getCoins(),
+        health: this.faune.getHealth(),
+        position: { x: 100, y: 100 },
+        looking: 'up',
+      };
+      this.scene.start(Handler.scenes.bottomLeftHouse, dataToPass);
+    } */
     console.log(this.faune.body.x, this.faune.body.y);
   }
 }

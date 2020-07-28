@@ -14,6 +14,19 @@ export default class FauneRoomScene extends Phaser.Scene {
     });
   }
 
+  init(data) {
+    if (data.dataToPass !== undefined) {
+      this.dataProvided = true;
+      this.initScore = data.dataToPass.score;
+      this.initCoins = data.dataToPass.coins;
+      this.initHealth = data.dataToPass.health;
+      this.initPosition = data.dataToPass.position;
+      this.initLooking = data.dataToPass.looking;
+    } else {
+      this.dataProvided = false;
+    }
+  }
+
   handlePlayerChestCollision(faune, chest) {
     this.faune.setChest(chest);
   }
@@ -40,7 +53,6 @@ export default class FauneRoomScene extends Phaser.Scene {
     this.objectsTopLayer = this.map.createStaticLayer('ObjectsTop', this.tileset);
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
 
-
     this.chests = this.physics.add.staticGroup({
       classType: Chest,
     });
@@ -50,7 +62,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     });
 
     this.chests.getChildren().forEach(child => {
-      child.setScale(2);
+      child.setScale(sceneScale);
     });
 
     const layers = [
@@ -60,10 +72,23 @@ export default class FauneRoomScene extends Phaser.Scene {
       this.objectsTopLayer,
     ];
 
-    this.faune = new Faune(this, 100, 100, 'faune');
-    this.faune.setScale(sceneScale);
-    this.faune.setCharacterScale(sceneScale);
-    this.faune.setKnives(this.knives);
+    if (!this.dataProvided) {
+      this.faune = new Faune(this, 100, 100, 'faune');
+      this.faune.setScale(sceneScale);
+      this.faune.setCharacterScale(sceneScale);
+      this.faune.setKnives(this.knives);
+    } else {
+      this.faune = new Faune(this, this.initPosition.x, this.initPosition.y, 'faune');
+      this.faune.setScore(this.initScore);
+      this.faune.setHealth(this.initHealth);
+      this.faune.incrementCoins(this.initCoins);
+      if (this.initLooking) {
+        this.faune.anims.play(`faune-idle-${this.initLooking}`);
+      }
+      this.faune.setScale(sceneScale);
+      this.faune.setCharacterScale(sceneScale);
+      this.faune.setKnives(this.knives);
+    }
 
     layers.forEach(layer => {
       layer.setScale(2, 2);
@@ -110,8 +135,7 @@ export default class FauneRoomScene extends Phaser.Scene {
         position: { x: 148, y: 200 },
         looking: 'down',
       };
-      console.log(dataToPass);
-      this.scene.start(Handler.scenes.town, dataToPass);
+      this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }
 }
