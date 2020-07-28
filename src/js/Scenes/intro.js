@@ -12,6 +12,7 @@ export default class IntroScene extends Phaser.Scene {
   preload() {
     this.width = this.game.renderer.width;
     this.height = this.game.renderer.height;
+    this.load.image('shieldBG', 'assets/intro/loadingBackGroundNew.png');
     this.load.spritesheet(
       'phaserIntro',
       'assets/intro/phaserSprite.png ',

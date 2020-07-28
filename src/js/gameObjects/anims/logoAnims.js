@@ -5,7 +5,7 @@ const logoAnims = (anims) => {
       start: 1,
       end: 59,
     }),
-    frameRate: 10,
+    frameRate: 15,
   });
 
   anims.create({
@@ -14,7 +14,7 @@ const logoAnims = (anims) => {
       start: 3,
       end: 57,
     }),
-    frameRate: 10,
+    frameRate: 15,
   });
 
   anims.create({
@@ -23,7 +23,7 @@ const logoAnims = (anims) => {
       start: 3,
       end: 60,
     }),
-    frameRate: 10,
+    frameRate: 15,
   });
 };
 

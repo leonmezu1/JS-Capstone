@@ -15,8 +15,8 @@ const config = () => {
     scene: [
       IntroScene,
       BootScene,
-      MainScene,
       UiScene,
+      MainScene,
       TownScene,
       FauneRoomScene,
     ],
@@ -31,7 +31,7 @@ const config = () => {
       pixelArt: true,
     },
     scale: {
-      zoom: 2.5,
+      zoom: 2,
     },
   };
   // eslint-disable-next-line no-unused-vars
