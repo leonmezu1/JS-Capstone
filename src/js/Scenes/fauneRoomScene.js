@@ -127,12 +127,13 @@ export default class FauneRoomScene extends Phaser.Scene {
     if (this.faune) {
       this.faune.update(this.cursors);
     }
+    console.log(this.faune.body.x, this.faune.body.y);
     if (this.faune.body.x < 240 && this.faune.body.x > 145 && this.faune.body.y > 280) {
       const dataToPass = {
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 148, y: 200 },
+        position: { x: 150, y: 200 },
         looking: 'down',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

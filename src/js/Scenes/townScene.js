@@ -66,7 +66,7 @@ export default class TownScene extends Phaser.Scene {
     this.faune = new Faune(
       this,
       this.initPosition.x = this.initPosition.x || 100,
-      this.initPosition.y = this.initPosition.y || 100,
+      this.initPosition.y = this.initPosition.y || 120,
       'faune',
     );
     this.faune.setScore(
@@ -112,47 +112,62 @@ export default class TownScene extends Phaser.Scene {
     if (this.faune) {
       this.faune.update(this.cursors);
     }
-    if (this.faune.body.x < 151 && this.faune.body.x > 144 && this.faune.body.y < 195) {
+    if (
+      this.faune.body.x < 151
+        && this.faune.body.x > 144
+        && this.faune.body.y < 195
+        && this.faune.body.y > 160
+    ) {
       const dataToPass = {
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 100, y: 100 },
+        position: { x: 210, y: 270 },
         looking: 'up',
       };
       this.scene.start(Handler.scenes.fauneRoom, { dataToPass });
-    } else if (this.faune.body.x < 295 && this.faune.body.x > 288 && this.faune.body.y > 402) {
+    } else if (
+      this.faune.body.x < 295
+      && this.faune.body.x > 288
+      && this.faune.body.y > 402
+    ) {
       const dataToPass = {
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 100, y: 100 },
+        position: { x: 200, y: 20 },
         looking: 'down',
       };
       this.scene.start(Handler.scenes.bottomRightHouse, { dataToPass });
-    }
-
-    /* else if (this.faune.body.x < 151 && this.faune.body.x > 144 && this.faune.body.y > 403) {
+    } else if (
+      this.faune.body.x < 151
+      && this.faune.body.x > 144
+      && this.faune.body.y > 403
+      && this.faune.body.y < 415
+    ) {
       const dataToPass = {
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 148, y: 200 },
+        position: { x: 207, y: 20 },
         looking: 'down',
       };
-      this.scene.start(Handler.scenes.bottomLeftHouse, dataToPass);
-    } */
-
-    /* else if (this.faune.body.x < 295 && this.faune.body.x > 288 && this.faune.body.y < 201) {
+      this.scene.start(Handler.scenes.bottomLeftHouse, { dataToPass });
+    } else if (
+      this.faune.body.x < 295
+      && this.faune.body.x > 288
+      && this.faune.body.y < 201
+      && this.faune.body.y > 160
+    ) {
       const dataToPass = {
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 100, y: 100 },
+        position: { x: 170, y: 253 },
         looking: 'up',
       };
-      this.scene.start(Handler.scenes.bottomLeftHouse, dataToPass);
-    } */
+      this.scene.start(Handler.scenes.topRightHouse, { dataToPass });
+    }
     console.log(this.faune.body.x, this.faune.body.y);
   }
 }

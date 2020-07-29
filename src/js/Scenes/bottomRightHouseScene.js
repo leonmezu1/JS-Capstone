@@ -131,7 +131,7 @@ export default class BottomRightHouseScene extends Phaser.Scene {
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 148, y: 200 },
+        position: { x: 300, y: 390 },
         looking: 'up',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

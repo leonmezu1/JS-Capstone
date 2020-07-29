@@ -3,15 +3,15 @@ import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
 import debugDraw from '../utils/collisionDebugger';
-import createLizardAnims from '../gameObjects/anims/enemyAnims';
-import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
+import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createLavaFountainAnims from '../gameObjects/anims/lavaFountainAnims';
-import Faune from '../gameObjects/characters/faune';
-import Chest from '../gameObjects/items/chests';
-import Lizards from '../gameObjects/enemies/lizards';
-import LavaFountains from '../gameObjects/items/lavaFountains';
+import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createPikeAnims from '../gameObjects/anims/pikesAnims';
+import Chest from '../gameObjects/items/chests';
+import Faune from '../gameObjects/characters/faune';
+import LavaFountains from '../gameObjects/items/lavaFountains';
+import Lizards from '../gameObjects/enemies/lizards';
 import Pikes from '../gameObjects/items/pikes';
 
 export default class MainScene extends Phaser.Scene {
