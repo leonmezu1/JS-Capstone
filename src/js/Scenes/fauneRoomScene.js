@@ -5,8 +5,8 @@ import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
-import sceneEvents from '../events/events';
-
+/* import sceneEvents from '../events/events';
+ */
 
 export default class FauneRoomScene extends Phaser.Scene {
   constructor() {
@@ -31,7 +31,6 @@ export default class FauneRoomScene extends Phaser.Scene {
 
   handlePlayerChestCollision(faune, chest) {
     this.faune.setChest(chest);
-    sceneEvents.emit('drawDiag', Handler.dialogues.first);
   }
 
   preload() {
@@ -58,6 +57,10 @@ export default class FauneRoomScene extends Phaser.Scene {
       this.objectsTopLayer,
     ];
 
+    this.knives = this.physics.add.group({
+      classType: Phaser.Physics.Arcade.Image,
+    });
+
     if (!this.dataProvided) {
       this.faune = new Faune(this, 150, 150, 'faune');
       this.faune.setScale(sceneScale);
@@ -76,10 +79,6 @@ export default class FauneRoomScene extends Phaser.Scene {
       this.faune.setKnives(this.knives);
       this.faune.setDepth(100);
     }
-
-    this.knives = this.physics.add.group({
-      classType: Phaser.Physics.Arcade.Image,
-    });
 
     this.chests = this.physics.add.staticGroup({
       classType: Chest,
@@ -126,7 +125,6 @@ export default class FauneRoomScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 370, 300);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
-    this.scene.run(Handler.scenes.dialogue);
     this.scene.sendToBack();
   }
 

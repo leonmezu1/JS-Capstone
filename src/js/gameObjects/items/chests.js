@@ -1,8 +1,10 @@
 import Phaser from 'phaser';
+import { Handler } from '../../Scenes/scenesHandler';
 
 export default class Chest extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
+    this.scene = scene;
     this.coins = Phaser.Math.Between(5, 50);
     this.hearts = Phaser.Math.Between(0, 1, 2);
     this.anims.play('chest-closed');
@@ -30,11 +32,27 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
   open() {
     let items;
     if (this.anims.currentAnim) {
-      if (this.anims.currentAnim.key !== 'chest-closed') {
-        items = [0, 0];
-      } else {
+      if (this.anims.currentAnim.key === 'chest-closed') {
         this.anims.play('chest-open');
         items = [this.coins, this.hearts];
+        const dialogData = {
+          diagText: `You found ${this.coins} coins and ${this.hearts} hearts`,
+          diagMode: 'temporized',
+        };
+        if (this.scene.scene.isActive(Handler.scenes.dialogue)) {
+          this.scene.scene.stop(Handler.scenes.dialogue);
+        }
+        this.scene.scene.run(Handler.scenes.dialogue, { dialogData });
+      } else {
+        const dialogData = {
+          diagText: 'This chest has been opened',
+          diagMode: 'temporized',
+        };
+        if (this.scene.scene.isActive(Handler.scenes.dialogue)) {
+          this.scene.scene.stop(Handler.scenes.dialogue);
+        }
+        this.scene.scene.run(Handler.scenes.dialogue, { dialogData });
+        items = [0, 0];
       }
     }
     return items;

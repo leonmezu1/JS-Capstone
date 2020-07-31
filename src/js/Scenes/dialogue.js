@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
@@ -11,6 +12,10 @@ export default class DialogueScene extends Phaser.Scene {
 
   init(opts) {
     if (!opts) opts = {};
+    if (opts.dialogData) {
+      this.dialogData = opts.dialogData;
+      this.dataPassed = true;
+    }
     this.borderThickness = opts.borderThickness || 3;
     this.borderColor = opts.borderColor || 0x907748;
     this.borderAlpha = opts.borderAlpha || 1;
@@ -23,7 +28,7 @@ export default class DialogueScene extends Phaser.Scene {
 
     this.eventCounter = 0;
     this.visible = true;
-    this.dialogText = 'Empty';
+    this.dialogText = '';
     this.dialog;
     this.graphics;
     this.closeBtn;
@@ -32,11 +37,21 @@ export default class DialogueScene extends Phaser.Scene {
   }
 
   shutdown() {
-    this.scene.remove(this);
+    this.scene.stop(this);
   }
 
   destroy() {
     this.shutdown();
+  }
+
+  temporizedDestroy() {
+    this.time.addEvent({
+      delay: 1500,
+      callback: () => {
+        this.shutdown();
+      },
+      loop: false,
+    });
   }
 
   createWindow() {
@@ -56,14 +71,14 @@ export default class DialogueScene extends Phaser.Scene {
   }
 
   getGameHeight() {
-    return this.game.renderer.height;
+    return this.game.renderer.height + 80;
   }
 
   calculateWindowDimensions(width, height) {
     const x = this.padding;
     const y = height - this.windowHeight - this.padding;
     const rectWidth = width - (this.padding * 2);
-    const rectHeight = this.windowHeight;
+    const rectHeight = this.windowHeight / 2;
     return {
       x,
       y,
@@ -139,6 +154,10 @@ export default class DialogueScene extends Phaser.Scene {
   }
 
   create() {
+    if (this.dataPassed) {
+      this.dialogText = this.dialogData.diagText;
+    }
+
     this.diagText = this.add.text(
       this.padding + 10,
       this.getGameHeight() - this.windowHeight - this.padding + 10,
@@ -148,9 +167,13 @@ export default class DialogueScene extends Phaser.Scene {
       },
     );
 
+    if (this.dataPassed && this.dialogData.diagMode === 'temporized') this.temporizedDestroy();
+
     sceneEvents.on('shutdown', this.shutdown, this);
     sceneEvents.on('destroy', this.destroy, this);
     sceneEvents.on('drawDiag', this.drawDialogue, this);
     sceneEvents.on('clearText', this.clearText, this);
+    sceneEvents.on('temporized-diag-box', this.temporizedDestroy, this);
+    sceneEvents.on('toggle-dialog', this.toggleWindow, this);
   }
 }

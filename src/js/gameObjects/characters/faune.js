@@ -19,12 +19,12 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.health = 600;
     this.knives = Phaser.Physics.Arcade.GROUP;
     this.knivesLifeSpan = 6000;
-    this.activeChest = Phaser.Physics.Arcade.GROUP;
+    this.activeChest = false;
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.score = 0;
     this.coins = 0;
     this.settedScale = 1;
-    this.body.setSize(this.body.width * 0.3, this.body.height * 0.3);
+    this.body.setSize(this.body.width * 0.2, this.body.height * 0.3);
     this.body.offset.y = 16;
     this.setDepth(500);
     this.anims.play('faune-idle-down');
@@ -192,7 +192,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     const rightDown = cursors.right.isDown;
     const upDown = cursors.up.isDown;
     const downDown = cursors.down.isDown;
-    const spaceDown = cursors.space.isDown;
+    const spaceDown = Phaser.Input.Keyboard.JustDown(cursors.space);
 
     if (leftDown) {
       this.anims.play('faune-run-side', true);
