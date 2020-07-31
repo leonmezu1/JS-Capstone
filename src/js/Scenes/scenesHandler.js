@@ -10,5 +10,6 @@ export const Handler = {
     bottomRightHouse: 'BottomRightHouseScene',
     bottomLeftHouse: 'BottomLeftHouseScene',
     topRightHouse: 'TopRightHouseScene',
+    dialogue: 'DialogueScene',
   },
 };

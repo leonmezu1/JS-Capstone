@@ -124,6 +124,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 370, 300);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
+    this.scene.run(Handler.scenes.dialogue);
     this.scene.sendToBack();
   }
 
@@ -131,7 +132,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     if (this.faune) {
       this.faune.update(this.cursors);
     }
-    console.log(this.faune.body.x, this.faune.body.y);
+    // console.log(this.faune.body.x, this.faune.body.y);
     if (this.faune.body.x < 240 && this.faune.body.x > 145 && this.faune.body.y > 280) {
       const dataToPass = {
         chestLog: this.faune.getChestLog(),

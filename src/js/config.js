@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import BootScene from './Scenes/bootScene';
 import BottomLeftHouseScene from './Scenes/bottomLeftHouseScene';
 import BottomRightHouseScene from './Scenes/bottomRightHouseScene';
+import DialogueScene from './Scenes/dialogue';
 import FauneRoomScene from './Scenes/fauneRoomScene';
 import IntroScene from './Scenes/intro';
 import MainScene from './Scenes/mainScene';
@@ -19,6 +20,7 @@ const config = () => {
       IntroScene,
       BootScene,
       UiScene,
+      DialogueScene,
       MainScene,
       TownScene,
       FauneRoomScene,

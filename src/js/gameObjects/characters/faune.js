@@ -226,7 +226,6 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
         this.healedBy(this.chestItems[1]);
         this.chestItems = [];
         this.chestLog[this.activeChest.getID()] = 'opened';
-        console.log(this.chestLog);
       } else {
         this.throwKnife();
       }

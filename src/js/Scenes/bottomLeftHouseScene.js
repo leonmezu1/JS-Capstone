@@ -132,7 +132,6 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       this.faune.update(this.cursors);
     }
 
-    console.log(this.faune.body.x, this.faune.body.y);
     if (this.faune.body.x < 240 && this.faune.body.x > 160 && this.faune.body.y < 5) {
       const dataToPass = {
         chestLog: this.faune.getChestLog(),

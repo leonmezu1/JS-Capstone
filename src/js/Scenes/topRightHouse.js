@@ -141,6 +141,5 @@ export default class topRightHouseScene extends Phaser.Scene {
       };
       this.scene.start(Handler.scenes.town, { dataToPass });
     }
-    console.log(this.faune.body.x, this.faune.body.y);
   }
 }
