@@ -7,6 +7,7 @@ const ogreAnims = (anims) => {
       prefix: 'ogre_run_anim_f',
     }),
     frameRate: 15,
+    repeat: -1,
   });
 
   anims.create({
@@ -17,6 +18,7 @@ const ogreAnims = (anims) => {
       prefix: 'ogre_idle_anim_f',
     }),
     frameRate: 15,
+    repeat: -1,
   });
 };
 

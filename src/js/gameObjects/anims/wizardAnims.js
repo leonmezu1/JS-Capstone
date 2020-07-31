@@ -7,6 +7,7 @@ const wizardAnims = (anims) => {
       prefix: 'wizzard_m_run_anim_f',
     }),
     frameRate: 15,
+    repeat: -1,
   });
 
   anims.create({
@@ -17,6 +18,7 @@ const wizardAnims = (anims) => {
       prefix: 'wizzard_m_idle_anim_f',
     }),
     frameRate: 15,
+    repeat: -1,
   });
 
   anims.create({
