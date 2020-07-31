@@ -8,7 +8,6 @@ export default class BootScene extends Phaser.Scene {
     });
   }
 
-
   preload() {
     this.width = this.game.renderer.width;
     this.height = this.game.renderer.height;
@@ -23,6 +22,11 @@ export default class BootScene extends Phaser.Scene {
     this.load.atlas('pikes', 'assets/sprites/pikes.png', 'assets/sprites/pikes_atlas.json');
     this.load.atlas('treasure', 'assets/public/items/treasure.png', 'assets/public/items/treasure.json');
     this.load.atlas('faune', 'assets/public/character/fauna.png', 'assets/public/character/fauna.json');
+    this.load.atlas('elf', 'assets/public/character/elf_male.png', 'assets/public/character/elf_male_atlas.json');
+    this.load.atlas('knight', 'assets/public/character/knight.png', 'assets/public/character/knight_atlas.json');
+    this.load.atlas('necromancer', 'assets/public/enemies/necromancer.png', 'assets/public/enemies/necromancer_atlas.json');
+    this.load.atlas('ogre', 'assets/public/enemies/ogre.png', 'assets/public/enemies/ogre_atlas.json');
+    this.load.atlas('wizard', 'assets/public/character/wizard.png', 'assets/public/character/wizard_atlas.json');
     this.load.atlas('lizard', 'assets/public/enemies/lizard.png', 'assets/public/enemies/lizard.json');
     this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
     this.load.tilemapTiledJSON('town_map', 'assets/maps/town.json');

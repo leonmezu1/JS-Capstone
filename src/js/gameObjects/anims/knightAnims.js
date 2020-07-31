@@ -1,0 +1,33 @@
+const knightAnims = (anims) => {
+  anims.create({
+    key: 'knight-run',
+    frames: anims.generateFrameNames('knight', {
+      start: 0,
+      end: 3,
+      prefix: 'knight_m_run_anim_f',
+    }),
+    frameRate: 15,
+  });
+
+  anims.create({
+    key: 'knight-idle',
+    frames: anims.generateFrameNumbers('knight', {
+      start: 0,
+      end: 3,
+      prefix: 'knight_m_idle_anim_f',
+    }),
+    frameRate: 15,
+  });
+
+  anims.create({
+    key: 'knight-hit',
+    frames: anims.generateFrameNumbers('knight', {
+      start: 0,
+      end: 0,
+      prefix: 'knight_m_hit_anim_f',
+    }),
+    frameRate: 15,
+  });
+};
+
+export default knightAnims;

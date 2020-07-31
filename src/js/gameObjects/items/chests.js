@@ -36,7 +36,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         this.anims.play('chest-open');
         items = [this.coins, this.hearts];
         const dialogData = {
-          diagText: `You found ${this.coins} coins and ${this.hearts} hearts`,
+          diagText: `You found ${this.coins} coins and your health is restored by ${this.hearts}`,
           diagMode: 'temporized',
         };
         if (this.scene.scene.isActive(Handler.scenes.dialogue)) {

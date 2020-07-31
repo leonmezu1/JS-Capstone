@@ -1,0 +1,112 @@
+{
+    "frames": [
+        {
+            "filename": "necromancer_idle_anim_f0",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_idle_anim_f1",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 16,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_idle_anim_f2",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 0,
+                "y": 20
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_idle_anim_f3",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 16,
+                "y": 20
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_run_anim_f0",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 32,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_run_anim_f1",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 32,
+                "y": 20
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_run_anim_f2",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 0,
+                "y": 40
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "necromancer_run_anim_f3",
+            "frame": {
+                "w": 16,
+                "h": 20,
+                "x": 16,
+                "y": 40
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

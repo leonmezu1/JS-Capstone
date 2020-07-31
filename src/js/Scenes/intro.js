@@ -49,7 +49,7 @@ export default class IntroScene extends Phaser.Scene {
       this.width / 2,
       this.height / 2,
       'phaserLogo',
-    ).setScale(0.5);
+    ).setScale(0.3);
 
     this.logo.play('phaser-anim');
     this.logo.on('animationcomplete', () => {
@@ -59,7 +59,7 @@ export default class IntroScene extends Phaser.Scene {
         this.width / 2,
         this.height / 2,
         'microverseIntro',
-      ).setScale(0.5);
+      ).setScale(0.3);
 
       this.microverse.play('microverse-anim');
       this.microverse.on('animationcomplete', () => {
@@ -68,7 +68,7 @@ export default class IntroScene extends Phaser.Scene {
           this.width / 2,
           this.height / 2,
           'githubIntro',
-        ).setScale(0.5);
+        ).setScale(0.65);
 
         this.github.play('github-anim');
         this.github.on('animationcomplete', () => {
