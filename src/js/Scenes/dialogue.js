@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
@@ -120,8 +119,19 @@ export default class DialogueScene extends Phaser.Scene {
   }
 
   drawDialogue(text) {
-    this.diagText.setText(text);
-    console.log('im getting triggered', text);
+    let i = 0;
+    this.timedEvent = this.time.addEvent({
+      delay: 150 - (this.dialogSpeed * 40),
+      callback: () => {
+        if (i <= text.length) {
+          this.diagText.setText(text.slice(0, i));
+          i += 1;
+        } else {
+          this.timedEvent.destroy();
+        }
+      },
+      loop: true,
+    });
   }
 
   clearText() {

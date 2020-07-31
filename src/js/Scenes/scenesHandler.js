@@ -13,6 +13,6 @@ export const Handler = {
     dialogue: 'DialogueScene',
   },
   dialogues: {
-    first: "FAUNE! SISTER! Wake up! the town it's been attacked, help us",
+    first: "FAUNE! SISTER! Wake up! the town it's been attacked, help us.",
   },
 };

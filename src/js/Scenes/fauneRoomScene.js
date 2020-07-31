@@ -31,7 +31,7 @@ export default class FauneRoomScene extends Phaser.Scene {
 
   handlePlayerChestCollision(faune, chest) {
     this.faune.setChest(chest);
-    sceneEvents.emit('drawDiag', 'HIIIIIIIIIIIIIIIIIIIII');
+    sceneEvents.emit('drawDiag', Handler.dialogues.first);
   }
 
   preload() {
