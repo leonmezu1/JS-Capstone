@@ -15,11 +15,11 @@ const randomDirection = (exclude) => {
   }
   return newDirection;
 };
-export default class Necromancer extends Phaser.Physics.Arcade.Sprite {
+export default class Ogres extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.direction = Direction.RIGHT;
-    this.anims.play('necromancer-idle');
+    this.anims.play('ogre-idle');
     scene.physics.world.on(
       Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this,
     );

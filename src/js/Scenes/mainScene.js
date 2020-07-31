@@ -8,11 +8,15 @@ import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createLavaFountainAnims from '../gameObjects/anims/lavaFountainAnims';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createPikeAnims from '../gameObjects/anims/pikesAnims';
+import createNecromancerAnims from '../gameObjects/anims/necromancerAnims';
+import createOgreAnims from '../gameObjects/anims/ogreAnims';
 import Chest from '../gameObjects/items/chests';
 import Faune from '../gameObjects/characters/faune';
 import LavaFountains from '../gameObjects/items/lavaFountains';
 import Lizards from '../gameObjects/enemies/lizards';
 import Pikes from '../gameObjects/items/pikes';
+import Necromancers from '../gameObjects/enemies/necromancers';
+import Ogres from '../gameObjects/enemies/ogres';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -63,6 +67,8 @@ export default class MainScene extends Phaser.Scene {
     createChestAnims(this.anims);
     createLavaFountainAnims(this.anims);
     createPikeAnims(this.anims);
+    createNecromancerAnims(this.anims);
+    createOgreAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'dungeon_map' });
     const tileset = this.map.addTilesetImage('dungeon_tileset', 'dungeon_tile', 16, 16, 1, 2);
@@ -96,11 +102,28 @@ export default class MainScene extends Phaser.Scene {
     this.knives = this.physics.add.group({
       classType: Phaser.Physics.Arcade.Image,
     });
+
     this.lizards = this.physics.add.group({
       classType: Lizards,
       createCallback: (go) => {
         const lizGo = go;
         lizGo.body.onCollide = true;
+      },
+    });
+
+    this.necromancers = this.physics.add.group({
+      classType: Necromancers,
+      createCallback: (go) => {
+        const necGo = go;
+        necGo.body.onCollide = true;
+      },
+    });
+
+    this.ogres = this.physics.add.group({
+      classType: Ogres,
+      createCallback: (go) => {
+        const ogGo = go;
+        ogGo.body.onCollide = true;
       },
     });
 
@@ -119,6 +142,10 @@ export default class MainScene extends Phaser.Scene {
     this.LizardsLayer.objects.forEach(lizardFromLayer => {
       this.lizards.get(lizardFromLayer.x + 8, lizardFromLayer.y - 8, 'lizard');
     });
+
+    this.ogres.get(660, 240, 'ogre');
+    this.necromancers.get(660, 200, 'necromancer');
+
 
     this.faune = new Faune(this, 660, 240, 'faune');
     this.faune.setKnives(this.knives);

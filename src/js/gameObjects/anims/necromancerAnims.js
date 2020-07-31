@@ -4,18 +4,18 @@ const necromancerAnims = (anims) => {
     frames: anims.generateFrameNames('necromancer', {
       start: 0,
       end: 3,
-      prefix: 'necromancer_m_run_anim_f',
+      prefix: 'necromancer_run_anim_f',
     }),
     frameRate: 15,
     repeat: -1,
   });
 
   anims.create({
-    key: 'necromancer-idle',
-    frames: anims.generateFrameNumbers('necromancer', {
+    key: 'necro-idle',
+    frames: anims.generateFrameNames('necromancer', {
       start: 0,
       end: 3,
-      prefix: 'necromancer_m_idle_anim_f',
+      prefix: 'necromancer_idle_anim_f',
     }),
     frameRate: 15,
     repeat: -1,

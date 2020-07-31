@@ -19,7 +19,7 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.direction = Direction.RIGHT;
-    this.anims.play('necromancer-idle');
+    this.anims.play('necro-idle');
     scene.physics.world.on(
       Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this,
     );
