@@ -12,4 +12,7 @@ export const Handler = {
     topRightHouse: 'TopRightHouseScene',
     dialogue: 'DialogueScene',
   },
+  dialogues: {
+    first: "FAUNE! SISTER! Wake up! the town it's been attacked, help us",
+  },
 };

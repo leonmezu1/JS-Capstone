@@ -30,7 +30,6 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('topRightHouse_map', 'assets/maps/topRightHouse.json');
     this.load.tilemapTiledJSON('bottomLeftHouse_map', 'assets/maps/bottomLeftHouse.json');
     this.load.tilemapTiledJSON('bottomRightHouse_map', 'assets/maps/bottomRightHouse.json');
-    this.load.plugin('DialogModalPlugin', 'js/plugins/dialogPlugin.js');
 
 
     this.loadingBar = this.add.graphics({

@@ -16,7 +16,7 @@ export default class UiScene extends Phaser.Scene {
   handlePlayerCoins(coinsInput) {
     setTimeout(() => {
       this.coinsText.setText(`Coins: ${coinsInput}`);
-    }, 200);
+    }, 100);
   }
 
   handlePlayerHealth(health) {
@@ -72,7 +72,7 @@ export default class UiScene extends Phaser.Scene {
 
     this.add.image(6, 26, 'treasure', 'coin_anim_f0.png').setScale(1.1);
 
-    this.coinsText = this.add.text(16, 20, 'Coins: ', {
+    this.coinsText = this.add.text(16, 20, 'Coins: 0', {
       fontSize: '14',
     });
 

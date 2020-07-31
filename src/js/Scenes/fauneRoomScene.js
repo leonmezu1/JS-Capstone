@@ -5,6 +5,7 @@ import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
+import sceneEvents from '../events/events';
 
 
 export default class FauneRoomScene extends Phaser.Scene {
@@ -30,6 +31,7 @@ export default class FauneRoomScene extends Phaser.Scene {
 
   handlePlayerChestCollision(faune, chest) {
     this.faune.setChest(chest);
+    sceneEvents.emit('drawDiag', 'HIIIIIIIIIIIIIIIIIIIII');
   }
 
   preload() {
