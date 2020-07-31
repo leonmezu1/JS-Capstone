@@ -33,7 +33,13 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
     this.body.offset.y = 12;
+    this.health = 300;
   }
+
+  decreaseHealth(damage) {
+    this.health -= damage;
+  }
+
 
   destroy(fromScene) {
     this.moveEvent.destroy();
@@ -65,6 +71,9 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
         break;
       default:
         break;
+    }
+    if (this.health <= 0) {
+      this.destroy();
     }
   }
 }

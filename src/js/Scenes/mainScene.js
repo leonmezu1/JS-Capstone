@@ -44,10 +44,14 @@ export default class MainScene extends Phaser.Scene {
     this.faune.handleStaticDamage();
   }
 
-  handleKnifeLizzardCollision(knife, lizzard) {
+  handleKnifeEnemyCollision(knife, enemy) {
     knife.destroy();
-    lizzard.destroy();
-    this.faune.setScore(100);
+    enemy.decreaseHealth(100);
+    enemy.setTint(0xff0000);
+    setTimeout(() => {
+      enemy.setTint(0xffffff);
+    }, 100);
+    this.faune.setScore(50);
   }
 
   handlePlayerChestCollision(faune, chest) {
@@ -155,6 +159,14 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.lizards, this.lavaFountains);
     this.physics.add.collider(this.lizards, this.pikes);
     this.physics.add.collider(this.lizards, this.chests);
+    this.physics.add.collider(this.ogres, this.wallLayers);
+    this.physics.add.collider(this.ogres, this.lavaFountains);
+    this.physics.add.collider(this.ogres, this.pikes);
+    this.physics.add.collider(this.ogres, this.chests);
+    this.physics.add.collider(this.necromancers, this.wallLayers);
+    this.physics.add.collider(this.necromancers, this.lavaFountains);
+    this.physics.add.collider(this.necromancers, this.pikes);
+    this.physics.add.collider(this.necromancers, this.chests);
     this.physics.add.collider(this.faune, this.lavaFountains);
     this.fauneLizardCollision = this.physics.add.collider(this.faune, this.wallLayers);
     this.physics.add.collider(
@@ -173,7 +185,19 @@ export default class MainScene extends Phaser.Scene {
 
     this.physics.add.collider(this.knives,
       this.lizards,
-      this.handleKnifeLizzardCollision,
+      this.handleKnifeEnemyCollision,
+      undefined,
+      this);
+
+    this.physics.add.collider(this.knives,
+      this.ogres,
+      this.handleKnifeEnemyCollision,
+      undefined,
+      this);
+
+    this.physics.add.collider(this.knives,
+      this.necromancers,
+      this.handleKnifeEnemyCollision,
       undefined,
       this);
 
@@ -194,6 +218,7 @@ export default class MainScene extends Phaser.Scene {
     );
 
     this.cameras.main.startFollow(this.faune, true);
+    this.scene.sendToBack(this);
   }
 
   // eslint-disable-next-line no-unused-vars
