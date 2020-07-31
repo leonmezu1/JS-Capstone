@@ -12,6 +12,8 @@ let HealthState;
 export default class Faune extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
+    this.chestItems = [];
+    this.chestLog = {};
     this.damageTime = 0;
     this.healthState = HealthState.IDLE;
     this.health = 600;
@@ -22,14 +24,41 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.score = 0;
     this.coins = 0;
     this.settedScale = 1;
-    this.chestItems = [];
     this.body.setSize(this.body.width * 0.3, this.body.height * 0.3);
     this.body.offset.y = 16;
+    this.setDepth(500);
+    this.anims.play('faune-idle-down');
     scene.add.existing(this);
   }
 
   setCharacterScale(scale) {
     this.settedScale = scale;
+  }
+
+  setChestLog(dataObject) {
+    this.chestLog = dataObject;
+  }
+
+  setScore(increment) {
+    this.score += increment;
+    sceneEvents.emit('player-score-changed', this.getScore());
+  }
+
+  setHealth(health) {
+    this.health = health;
+    sceneEvents.emit('player-health-event', this.getHealth());
+  }
+
+  setKnives(knives) {
+    this.knives = knives;
+  }
+
+  setChest(chest) {
+    this.activeChest = chest;
+  }
+
+  getChestLog() {
+    return this.chestLog;
   }
 
   getCoins() {
@@ -51,16 +80,6 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     sceneEvents.emit('player-damaged', this.getHealth());
   }
 
-  setScore(increment) {
-    this.score += increment;
-    sceneEvents.emit('player-score-changed', this.getScore());
-  }
-
-  setHealth(health) {
-    this.health = health;
-    sceneEvents.emit('player-health-event', this.getHealth());
-  }
-
   incrementCoins(coins) {
     this.coins += coins;
     sceneEvents.emit('player-coins-changed', this.getCoins());
@@ -72,14 +91,6 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     }
     if (this.health > 600) this.health = 600;
     sceneEvents.emit('player-health-event', this.getHealth());
-  }
-
-  setKnives(knives) {
-    this.knives = knives;
-  }
-
-  setChest(chest) {
-    this.activeChest = chest;
   }
 
   throwKnife() {
@@ -214,6 +225,8 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
         this.incrementCoins(this.chestItems[0]);
         this.healedBy(this.chestItems[1]);
         this.chestItems = [];
+        this.chestLog[this.activeChest.getID()] = 'opened';
+        console.log(this.chestLog);
       } else {
         this.throwKnife();
       }

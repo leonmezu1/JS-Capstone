@@ -21,6 +21,7 @@ export default class TownScene extends Phaser.Scene {
       this.initHealth = data.dataToPass.health;
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
+      this.chestLog = data.dataToPass.chestLog;
     } else {
       this.dataProvided = false;
     }
@@ -106,6 +107,7 @@ export default class TownScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
     this.scene.sendToBack();
+    this.faune.setChestLog(this.chestLog);
   }
 
   update() {
@@ -119,6 +121,7 @@ export default class TownScene extends Phaser.Scene {
         && this.faune.body.y > 160
     ) {
       const dataToPass = {
+        chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
@@ -132,6 +135,7 @@ export default class TownScene extends Phaser.Scene {
       && this.faune.body.y > 402
     ) {
       const dataToPass = {
+        chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
@@ -146,6 +150,7 @@ export default class TownScene extends Phaser.Scene {
       && this.faune.body.y < 415
     ) {
       const dataToPass = {
+        chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
@@ -160,10 +165,11 @@ export default class TownScene extends Phaser.Scene {
       && this.faune.body.y > 160
     ) {
       const dataToPass = {
+        chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 170, y: 253 },
+        position: { x: 166, y: 266 },
         looking: 'up',
       };
       this.scene.start(Handler.scenes.topRightHouse, { dataToPass });

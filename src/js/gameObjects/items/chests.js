@@ -8,6 +8,23 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
     this.anims.play('chest-closed');
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.STATIC_BODY);
     this.body.setSize(this.body.width * 0.7, this.body.height * 0.7);
+    this.identifier = undefined;
+  }
+
+  setID(id) {
+    this.identifier = id;
+  }
+
+  getID() {
+    return this.identifier;
+  }
+
+  opened() {
+    this.anims.play('chest-open');
+  }
+
+  closed() {
+    this.anims.play('chest-closed');
   }
 
   open() {

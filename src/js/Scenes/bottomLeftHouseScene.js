@@ -21,6 +21,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       this.initHealth = data.dataToPass.health;
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
+      this.chestLog = data.dataToPass.chestLog;
     } else {
       this.dataProvided = false;
     }
@@ -59,6 +60,16 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
 
     this.chests = this.physics.add.staticGroup({
       classType: Chest,
+    });
+
+    this.chests.get(15, 150, 'treasure').setID(7);
+    this.chests.get(15, 177, 'treasure').setID(8);
+
+    this.chests.getChildren().forEach(chest => {
+      chest.setScale(sceneScale);
+      if (this.dataProvided) {
+        if (this.chestLog[chest.getID()] === 'opened') chest.opened();
+      }
     });
 
     this.faune = new Faune(this, this.initPosition.x, this.initPosition.y, 'faune');
@@ -110,6 +121,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
 
     this.physics.world.setBounds(0, 0, 370, 300);
     this.faune.setCollideWorldBounds(true);
+    this.faune.setChestLog(this.chestLog);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
     this.scene.sendToBack();
@@ -123,10 +135,11 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
     console.log(this.faune.body.x, this.faune.body.y);
     if (this.faune.body.x < 240 && this.faune.body.x > 160 && this.faune.body.y < 5) {
       const dataToPass = {
+        chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 150, y: 395 },
+        position: { x: 147, y: 400 },
         looking: 'up',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

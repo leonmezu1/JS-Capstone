@@ -22,6 +22,7 @@ export default class FauneRoomScene extends Phaser.Scene {
       this.initHealth = data.dataToPass.health;
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
+      this.chestLog = data.dataToPass.chestLog;
     } else {
       this.dataProvided = false;
     }
@@ -40,10 +41,6 @@ export default class FauneRoomScene extends Phaser.Scene {
     createFauneAnims(this.anims);
     createChestAnims(this.anims);
 
-    this.knives = this.physics.add.group({
-      classType: Phaser.Physics.Arcade.Image,
-    });
-
     this.cameras.main.setBackgroundColor('#000');
     this.map = this.make.tilemap({ key: 'fauneRoom_map' });
     this.tileset = this.map.addTilesetImage('Inner', 'room_tile', 16, 16, 1, 2);
@@ -51,19 +48,6 @@ export default class FauneRoomScene extends Phaser.Scene {
     this.objectsMiddleLayer = this.map.createStaticLayer('ObjectsMiddle', this.tileset);
     this.objectsLayer = this.map.createStaticLayer('Objects', this.tileset);
     this.objectsTopLayer = this.map.createStaticLayer('ObjectsTop', this.tileset);
-    this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
-
-    this.chests = this.physics.add.staticGroup({
-      classType: Chest,
-    });
-
-    this.chestsObjectsLayer.objects.forEach(chestObject => {
-      this.chests.get(chestObject.x + 32, chestObject.y + 64, 'treasure');
-    });
-
-    this.chests.getChildren().forEach(child => {
-      child.setScale(sceneScale);
-    });
 
     const layers = [
       this.floorLayer,
@@ -73,7 +57,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     ];
 
     if (!this.dataProvided) {
-      this.faune = new Faune(this, 100, 100, 'faune');
+      this.faune = new Faune(this, 150, 150, 'faune');
       this.faune.setScale(sceneScale);
       this.faune.setCharacterScale(sceneScale);
       this.faune.setKnives(this.knives);
@@ -88,7 +72,26 @@ export default class FauneRoomScene extends Phaser.Scene {
       this.faune.setScale(sceneScale);
       this.faune.setCharacterScale(sceneScale);
       this.faune.setKnives(this.knives);
+      this.faune.setDepth(100);
     }
+
+    this.knives = this.physics.add.group({
+      classType: Phaser.Physics.Arcade.Image,
+    });
+
+    this.chests = this.physics.add.staticGroup({
+      classType: Chest,
+    });
+
+    this.chests.get(116, 26, 'treasure').setID('chest1');
+    this.chests.get(238, 11, 'treasure').setID('chest2');
+
+    this.chests.getChildren().forEach(chest => {
+      chest.setScale(sceneScale);
+      if (this.dataProvided) {
+        if (this.chestLog[chest.getID()] === 'opened') chest.opened();
+      }
+    });
 
     layers.forEach(layer => {
       layer.setScale(2, 2);
@@ -116,8 +119,9 @@ export default class FauneRoomScene extends Phaser.Scene {
       this,
     );
 
-    this.physics.world.setBounds(0, 0, 370, 300);
+    if (this.chestLog) this.faune.setChestLog(this.chestLog);
     this.faune.setCollideWorldBounds(true);
+    this.physics.world.setBounds(0, 0, 370, 300);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
     this.scene.sendToBack();
@@ -130,6 +134,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     console.log(this.faune.body.x, this.faune.body.y);
     if (this.faune.body.x < 240 && this.faune.body.x > 145 && this.faune.body.y > 280) {
       const dataToPass = {
+        chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
