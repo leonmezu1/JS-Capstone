@@ -15,6 +15,7 @@ export default class DialogueScene extends Phaser.Scene {
     if (opts.dialogData) {
       this.dialogData = opts.dialogData;
       this.dataPassed = true;
+      this.timer = opts.dialogData.timer;
     }
     this.borderThickness = opts.borderThickness || 3;
     this.borderColor = opts.borderColor || 0x907748;
@@ -25,7 +26,6 @@ export default class DialogueScene extends Phaser.Scene {
     this.padding = opts.padding || 32;
     this.closeBtnColor = opts.closeBtnColor || 'darkgoldenrod';
     this.dialogSpeed = opts.dialogSpeed || 3;
-
     this.eventCounter = 0;
     this.visible = true;
     this.dialogText = '';
@@ -46,7 +46,7 @@ export default class DialogueScene extends Phaser.Scene {
 
   temporizedDestroy() {
     this.time.addEvent({
-      delay: 1500,
+      delay: this.timer ? this.timer : 2000,
       callback: () => {
         this.shutdown();
       },
@@ -158,14 +158,29 @@ export default class DialogueScene extends Phaser.Scene {
       this.dialogText = this.dialogData.diagText;
     }
 
-    this.diagText = this.add.text(
-      this.padding + 10,
-      this.getGameHeight() - this.windowHeight - this.padding + 10,
-      this.dialogText,
-      {
-        wordWrap: { width: this.getGameWidth() - (this.padding * 2) - 25 },
-      },
-    );
+    if (Array.isArray(this.diagText)) {
+      this.diagText.forEach((sentence, index) => {
+        setTimeout(() => {
+          this.diagText = this.add.text(
+            this.padding + 10,
+            this.getGameHeight() - this.windowHeight - this.padding + 10,
+            sentence,
+            {
+              wordWrap: { width: this.getGameWidth() - (this.padding * 2) - 25 },
+            },
+          );
+        }, index * 1000);
+      });
+    } else {
+      this.diagText = this.add.text(
+        this.padding + 10,
+        this.getGameHeight() - this.windowHeight - this.padding + 10,
+        this.dialogText,
+        {
+          wordWrap: { width: this.getGameWidth() - (this.padding * 2) - 25 },
+        },
+      );
+    }
 
     if (this.dataPassed && this.dialogData.diagMode === 'temporized') this.temporizedDestroy();
 

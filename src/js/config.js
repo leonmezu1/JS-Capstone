@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import BootScene from './Scenes/bootScene';
 import BottomLeftHouseScene from './Scenes/bottomLeftHouseScene';
 import BottomRightHouseScene from './Scenes/bottomRightHouseScene';
+import CastleScene from './Scenes/castleScene';
 import DialogueScene from './Scenes/dialogue';
 import FauneRoomScene from './Scenes/fauneRoomScene';
 import IntroScene from './Scenes/intro';
@@ -17,7 +18,7 @@ const config = () => {
     width: 400,
     height: 300,
     scene: [
-      IntroScene,
+      /* IntroScene, */
       BootScene,
       UiScene,
       DialogueScene,
@@ -27,6 +28,7 @@ const config = () => {
       BottomRightHouseScene,
       BottomLeftHouseScene,
       TopRightHouseScene,
+      CastleScene,
     ],
     parent: 'gameContainer',
     physics: {

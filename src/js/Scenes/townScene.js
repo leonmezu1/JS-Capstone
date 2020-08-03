@@ -64,115 +64,158 @@ export default class TownScene extends Phaser.Scene {
       this.caveEntranceLayer,
     ];
 
-    this.faune = new Faune(
-      this,
-      this.initPosition.x = this.initPosition.x || 100,
-      this.initPosition.y = this.initPosition.y || 120,
-      'faune',
-    );
-    this.faune.setScore(
-      this.initScore = this.initScore || 0,
-    );
-    this.faune.setHealth(
-      this.initHealth = this.initHealth || 0,
-    );
-    this.faune.incrementCoins(
-      this.initCoins = this.initCoins || 0,
-    );
-    if (this.initLooking) {
-      this.faune.anims.play(`faune-idle-${this.initLooking}`);
-    }
-    this.faune.setKnives(this.knives);
-
-    layers.forEach(layer => {
-      layer.setCollisionByProperty({ collides: true });
-      this.physics.add.collider(
-        this.faune,
-        layer,
-      );
-
-      this.physics.add.collider(
-        this.knives,
-        layer, (knives) => { knives.destroy(); },
-        undefined,
+    if (this.dataProvided) {
+      this.faune = new Faune(
         this,
+        this.initPosition.x = this.initPosition.x || 100,
+        this.initPosition.y = this.initPosition.y || 120,
+        'faune',
       );
+      this.faune.setScore(
+        this.initScore = this.initScore || 0,
+      );
+      this.faune.setHealth(
+        this.initHealth = this.initHealth || 0,
+      );
+      this.faune.incrementCoins(
+        this.initCoins = this.initCoins || 0,
+      );
+      if (this.initLooking) {
+        this.faune.anims.play(`faune-idle-${this.initLooking}`);
+      }
+      this.faune.setKnives(this.knives);
+      this.faune.setCollideWorldBounds(true);
+      this.knives.world.setBoundsCollision(true);
+      this.cameras.main.startFollow(this.faune, true);
+      this.scene.run(Handler.scenes.ui);
+      this.scene.sendToBack();
+      this.faune.setChestLog(this.chestLog);
 
-      debugDraw(layer, this);
-    });
+      layers.forEach(layer => {
+        layer.setCollisionByProperty({ collides: true });
+        this.physics.add.collider(
+          this.faune,
+          layer,
+        );
+
+        this.physics.add.collider(
+          this.knives,
+          layer, (knives) => { knives.destroy(); },
+          undefined,
+          this,
+        );
+
+        debugDraw(layer, this);
+      });
+    } else {
+      const cam = this.cameras.main;
+      setTimeout(() => {
+        cam.pan(250, 350, 2000, 'Sine.easeInOut');
+        cam.zoomTo(0.6, 4000);
+      }, 0);
+
+      setTimeout(() => {
+        cam.pan(200, 200, 2000, 'Sine.easeInOut');
+        cam.zoomTo(1, 4000);
+      }, 4000);
+    }
 
     this.physics.world.setBounds(0, 0, 790, 790);
-    this.faune.setCollideWorldBounds(true);
-    this.knives.world.setBoundsCollision(true);
-    this.cameras.main.startFollow(this.faune, true);
-    this.scene.run(Handler.scenes.ui);
-    this.scene.sendToBack();
-    this.faune.setChestLog(this.chestLog);
   }
 
   update() {
     if (this.faune) {
       this.faune.update(this.cursors);
-    }
-    if (
-      this.faune.body.x < 151
+      if (
+        this.faune.body.x < 151
+          && this.faune.body.x > 144
+          && this.faune.body.y < 195
+          && this.faune.body.y > 160
+      ) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 210, y: 270 },
+          looking: 'up',
+        };
+        this.scene.start(Handler.scenes.fauneRoom, { dataToPass });
+      } else if (
+        this.faune.body.x < 295
+        && this.faune.body.x > 288
+        && this.faune.body.y > 402
+        && this.faune.body.y < 415
+      ) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 200, y: 20 },
+          looking: 'down',
+        };
+        this.scene.start(Handler.scenes.bottomRightHouse, { dataToPass });
+      } else if (
+        this.faune.body.x < 151
         && this.faune.body.x > 144
-        && this.faune.body.y < 195
+        && this.faune.body.y > 403
+        && this.faune.body.y < 415
+      ) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 207, y: 20 },
+          looking: 'down',
+        };
+        this.scene.start(Handler.scenes.bottomLeftHouse, { dataToPass });
+      } else if (
+        this.faune.body.x < 295
+        && this.faune.body.x > 288
+        && this.faune.body.y < 201
         && this.faune.body.y > 160
-    ) {
-      const dataToPass = {
-        chestLog: this.faune.getChestLog(),
-        score: this.faune.getScore(),
-        coins: this.faune.getCoins(),
-        health: this.faune.getHealth(),
-        position: { x: 210, y: 270 },
-        looking: 'up',
-      };
-      this.scene.start(Handler.scenes.fauneRoom, { dataToPass });
-    } else if (
-      this.faune.body.x < 295
-      && this.faune.body.x > 288
-      && this.faune.body.y > 402
-    ) {
-      const dataToPass = {
-        chestLog: this.faune.getChestLog(),
-        score: this.faune.getScore(),
-        coins: this.faune.getCoins(),
-        health: this.faune.getHealth(),
-        position: { x: 200, y: 20 },
-        looking: 'down',
-      };
-      this.scene.start(Handler.scenes.bottomRightHouse, { dataToPass });
-    } else if (
-      this.faune.body.x < 151
-      && this.faune.body.x > 144
-      && this.faune.body.y > 403
-      && this.faune.body.y < 415
-    ) {
-      const dataToPass = {
-        chestLog: this.faune.getChestLog(),
-        score: this.faune.getScore(),
-        coins: this.faune.getCoins(),
-        health: this.faune.getHealth(),
-        position: { x: 207, y: 20 },
-        looking: 'down',
-      };
-      this.scene.start(Handler.scenes.bottomLeftHouse, { dataToPass });
-    } else if (
-      this.faune.body.x < 295
-      && this.faune.body.x > 288
-      && this.faune.body.y < 201
-      && this.faune.body.y > 160
-    ) {
-      const dataToPass = {
-        chestLog: this.faune.getChestLog(),
-        score: this.faune.getScore(),
-        coins: this.faune.getCoins(),
-        health: this.faune.getHealth(),
-        position: { x: 166, y: 266 },
-        looking: 'up',
-      };
-      this.scene.start(Handler.scenes.topRightHouse, { dataToPass });
+      ) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 166, y: 266 },
+          looking: 'up',
+        };
+        this.scene.start(Handler.scenes.topRightHouse, { dataToPass });
+      } else if (
+        this.faune.body.x < 612
+        && this.faune.body.x > 600
+        && this.faune.body.y < 565
+        && this.faune.body.y > 559
+      ) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 315, y: 770 },
+          looking: 'up',
+        };
+        this.scene.start(Handler.scenes.castle, { dataToPass });
+      } else if (
+        this.faune.body.x < 778
+        && this.faune.body.x > 752
+        && this.faune.body.y < 67
+      ) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 1389, y: 1565 },
+          looking: 'up',
+        };
+        this.scene.start(Handler.scenes.main, { dataToPass });
+      }
     }
   }
 }

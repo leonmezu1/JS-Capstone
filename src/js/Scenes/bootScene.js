@@ -13,6 +13,8 @@ export default class BootScene extends Phaser.Scene {
     this.height = this.game.renderer.height;
     this.load.image('dungeon_tile', 'assets/sprites/0x72_DungeonTilesetII_v1.3_extruded.png');
     this.load.image('town_tile', 'assets/sprites/Overworld_extruded.png');
+    this.load.image('castle_tile', 'assets/sprites/castle_2_extruded.png');
+    this.load.image('stairs_tile', 'assets/sprites/stairs_1_extruded.png');
     this.load.image('room_tile', 'assets/sprites/Inner_extruded.png');
     this.load.image('full_heart', 'assets/public/ui/ui_heart_full.png');
     this.load.image('half_heart', 'assets/public/ui/ui_heart_half.png');
@@ -34,6 +36,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('topRightHouse_map', 'assets/maps/topRightHouse.json');
     this.load.tilemapTiledJSON('bottomLeftHouse_map', 'assets/maps/bottomLeftHouse.json');
     this.load.tilemapTiledJSON('bottomRightHouse_map', 'assets/maps/bottomRightHouse.json');
+    this.load.tilemapTiledJSON('castle_map', 'assets/maps/castleInner.json');
 
 
     this.loadingBar = this.add.graphics({
@@ -105,7 +108,7 @@ export default class BootScene extends Phaser.Scene {
         this.loadingText.destroy();
         this.percentageText.destroy();
         this.assetsText.destroy();
-        this.scene.start(Handler.scenes.main);
+        this.scene.start(Handler.scenes.fauneRoom);
       }, 2500);
     });
   }

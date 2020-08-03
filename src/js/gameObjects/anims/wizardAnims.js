@@ -12,7 +12,7 @@ const wizardAnims = (anims) => {
 
   anims.create({
     key: 'wizard-idle',
-    frames: anims.generateFrameNumbers('wizard', {
+    frames: anims.generateFrameNames('wizard', {
       start: 0,
       end: 3,
       prefix: 'wizzard_m_idle_anim_f',
@@ -23,7 +23,7 @@ const wizardAnims = (anims) => {
 
   anims.create({
     key: 'wizard-hit',
-    frames: anims.generateFrameNumbers('wizard', {
+    frames: anims.generateFrameNames('wizard', {
       start: 0,
       end: 0,
       prefix: 'wizzard_m_hit_anim_f',

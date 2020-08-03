@@ -1,18 +1,20 @@
 import Phaser from 'phaser';
-import { Handler } from './scenesHandler';
-import debugDraw from '../utils/collisionDebugger';
+import createChestAnims from '../gameObjects/anims/chestAnims';
+import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
-import Brother from '../gameObjects/characters/brother';
-import createFauneAnims from '../gameObjects/anims/fauneAnims';
-import createChestAnims from '../gameObjects/anims/chestAnims';
-import createElfAnims from '../gameObjects/anims/elfAnims';
+import debugDraw from '../utils/collisionDebugger';
+import { Handler } from './scenesHandler';
 
-export default class FauneRoomScene extends Phaser.Scene {
+export default class CastleScene extends Phaser.Scene {
   constructor() {
     super({
-      key: Handler.scenes.fauneRoom,
+      key: Handler.scenes.castle,
     });
+  }
+
+  handlePlayerChestCollision(faune, chest) {
+    this.faune.setChest(chest);
   }
 
   init(data) {
@@ -33,59 +35,32 @@ export default class FauneRoomScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  handlePlayerChestCollision(faune, chest) {
-    this.faune.setChest(chest);
-  }
-
-  handlePlayerBrotherCollision() {
-    this.cameras.main.setBounds(0, 0, 790, 790);
-    const timer = 2500;
-    Handler.dialogues.first.forEach((sentence, index) => {
-      setTimeout(() => {
-        const dialogData = {
-          diagText: sentence,
-          diagMode: 'temporized',
-          timer,
-        };
-        if (this.scene.isActive(Handler.scenes.dialogue)) {
-          this.scene.stop(Handler.scenes.dialogue);
-        }
-        this.scene.run(Handler.scenes.dialogue, { dialogData });
-      }, index * timer);
-    });
-    if (!this.dataProvided) {
-      setTimeout(() => {
-        this.scene.run(Handler.scenes.town);
-        this.scene.bringToTop(Handler.scenes.town);
-        this.scene.setVisible(false);
-      }, 10000);
-
-      setTimeout(() => {
-        this.scene.stop(Handler.scenes.town);
-        this.scene.setVisible(true);
-      }, 18000);
-    }
-  }
-
   create() {
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
     createChestAnims(this.anims);
-    createElfAnims(this.anims);
 
-    this.cameras.main.setBackgroundColor('#000');
-    this.map = this.make.tilemap({ key: 'fauneRoom_map' });
-    this.tileset = this.map.addTilesetImage('Inner', 'room_tile', 16, 16, 1, 2);
-    this.floorLayer = this.map.createStaticLayer('Floor', this.tileset);
-    this.objectsMiddleLayer = this.map.createStaticLayer('ObjectsMiddle', this.tileset);
-    this.objectsLayer = this.map.createStaticLayer('Objects', this.tileset);
-    this.objectsTopLayer = this.map.createStaticLayer('ObjectsTop', this.tileset);
+    this.map = this.make.tilemap({ key: 'castle_map' });
+    this.tileset1 = this.map.addTilesetImage('castle_2', 'castle_tile', 16, 16, 1, 2);
+    this.tileset2 = this.map.addTilesetImage('stairs_1', 'stairs_tile', 16, 16, 1, 2);
+    this.floorLayer = this.map.createStaticLayer('Floor', this.tileset1);
+    this.ornamentsLayer = this.map.createStaticLayer('Ornaments', this.tileset1);
+    this.stairsLayer = this.map.createStaticLayer('Stairs', this.tileset2);
+    this.platformLayer = this.map.createStaticLayer('Platform', this.tileset1);
+    this.columnsLayer = this.map.createStaticLayer('Columns', this.tileset1);
+    this.wallsLayer = this.map.createStaticLayer('Walls', this.tileset1);
+    this.wallsAdditionsLayer = this.map.createStaticLayer('WallsAdditions', this.tileset1);
+    this.chairsLayer = this.map.createStaticLayer('Chairs', this.tileset1);
 
     const layers = [
       this.floorLayer,
-      this.objectsLayer,
-      this.objectsMiddleLayer,
-      this.objectsTopLayer,
+      this.ornamentsLayer,
+      this.stairsLayer,
+      this.platformLayer,
+      this.columnsLayer,
+      this.wallsLayer,
+      this.wallsAdditionsLayer,
+      this.chairsLayer,
     ];
 
     this.knives = this.physics.add.group({
@@ -105,7 +80,7 @@ export default class FauneRoomScene extends Phaser.Scene {
       if (this.initLooking) {
         this.faune.anims.play(`faune-idle-${this.initLooking}`);
       }
-      this.faune.setScale(sceneScale);
+      this.faune.setScale(sceneScale * 1.2);
       this.faune.setCharacterScale(sceneScale);
       this.faune.setKnives(this.knives);
       this.faune.setDepth(100);
@@ -124,8 +99,6 @@ export default class FauneRoomScene extends Phaser.Scene {
         if (this.chestLog[chest.getID()] === 'opened') chest.opened();
       }
     });
-
-    this.brother = new Brother(this, 260, 200, 'elf').setScale(sceneScale);
 
     layers.forEach(layer => {
       layer.setScale(2, 2);
@@ -153,17 +126,9 @@ export default class FauneRoomScene extends Phaser.Scene {
       this,
     );
 
-    this.physics.add.collider(
-      this.faune,
-      this.brother,
-      this.handlePlayerBrotherCollision,
-      undefined,
-      this,
-    );
-
     if (this.chestLog) this.faune.setChestLog(this.chestLog);
     this.faune.setCollideWorldBounds(true);
-    this.physics.world.setBounds(0, 0, 370, 300);
+    this.physics.world.setBounds(0, 0, 580, 805);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
     this.scene.sendToBack();
@@ -172,15 +137,16 @@ export default class FauneRoomScene extends Phaser.Scene {
   update() {
     if (this.faune) {
       this.faune.update(this.cursors);
+      console.log(this.faune.body.x, this.faune.body.y);
     }
 
-    if (this.faune.body.x < 240 && this.faune.body.x > 145 && this.faune.body.y > 280) {
+    if (this.faune.body.y > 780) {
       const dataToPass = {
         chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
-        position: { x: 150, y: 200 },
+        position: { x: 606, y: 570 },
         looking: 'down',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

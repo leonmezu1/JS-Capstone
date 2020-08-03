@@ -26,17 +26,31 @@ export default class MainScene extends Phaser.Scene {
     this.hit = 0;
   }
 
-  handlePlayerLizardCollision(faune, lizard) {
-    const dx = faune.x - lizard.x;
-    const dy = faune.y - lizard.y;
+  init(data) {
+    if (data.dataToPass !== undefined) {
+      this.dataProvided = true;
+      this.initScore = data.dataToPass.score;
+      this.initCoins = data.dataToPass.coins;
+      this.initHealth = data.dataToPass.health;
+      this.initPosition = data.dataToPass.position;
+      this.initLooking = data.dataToPass.looking;
+      this.chestLog = data.dataToPass.chestLog;
+    } else {
+      this.dataProvided = false;
+    }
+  }
+
+  handlePlayerEnemyCollision(faune, enemy) {
+    const dx = faune.x - enemy.x;
+    const dy = faune.y - enemy.y;
     this.hit = 1;
     this.faune.handleDamage(dx, dy);
 
     sceneEvents.emit('player-damaged', this.faune.getHealth());
     if (this.faune.getHealth() <= 0) {
-      if (this.fauneLizardCollision) {
-        this.fauneLizardCollision.world.destroy();
-      }
+      setTimeout(() => {
+        this.faune.destroy();
+      }, 5000);
     }
   }
 
@@ -147,11 +161,27 @@ export default class MainScene extends Phaser.Scene {
       this.lizards.get(lizardFromLayer.x + 8, lizardFromLayer.y - 8, 'lizard');
     });
 
-    this.ogres.get(660, 240, 'ogre');
+    this.ogres.get(665, 240, 'ogre');
     this.necromancers.get(660, 200, 'necromancer');
 
-
-    this.faune = new Faune(this, 660, 240, 'faune');
+    this.faune = new Faune(
+      this,
+      this.initPosition.x = this.initPosition.x || 660,
+      this.initPosition.y = this.initPosition.y || 240,
+      'faune',
+    );
+    this.faune.setScore(
+      this.initScore = this.initScore || 0,
+    );
+    this.faune.setHealth(
+      this.initHealth = this.initHealth || 0,
+    );
+    this.faune.incrementCoins(
+      this.initCoins = this.initCoins || 0,
+    );
+    if (this.initLooking) {
+      this.faune.anims.play(`faune-idle-${this.initLooking}`);
+    }
     this.faune.setKnives(this.knives);
 
 
@@ -168,7 +198,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.necromancers, this.pikes);
     this.physics.add.collider(this.necromancers, this.chests);
     this.physics.add.collider(this.faune, this.lavaFountains);
-    this.fauneLizardCollision = this.physics.add.collider(this.faune, this.wallLayers);
+    this.physics.add.collider(this.faune, this.wallLayers);
     this.physics.add.collider(
       this.faune,
       this.chests,
@@ -183,11 +213,13 @@ export default class MainScene extends Phaser.Scene {
       this,
     );
 
-    this.physics.add.collider(this.knives,
+    this.physics.add.collider(
+      this.knives,
       this.lizards,
       this.handleKnifeEnemyCollision,
       undefined,
-      this);
+      this,
+    );
 
     this.physics.add.collider(this.knives,
       this.ogres,
@@ -204,7 +236,23 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(
       this.lizards,
       this.faune,
-      this.handlePlayerLizardCollision,
+      this.handlePlayerEnemyCollision,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.ogres,
+      this.faune,
+      this.handlePlayerEnemyCollision,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.necromancers,
+      this.faune,
+      this.handlePlayerEnemyCollision,
       undefined,
       this,
     );
@@ -221,7 +269,6 @@ export default class MainScene extends Phaser.Scene {
     this.scene.sendToBack(this);
   }
 
-  // eslint-disable-next-line no-unused-vars
   update(time, delta) {
     if (this.hit > 0) {
       this.hit += 1;
@@ -231,6 +278,18 @@ export default class MainScene extends Phaser.Scene {
 
     if (this.faune) {
       this.faune.update(this.cursors);
+    }
+
+    if (this.faune.body.y > 1570) {
+      const dataToPass = {
+        chestLog: this.faune.getChestLog(),
+        score: this.faune.getScore(),
+        coins: this.faune.getCoins(),
+        health: this.faune.getHealth(),
+        position: { x: 765, y: 74 },
+        looking: 'down',
+      };
+      this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }
 }

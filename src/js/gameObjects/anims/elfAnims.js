@@ -1,4 +1,4 @@
-const elfAnims = (anims) => {
+const createElfAnims = (anims) => {
   anims.create({
     key: 'elf-run',
     frames: anims.generateFrameNames('elf', {
@@ -12,18 +12,18 @@ const elfAnims = (anims) => {
 
   anims.create({
     key: 'elf-idle',
-    frames: anims.generateFrameNumbers('elf', {
+    frames: anims.generateFrameNames('elf', {
       start: 0,
       end: 3,
       prefix: 'elf_m_idle_anim_f',
     }),
-    frameRate: 15,
+    frameRate: 10,
     repeat: -1,
   });
 
   anims.create({
     key: 'elf-hit',
-    frames: anims.generateFrameNumbers('elf', {
+    frames: anims.generateFrameNames('elf', {
       start: 0,
       end: 0,
       prefix: 'elf_m_hit_anim_f',
@@ -32,4 +32,4 @@ const elfAnims = (anims) => {
   });
 };
 
-export default elfAnims;
+export default createElfAnims;
