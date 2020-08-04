@@ -7,6 +7,7 @@ import Brother from '../gameObjects/characters/brother';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import createElfAnims from '../gameObjects/anims/elfAnims';
+import promtDiag from '../utils/diagHelper';
 
 export default class FauneRoomScene extends Phaser.Scene {
   constructor() {
@@ -24,6 +25,7 @@ export default class FauneRoomScene extends Phaser.Scene {
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
+      if (data.dataToPass.gameLog) this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
@@ -40,19 +42,7 @@ export default class FauneRoomScene extends Phaser.Scene {
   handlePlayerBrotherCollision() {
     this.cameras.main.setBounds(0, 0, 790, 790);
     const timer = 2500;
-    Handler.dialogues.first.forEach((sentence, index) => {
-      setTimeout(() => {
-        const dialogData = {
-          diagText: sentence,
-          diagMode: 'temporized',
-          timer,
-        };
-        if (this.scene.isActive(Handler.scenes.dialogue)) {
-          this.scene.stop(Handler.scenes.dialogue);
-        }
-        this.scene.run(Handler.scenes.dialogue, { dialogData });
-      }, index * timer);
-    });
+    promtDiag(Handler.dialogues.first, timer, this);
     if (!this.dataProvided) {
       setTimeout(() => {
         this.scene.run(Handler.scenes.town);
@@ -181,6 +171,7 @@ export default class FauneRoomScene extends Phaser.Scene {
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
         position: { x: 150, y: 200 },
+        gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

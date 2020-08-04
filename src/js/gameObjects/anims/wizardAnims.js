@@ -1,4 +1,4 @@
-const wizardAnims = (anims) => {
+const createWizardAnims = (anims) => {
   anims.create({
     key: 'wizard-run',
     frames: anims.generateFrameNames('wizard', {
@@ -32,4 +32,4 @@ const wizardAnims = (anims) => {
   });
 };
 
-export default wizardAnims;
+export default createWizardAnims;

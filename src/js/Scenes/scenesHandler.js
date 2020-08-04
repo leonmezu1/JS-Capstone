@@ -25,8 +25,7 @@ export const Handler = {
     ],
     second: [
       'Thanks, those monsters came from no where',
-      'Faune, please help the others I think the other houses',
-      'are under attack to',
+      'Faune, please help the others I think the other houses are under attack too..',
     ],
     thanks: [
       'Thanks, I owe you my life',
@@ -40,6 +39,13 @@ export const Handler = {
       'if they go out from the castle the will turn into lizards!',
       'you are the only one who can save us!',
       'I saw the lizards take the king to the northern cave',
+    ],
+    knight: [
+      'Faune, the lizards commanded by the dark wizzard have',
+      'attacked the castle and the town, he cursed us, so we can not leave this place',
+      'right now the only ne who can face him... is you',
+      'we trust in your strenght, but advance with care, the wizard is in the',
+      'cave at the north, be careful, Faune!',
     ],
   },
 };

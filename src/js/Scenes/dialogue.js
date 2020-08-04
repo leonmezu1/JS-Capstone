@@ -175,11 +175,12 @@ export default class DialogueScene extends Phaser.Scene {
       this.diagText = this.add.text(
         this.padding + 10,
         this.getGameHeight() - this.windowHeight - this.padding + 10,
-        this.dialogText,
+        '',
         {
           wordWrap: { width: this.getGameWidth() - (this.padding * 2) - 25 },
         },
       );
+      this.drawDialogue(this.dialogText);
     }
 
     if (this.dataPassed && this.dialogData.diagMode === 'temporized') this.temporizedDestroy();

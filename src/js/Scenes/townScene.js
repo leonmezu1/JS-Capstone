@@ -22,6 +22,7 @@ export default class TownScene extends Phaser.Scene {
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
+      this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
@@ -138,6 +139,7 @@ export default class TownScene extends Phaser.Scene {
           coins: this.faune.getCoins(),
           health: this.faune.getHealth(),
           position: { x: 210, y: 270 },
+          gameLog: this.gameLog,
           looking: 'up',
         };
         this.scene.start(Handler.scenes.fauneRoom, { dataToPass });
@@ -153,6 +155,7 @@ export default class TownScene extends Phaser.Scene {
           coins: this.faune.getCoins(),
           health: this.faune.getHealth(),
           position: { x: 200, y: 20 },
+          gameLog: this.gameLog,
           looking: 'down',
         };
         this.scene.start(Handler.scenes.bottomRightHouse, { dataToPass });
@@ -168,6 +171,7 @@ export default class TownScene extends Phaser.Scene {
           coins: this.faune.getCoins(),
           health: this.faune.getHealth(),
           position: { x: 207, y: 20 },
+          gameLog: this.gameLog,
           looking: 'down',
         };
         this.scene.start(Handler.scenes.bottomLeftHouse, { dataToPass });
@@ -183,6 +187,7 @@ export default class TownScene extends Phaser.Scene {
           coins: this.faune.getCoins(),
           health: this.faune.getHealth(),
           position: { x: 166, y: 266 },
+          gameLog: this.gameLog,
           looking: 'up',
         };
         this.scene.start(Handler.scenes.topRightHouse, { dataToPass });
@@ -198,6 +203,7 @@ export default class TownScene extends Phaser.Scene {
           coins: this.faune.getCoins(),
           health: this.faune.getHealth(),
           position: { x: 315, y: 770 },
+          gameLog: this.gameLog,
           looking: 'up',
         };
         this.scene.start(Handler.scenes.castle, { dataToPass });
@@ -212,6 +218,7 @@ export default class TownScene extends Phaser.Scene {
           coins: this.faune.getCoins(),
           health: this.faune.getHealth(),
           position: { x: 1389, y: 1565 },
+          gameLog: this.gameLog,
           looking: 'up',
         };
         this.scene.start(Handler.scenes.main, { dataToPass });

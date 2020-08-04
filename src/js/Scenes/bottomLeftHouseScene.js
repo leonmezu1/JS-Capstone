@@ -5,6 +5,12 @@ import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
+import createWizardAnims from '../gameObjects/anims/wizardAnims';
+import createLizardAnims from '../gameObjects/anims/enemyAnims';
+import Lizards from '../gameObjects/enemies/lizards';
+import Wizard from '../gameObjects/characters/wizard';
+import sceneEvents from '../events/events';
+import promtDiag from '../utils/diagHelper';
 
 export default class BottomLeftHouseScene extends Phaser.Scene {
   constructor() {
@@ -22,13 +28,46 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
+      this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
   }
 
+  handlePlayerEnemyCollision(faune, enemy) {
+    const dx = faune.x - enemy.x;
+    const dy = faune.y - enemy.y;
+    this.hit = 1;
+    this.faune.handleDamage(dx, dy);
+    sceneEvents.emit('player-damaged', this.faune.getHealth());
+    if (this.faune.getHealth() <= 0) {
+      setTimeout(() => {
+        this.faune.destroy();
+      }, 5000);
+    }
+  }
+
+  handleKnifeEnemyCollision(knife, enemy) {
+    knife.destroy();
+    enemy.decreaseHealth(100);
+    enemy.setTint(0xff0000);
+    setTimeout(() => {
+      enemy.setTint(0xffffff);
+    }, 100);
+    this.faune.setScore(50);
+  }
+
   handlePlayerChestCollision(faune, chest) {
     this.faune.setChest(chest);
+  }
+
+  handlePlayerWizardCollision() {
+    if (this.lizards && this.lizards.getChildren().length === 0) {
+      promtDiag(Handler.dialogues.second, 2000, this);
+      this.faune.setGameLog({ bottomLeftHouseclear: true });
+    } else {
+      promtDiag(Handler.dialogues.helpMe, 2000, this);
+    }
   }
 
   preload() {
@@ -40,6 +79,8 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
     createChestAnims(this.anims);
+    createLizardAnims(this.anims);
+    createWizardAnims(this.anims);
 
     this.knives = this.physics.add.group({
       classType: Phaser.Physics.Arcade.Image,
@@ -84,6 +125,8 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       this.initCoins = this.initCoins || 0,
     );
 
+    if (this.gameLog) this.faune.setGameLog(this.gameLog);
+
     if (this.initLooking) {
       this.faune.anims.play(`faune-idle-${this.initLooking}`);
     }
@@ -111,6 +154,37 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       debugDraw(layer, this);
     });
 
+    if (this.gameLog === undefined || !this.gameLog.bottomLeftHouseclear) {
+      this.lizards = this.physics.add.group({
+        classType: Lizards,
+        createCallback: (go) => {
+          const lizGo = go;
+          lizGo.body.onCollide = true;
+        },
+      });
+
+      layers.forEach(layer => {
+        this.physics.add.collider(
+          this.lizards,
+          layer,
+        );
+      });
+
+      this.lizards.get(Phaser.Math.Between(50, 150), Phaser.Math.Between(50, 150), 'lizard');
+      this.lizards.get(Phaser.Math.Between(50, 150), Phaser.Math.Between(50, 150), 'lizard');
+      this.lizards.get(Phaser.Math.Between(50, 150), Phaser.Math.Between(50, 150), 'lizard');
+      this.lizards.get(Phaser.Math.Between(50, 150), Phaser.Math.Between(50, 150), 'lizard');
+      this.lizards.get(Phaser.Math.Between(50, 150), Phaser.Math.Between(50, 150), 'lizard');
+      this.lizards.get(Phaser.Math.Between(50, 150), Phaser.Math.Between(50, 150), 'lizard');
+
+      this.lizards.getChildren().forEach(lizard => {
+        lizard.setScale(sceneScale);
+        lizard.setCollideWorldBounds(true);
+      });
+
+      promtDiag(Handler.dialogues.helpMe, 2000, this);
+    }
+
     this.physics.add.collider(
       this.faune,
       this.chests,
@@ -118,6 +192,33 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       undefined,
       this,
     );
+
+    this.wizard = new Wizard(this, 300, 250, 'wizard').setScale(sceneScale);
+
+    this.physics.add.collider(
+      this.faune,
+      this.wizard,
+      this.handlePlayerWizardCollision,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.knives,
+      this.lizards,
+      this.handleKnifeEnemyCollision,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.lizards,
+      this.faune,
+      this.handlePlayerEnemyCollision,
+      undefined,
+      this,
+    );
+
 
     this.physics.world.setBounds(0, 0, 370, 300);
     this.faune.setCollideWorldBounds(true);
@@ -139,6 +240,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
         position: { x: 147, y: 400 },
+        gameLog: this.faune.getGameLog(),
         looking: 'up',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

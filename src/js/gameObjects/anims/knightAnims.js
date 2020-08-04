@@ -1,4 +1,4 @@
-const knightAnims = (anims) => {
+const createKnightAnims = (anims) => {
   anims.create({
     key: 'knight-run',
     frames: anims.generateFrameNames('knight', {
@@ -32,4 +32,4 @@ const knightAnims = (anims) => {
   });
 };
 
-export default knightAnims;
+export default createKnightAnims;

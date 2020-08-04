@@ -269,7 +269,7 @@ export default class MainScene extends Phaser.Scene {
     this.scene.sendToBack(this);
   }
 
-  update(time, delta) {
+  update() {
     if (this.hit > 0) {
       this.hit += 1;
       if (this.hit > 7) this.hit = 0;

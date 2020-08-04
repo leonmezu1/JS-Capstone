@@ -15,7 +15,7 @@ const randomDirection = (exclude) => {
   }
   return newDirection;
 };
-export default class Lizard extends Phaser.Physics.Arcade.Sprite {
+export default class Lizards extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
     this.direction = Direction.RIGHT;

@@ -5,6 +5,10 @@ import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
 import debugDraw from '../utils/collisionDebugger';
 import { Handler } from './scenesHandler';
+import promtDiag from '../utils/diagHelper';
+import createKnightAnims from '../gameObjects/anims/knightAnims';
+import Knight from '../gameObjects/characters/knight';
+
 
 export default class CastleScene extends Phaser.Scene {
   constructor() {
@@ -26,9 +30,14 @@ export default class CastleScene extends Phaser.Scene {
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
+      this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
+  }
+
+  handlePlayerKnightCollision() {
+    promtDiag(Handler.dialogues.knight, 2800, this);
   }
 
   preload() {
@@ -39,6 +48,7 @@ export default class CastleScene extends Phaser.Scene {
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
     createChestAnims(this.anims);
+    createKnightAnims(this.anims);
 
     this.map = this.make.tilemap({ key: 'castle_map' });
     this.tileset1 = this.map.addTilesetImage('castle_2', 'castle_tile', 16, 16, 1, 2);
@@ -90,8 +100,10 @@ export default class CastleScene extends Phaser.Scene {
       classType: Chest,
     });
 
-    this.chests.get(116, 26, 'treasure').setID('chest1');
-    this.chests.get(238, 11, 'treasure').setID('chest2');
+    this.chests.get(116, 350, 'treasure').setID('chest11');
+    this.chests.get(238, 390, 'treasure').setID('chest12');
+    this.chests.get(238, 430, 'treasure').setID('chest12');
+    this.chests.get(238, 470, 'treasure').setID('chest12');
 
     this.chests.getChildren().forEach(chest => {
       chest.setScale(sceneScale);
@@ -122,6 +134,26 @@ export default class CastleScene extends Phaser.Scene {
       this.faune,
       this.chests,
       this.handlePlayerChestCollision,
+      undefined,
+      this,
+    );
+
+    this.knights = this.physics.add.group({
+      classType: Knight,
+    });
+
+    this.knight = new Knight(this, 300, 400, 'knight').setScale(sceneScale);
+    this.knights.get(416, 560, 'knight').setScale(sceneScale);
+    this.knights.get(416, 624, 'knight').setScale(sceneScale);
+    this.knights.get(416, 688, 'knight').setScale(sceneScale);
+    this.knights.get(208, 560, 'knight').setScale(sceneScale);
+    this.knights.get(208, 624, 'knight').setScale(sceneScale);
+    this.knights.get(208, 688, 'knight').setScale(sceneScale);
+
+    this.physics.add.collider(
+      this.faune,
+      this.knight,
+      this.handlePlayerKnightCollision,
       undefined,
       this,
     );

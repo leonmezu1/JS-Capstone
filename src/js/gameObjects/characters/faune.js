@@ -15,6 +15,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.chestItems = [];
     this.chestLog = {};
     this.damageTime = 0;
+    this.gameLog = {};
     this.healthState = HealthState.IDLE;
     this.health = 600;
     this.knives = Phaser.Physics.Arcade.GROUP;
@@ -39,6 +40,10 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.chestLog = dataObject;
   }
 
+  setGameLog(dataObject) {
+    this.gameLog = { ...this.gameLog, ...dataObject };
+  }
+
   setScore(increment) {
     this.score += increment;
     sceneEvents.emit('player-score-changed', this.getScore());
@@ -59,6 +64,10 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
 
   getChestLog() {
     return this.chestLog;
+  }
+
+  getGameLog() {
+    return this.gameLog;
   }
 
   getCoins() {
