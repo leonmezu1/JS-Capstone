@@ -35,6 +35,7 @@ export default class MainScene extends Phaser.Scene {
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
+      this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
@@ -100,7 +101,6 @@ export default class MainScene extends Phaser.Scene {
     this.wallLayers.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, 2000, 2000);
 
-
     debugDraw(this.wallLayers, this);
 
     this.sys.animatedTiles.init(this.map);
@@ -151,6 +151,8 @@ export default class MainScene extends Phaser.Scene {
 
     this.lavaFountainsObjectsLayer.objects.forEach(fountain => {
       this.lavaFountains.get(fountain.x + 8, fountain.y - 8, 'lava');
+      this.ogres.get(fountain.x - 16, fountain.y + 16, 'ogre');
+      this.necromancers.get(fountain.x + 16, fountain.y + 16, 'necromancer');
     });
 
     this.chestsObjectsLayer.objects.forEach(chestObject => {
@@ -160,9 +162,6 @@ export default class MainScene extends Phaser.Scene {
     this.LizardsLayer.objects.forEach(lizardFromLayer => {
       this.lizards.get(lizardFromLayer.x + 8, lizardFromLayer.y - 8, 'lizard');
     });
-
-    this.ogres.get(665, 240, 'ogre');
-    this.necromancers.get(660, 200, 'necromancer');
 
     this.faune = new Faune(
       this,
@@ -179,6 +178,9 @@ export default class MainScene extends Phaser.Scene {
     this.faune.incrementCoins(
       this.initCoins = this.initCoins || 0,
     );
+
+    if (this.gameLog) this.faune.setGameLog(this.gameLog);
+
     if (this.initLooking) {
       this.faune.anims.play(`faune-idle-${this.initLooking}`);
     }
@@ -280,13 +282,14 @@ export default class MainScene extends Phaser.Scene {
       this.faune.update(this.cursors);
     }
 
-    if (this.faune.body.y > 1570) {
+    if (this.faune.body.y > 1573) {
       const dataToPass = {
         chestLog: this.faune.getChestLog(),
         score: this.faune.getScore(),
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
         position: { x: 765, y: 74 },
+        gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

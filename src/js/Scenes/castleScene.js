@@ -87,6 +87,7 @@ export default class CastleScene extends Phaser.Scene {
       this.faune.setScore(this.initScore);
       this.faune.setHealth(this.initHealth);
       this.faune.incrementCoins(this.initCoins);
+      if (this.gameLog) this.faune.setGameLog(this.gameLog);
       if (this.initLooking) {
         this.faune.anims.play(`faune-idle-${this.initLooking}`);
       }
@@ -101,8 +102,8 @@ export default class CastleScene extends Phaser.Scene {
     });
 
     this.chests.get(116, 350, 'treasure').setID('chest11');
-    this.chests.get(238, 390, 'treasure').setID('chest12');
-    this.chests.get(238, 430, 'treasure').setID('chest12');
+    this.chests.get(238, 390, 'treasure').setID('chest13');
+    this.chests.get(238, 430, 'treasure').setID('chest14');
     this.chests.get(238, 470, 'treasure').setID('chest12');
 
     this.chests.getChildren().forEach(chest => {
@@ -143,9 +144,9 @@ export default class CastleScene extends Phaser.Scene {
     });
 
     this.knight = new Knight(this, 300, 400, 'knight').setScale(sceneScale);
-    this.knights.get(416, 560, 'knight').setScale(sceneScale);
-    this.knights.get(416, 624, 'knight').setScale(sceneScale);
-    this.knights.get(416, 688, 'knight').setScale(sceneScale);
+    this.knights.get(424, 560, 'knight').setScale(sceneScale);
+    this.knights.get(424, 624, 'knight').setScale(sceneScale);
+    this.knights.get(424, 688, 'knight').setScale(sceneScale);
     this.knights.get(208, 560, 'knight').setScale(sceneScale);
     this.knights.get(208, 624, 'knight').setScale(sceneScale);
     this.knights.get(208, 688, 'knight').setScale(sceneScale);
@@ -169,7 +170,6 @@ export default class CastleScene extends Phaser.Scene {
   update() {
     if (this.faune) {
       this.faune.update(this.cursors);
-      console.log(this.faune.body.x, this.faune.body.y);
     }
 
     if (this.faune.body.y > 780) {
@@ -179,6 +179,7 @@ export default class CastleScene extends Phaser.Scene {
         coins: this.faune.getCoins(),
         health: this.faune.getHealth(),
         position: { x: 606, y: 570 },
+        gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
       this.scene.start(Handler.scenes.town, { dataToPass });

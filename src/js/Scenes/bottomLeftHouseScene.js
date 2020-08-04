@@ -62,7 +62,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   handlePlayerWizardCollision() {
-    if (this.lizards && this.lizards.getChildren().length === 0) {
+    if (this.lizards !== undefined && this.lizards.getChildren().length === 0) {
       promtDiag(Handler.dialogues.second, 2000, this);
       this.faune.setGameLog({ bottomLeftHouseclear: true });
     } else {
@@ -154,15 +154,15 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       debugDraw(layer, this);
     });
 
-    if (this.gameLog === undefined || !this.gameLog.bottomLeftHouseclear) {
-      this.lizards = this.physics.add.group({
-        classType: Lizards,
-        createCallback: (go) => {
-          const lizGo = go;
-          lizGo.body.onCollide = true;
-        },
-      });
+    this.lizards = this.physics.add.group({
+      classType: Lizards,
+      createCallback: (go) => {
+        const lizGo = go;
+        lizGo.body.onCollide = true;
+      },
+    });
 
+    if (this.gameLog === undefined || !this.gameLog.bottomLeftHouseclear) {
       layers.forEach(layer => {
         this.physics.add.collider(
           this.lizards,

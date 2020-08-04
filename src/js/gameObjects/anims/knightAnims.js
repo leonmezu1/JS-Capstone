@@ -17,7 +17,7 @@ const createKnightAnims = (anims) => {
       end: 3,
       prefix: 'knight_m_idle_anim_f',
     }),
-    frameRate: 15,
+    frameRate: 5,
     repeat: -1,
   });
 

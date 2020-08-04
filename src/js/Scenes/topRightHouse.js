@@ -28,6 +28,7 @@ export default class topRightHouseScene extends Phaser.Scene {
       this.initPosition = data.dataToPass.position;
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
+      this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
@@ -57,7 +58,7 @@ export default class topRightHouseScene extends Phaser.Scene {
   }
 
   handlePlayerKnightCollision() {
-    if (this.lizards && this.lizards.getChildren().length === 0) {
+    if (this.lizards.getLength() === 0) {
       promtDiag(Handler.dialogues.thanks, 2000, this);
       promtDiag(Handler.dialogues.wizzard, 2000, this);
       this.faune.setGameLog({ ToptRightHouseclear: true });
@@ -157,15 +158,15 @@ export default class topRightHouseScene extends Phaser.Scene {
       debugDraw(layer, this);
     });
 
-    if (this.gameLog === undefined || !this.gameLog.bottomLeftHouseclear) {
-      this.lizards = this.physics.add.group({
-        classType: Lizards,
-        createCallback: (go) => {
-          const lizGo = go;
-          lizGo.body.onCollide = true;
-        },
-      });
+    this.lizards = this.physics.add.group({
+      classType: Lizards,
+      createCallback: (go) => {
+        const lizGo = go;
+        lizGo.body.onCollide = true;
+      },
+    });
 
+    if (this.gameLog === undefined || !this.gameLog.topRightHouseclear) {
       layers.forEach(layer => {
         this.physics.add.collider(
           this.lizards,
