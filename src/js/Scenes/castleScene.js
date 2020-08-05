@@ -143,13 +143,13 @@ export default class CastleScene extends Phaser.Scene {
       classType: Knight,
     });
 
-    this.knight = new Knight(this, 300, 400, 'knight').setScale(sceneScale);
-    this.knights.get(424, 560, 'knight').setScale(sceneScale);
-    this.knights.get(424, 624, 'knight').setScale(sceneScale);
-    this.knights.get(424, 688, 'knight').setScale(sceneScale);
-    this.knights.get(208, 560, 'knight').setScale(sceneScale);
-    this.knights.get(208, 624, 'knight').setScale(sceneScale);
-    this.knights.get(208, 688, 'knight').setScale(sceneScale);
+    this.knight = new Knight(this, 300, 400, 'knight').setScale(sceneScale * 1.3);
+    this.knights.get(424, 560, 'knight').setScale(sceneScale * 1.3);
+    this.knights.get(424, 624, 'knight').setScale(sceneScale * 1.3);
+    this.knights.get(424, 688, 'knight').setScale(sceneScale * 1.3);
+    this.knights.get(208, 560, 'knight').setScale(sceneScale * 1.3);
+    this.knights.get(208, 624, 'knight').setScale(sceneScale * 1.3);
+    this.knights.get(208, 688, 'knight').setScale(sceneScale * 1.3);
 
     this.physics.add.collider(
       this.faune,

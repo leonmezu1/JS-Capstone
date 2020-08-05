@@ -20,6 +20,10 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('half_heart', 'assets/public/ui/ui_heart_half.png');
     this.load.image('empty_heart', 'assets/public/ui/ui_heart_empty.png');
     this.load.image('knife', 'assets/public/weapons/weapon_knife.png');
+    this.load.image('switchLeft', 'assets/public/items/crank_left.png');
+    this.load.image('switchRight', 'assets/public/items/crank_right.png');
+    this.load.image('doorOpen', 'assets/public/items/doors_leaf_open.png');
+    this.load.image('doorClosed', 'assets/public/items/doors_leaf_closed.png');
     this.load.atlas('lava', 'assets/sprites/lavafountain.png', 'assets/sprites/lavafountain_atlas.json');
     this.load.atlas('pikes', 'assets/sprites/pikes.png', 'assets/sprites/pikes_atlas.json');
     this.load.atlas('treasure', 'assets/public/items/treasure.png', 'assets/public/items/treasure.json');

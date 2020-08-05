@@ -58,6 +58,7 @@ export default class FauneRoomScene extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.fadeIn(3000, 0, 0, 0);
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
     createChestAnims(this.anims);

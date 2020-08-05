@@ -17,6 +17,8 @@ import Lizards from '../gameObjects/enemies/lizards';
 import Pikes from '../gameObjects/items/pikes';
 import Necromancers from '../gameObjects/enemies/necromancers';
 import Ogres from '../gameObjects/enemies/ogres';
+import Crank from '../gameObjects/items/cranks';
+import Door from '../gameObjects/items/doors';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -73,6 +75,25 @@ export default class MainScene extends Phaser.Scene {
     this.faune.setChest(chest);
   }
 
+  handlePlayerCrankCollision(faune, crank) {
+    crank.activate();
+    if (crank.getName() === 's1') {
+      this.doors.getChildren().forEach(door => {
+        if (door.getName() === 'Second') {
+          door.open();
+          this.physics.world.removeCollider(this.s1Collider);
+        }
+      });
+    } else if (crank.getName() === 's2') {
+      this.doors.getChildren().forEach(door => {
+        if (door.getName() === 'Last') {
+          door.open();
+          this.physics.world.removeCollider(this.s2Collider);
+        }
+      });
+    }
+  }
+
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.load.scenePlugin('animatedTiles', AnimatedTiles, 'animatedTiles', 'animatedTiles');
@@ -97,6 +118,8 @@ export default class MainScene extends Phaser.Scene {
     this.pikesObjectsLayer = this.map.getObjectLayer('Pikes');
     this.lavaFountainsObjectsLayer = this.map.getObjectLayer('LavaFountains');
     this.chestsObjectsLayer = this.map.getObjectLayer('Chests');
+    this.switchObjectsLayer = this.map.getObjectLayer('Switch');
+    this.doorsObjectsLayer = this.map.getObjectLayer('Doors');
     this.LizardsLayer = this.map.getObjectLayer('Lizards');
     this.wallLayers.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, 2000, 2000);
@@ -104,6 +127,18 @@ export default class MainScene extends Phaser.Scene {
     debugDraw(this.wallLayers, this);
 
     this.sys.animatedTiles.init(this.map);
+
+    this.cranks = this.physics.add.staticGroup({
+      classType: Crank,
+      createCallback: (go) => {
+        const crankGo = go;
+        crankGo.body.onCollide = true;
+      },
+    });
+
+    this.doors = this.physics.add.staticGroup({
+      classType: Door,
+    });
 
     this.pikes = this.physics.add.staticGroup({
       classType: Pikes,
@@ -143,6 +178,14 @@ export default class MainScene extends Phaser.Scene {
         const ogGo = go;
         ogGo.body.onCollide = true;
       },
+    });
+
+    this.switchObjectsLayer.objects.forEach(tile => {
+      this.cranks.get(tile.x + 8, tile.y - 8, 'switchRight').setName(tile.name);
+    });
+
+    this.doorsObjectsLayer.objects.forEach(tile => {
+      this.doors.get(tile.x + 16, tile.y - 16, 'doorClosed').setName(tile.name);
     });
 
     this.pikesObjectsLayer.objects.forEach(pikeTile => {
@@ -191,16 +234,28 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.lizards, this.lavaFountains);
     this.physics.add.collider(this.lizards, this.pikes);
     this.physics.add.collider(this.lizards, this.chests);
+    this.physics.add.collider(this.lizards, this.doors);
+    this.physics.add.collider(this.lizards, this.cranks);
     this.physics.add.collider(this.ogres, this.wallLayers);
     this.physics.add.collider(this.ogres, this.lavaFountains);
     this.physics.add.collider(this.ogres, this.pikes);
     this.physics.add.collider(this.ogres, this.chests);
+    this.physics.add.collider(this.ogres, this.doors);
     this.physics.add.collider(this.necromancers, this.wallLayers);
     this.physics.add.collider(this.necromancers, this.lavaFountains);
     this.physics.add.collider(this.necromancers, this.pikes);
     this.physics.add.collider(this.necromancers, this.chests);
+    this.physics.add.collider(this.necromancers, this.doors);
     this.physics.add.collider(this.faune, this.lavaFountains);
     this.physics.add.collider(this.faune, this.wallLayers);
+    this.s1Collider = this.physics.add.collider(
+      this.faune,
+      this.doors.getChildren().filter(door => door.getName() === 'Second'),
+    );
+    this.s2Collider = this.physics.add.collider(
+      this.faune,
+      this.doors.getChildren().filter(door => door.getName() === 'Last'),
+    );
     this.physics.add.collider(
       this.faune,
       this.chests,
@@ -223,11 +278,13 @@ export default class MainScene extends Phaser.Scene {
       this,
     );
 
-    this.physics.add.collider(this.knives,
+    this.physics.add.collider(
+      this.knives,
       this.ogres,
       this.handleKnifeEnemyCollision,
       undefined,
-      this);
+      this,
+    );
 
     this.physics.add.collider(this.knives,
       this.necromancers,
@@ -263,6 +320,14 @@ export default class MainScene extends Phaser.Scene {
       this.faune,
       this.pikes,
       this.handleFaunePikeCollide,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.faune,
+      this.cranks,
+      this.handlePlayerCrankCollision,
       undefined,
       this,
     );
