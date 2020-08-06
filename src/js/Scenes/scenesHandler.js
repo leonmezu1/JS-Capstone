@@ -12,6 +12,7 @@ export const Handler = {
     topRightHouse: 'TopRightHouseScene',
     dialogue: 'DialogueScene',
     castle: 'CastleScene',
+    battle: 'BattleScene',
   },
   dialogues: {
     first: [

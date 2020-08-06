@@ -124,8 +124,6 @@ export default class MainScene extends Phaser.Scene {
     this.wallLayers.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, 2000, 2000);
 
-    debugDraw(this.wallLayers, this);
-
     this.sys.animatedTiles.init(this.map);
 
     this.cranks = this.physics.add.staticGroup({
@@ -339,10 +337,9 @@ export default class MainScene extends Phaser.Scene {
   update() {
     if (this.hit > 0) {
       this.hit += 1;
-      if (this.hit > 7) this.hit = 0;
+      if (this.hit > 7) this.scene.hit = 0;
       return;
     }
-
     if (this.faune) {
       this.faune.update(this.cursors);
     }

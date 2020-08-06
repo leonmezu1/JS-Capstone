@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import BattleScene from './Scenes/battleScene';
+import BattleUIScene from './Scenes/battleUI';
 import BootScene from './Scenes/bootScene';
 import BottomLeftHouseScene from './Scenes/bottomLeftHouseScene';
 import BottomRightHouseScene from './Scenes/bottomRightHouseScene';
@@ -29,12 +31,14 @@ const config = () => {
       BottomLeftHouseScene,
       TopRightHouseScene,
       CastleScene,
+      BattleScene,
+      BattleUIScene,
     ],
     parent: 'gameContainer',
     physics: {
       default: 'arcade',
       arcade: {
-        debug: true,
+        debug: false,
       },
     },
     render: {

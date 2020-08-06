@@ -34,15 +34,27 @@ export default class Lizards extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
     this.body.offset.y = 12;
     this.health = 100;
+    scene.add.existing(this);
   }
 
   decreaseHealth(damage) {
     this.health -= damage;
   }
 
+  checkHealth() {
+    if (this.health <= 0) {
+      this.destroy();
+    }
+  }
+
   destroy(fromScene) {
     this.moveEvent.destroy();
     super.destroy(fromScene);
+  }
+
+  destroyMovement() {
+    this.direction = 'steady';
+    this.moveEvent.destroy();
   }
 
   handleTileCollision(gO) {
@@ -67,6 +79,9 @@ export default class Lizards extends Phaser.Physics.Arcade.Sprite {
         break;
       case Direction.RIGHT:
         this.setVelocity(speed, 0);
+        break;
+      case 'steady':
+        this.setVelocity(0, 0);
         break;
       default:
         break;

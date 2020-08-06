@@ -34,6 +34,7 @@ export default class Ogres extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
     this.body.offset.y = 12;
     this.health = 500;
+    scene.add.existing(this);
   }
 
   decreaseHealth(damage) {
@@ -43,6 +44,11 @@ export default class Ogres extends Phaser.Physics.Arcade.Sprite {
   destroy(fromScene) {
     this.moveEvent.destroy();
     super.destroy(fromScene);
+  }
+
+  destroyMovement() {
+    this.direction = 'steady';
+    this.moveEvent.destroy();
   }
 
   handleTileCollision(gO) {
@@ -67,6 +73,9 @@ export default class Ogres extends Phaser.Physics.Arcade.Sprite {
         break;
       case Direction.RIGHT:
         this.setVelocity(speed, 0);
+        break;
+      case 'steady':
+        this.setVelocity(0, 0);
         break;
       default:
         break;

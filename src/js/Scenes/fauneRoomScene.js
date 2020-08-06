@@ -133,7 +133,6 @@ export default class FauneRoomScene extends Phaser.Scene {
         undefined,
         this,
       );
-      debugDraw(layer, this);
     });
 
     this.physics.add.collider(

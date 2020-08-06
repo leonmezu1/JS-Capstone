@@ -17,6 +17,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
     super({
       key: Handler.scenes.bottomLeftHouse,
     });
+    this.hit = 0;
   }
 
   init(data) {
@@ -229,21 +230,26 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   update() {
+    if (this.hit > 1) {
+      this.hit += 1;
+      if (this.hit > 7) this.scene.hit = 0;
+      return;
+    }
     if (this.faune) {
       this.faune.update(this.cursors);
-    }
 
-    if (this.faune.body.x < 240 && this.faune.body.x > 160 && this.faune.body.y < 5) {
-      const dataToPass = {
-        chestLog: this.faune.getChestLog(),
-        score: this.faune.getScore(),
-        coins: this.faune.getCoins(),
-        health: this.faune.getHealth(),
-        position: { x: 147, y: 400 },
-        gameLog: this.faune.getGameLog(),
-        looking: 'up',
-      };
-      this.scene.start(Handler.scenes.town, { dataToPass });
+      if (this.faune.body.x < 240 && this.faune.body.x > 160 && this.faune.body.y < 5) {
+        const dataToPass = {
+          chestLog: this.faune.getChestLog(),
+          score: this.faune.getScore(),
+          coins: this.faune.getCoins(),
+          health: this.faune.getHealth(),
+          position: { x: 147, y: 400 },
+          gameLog: this.faune.getGameLog(),
+          looking: 'up',
+        };
+        this.scene.start(Handler.scenes.town, { dataToPass });
+      }
     }
   }
 }
