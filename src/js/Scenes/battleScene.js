@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import Phaser from 'phaser';
 import Faune from '../gameObjects/characters/faune';
 import Lizards from '../gameObjects/enemies/lizards';
@@ -8,8 +7,8 @@ import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import necromancerAnims from '../gameObjects/anims/necromancerAnims';
 import ogreAnims from '../gameObjects/anims/ogreAnims';
-import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
+import promptMessage from '../utils/messagesHelper';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -65,7 +64,11 @@ export default class BattleScene extends Phaser.Scene {
         duration,
       });
       this.timeline.play();
-      // this.events.emit('Message', `Faune attacks ${this.enemyType} with 75 damage power`);
+      promptMessage(
+        [`Faune attacks ${this.enemyType} with 75 damage power`],
+        2000,
+        this,
+      );
       this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }
   }
@@ -76,7 +79,11 @@ export default class BattleScene extends Phaser.Scene {
       this.events.emit('PlayerSelect', this.index);
     } else {
       if (!this.enemy.body || !this.enemy) {
-        // this.events.emit('Message', `${this.enemyType} has been defeated`);
+        promptMessage(
+          [`${this.enemyType} has been defeated`],
+          2000,
+          this,
+        );
         const health = this.faune.getHealth();
         this.wakeData = {
           score: this.faune.getScore(),
@@ -151,7 +158,11 @@ export default class BattleScene extends Phaser.Scene {
         });
         this.timeline.play();
         this.faune.handleDamage(0, 0, false);
-        // this.events.emit('Message', `${this.enemyType} attacks Faune with 100 damage power`);
+        promptMessage(
+          [`${this.enemyType} attacks Faune with 100 damage power`],
+          2000,
+          this,
+        );
       }
       this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }

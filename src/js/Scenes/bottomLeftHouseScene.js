@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
-import debugDraw from '../utils/collisionDebugger';
 import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
@@ -11,6 +10,7 @@ import Lizards from '../gameObjects/enemies/lizards';
 import Wizard from '../gameObjects/characters/wizard';
 import promtDiag from '../utils/diagHelper';
 import sceneEvents from '../events/events';
+import turnBasedFight from '../utils/turnFightHelper';
 
 export default class BottomLeftHouseScene extends Phaser.Scene {
   constructor() {
@@ -33,19 +33,6 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
     } else {
       this.dataProvided = false;
     }
-  }
-
-  handlePlayerEnemyCollision(faune, enemy) {
-    const dataToPass = {
-      score: this.faune.getScore(),
-      health: this.faune.getHealth(),
-      enemyType: enemy.constructor.name,
-      parentScene: Handler.scenes.bottomLeftHouse,
-    };
-    enemy.destroy();
-    this.scene.sleep(this);
-    if (this.scene.isSleeping(Handler.scenes.battle)) this.scene.stop(Handler.scenes.battle);
-    this.scene.launch(Handler.scenes.battle, { dataToPass });
   }
 
   handleKnifeEnemyCollision(knife, enemy) {
@@ -71,13 +58,17 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
     }
   }
 
+  handlePlayerEnemyCollision(faune, enemy) {
+    turnBasedFight(this.faune, enemy, this);
+  }
+
   forcedWake(data) {
-    console.log(data);
     this.faune.setHealth(data.health);
     this.faune.setScoreNonIcremental(data.score);
   }
 
   wake() {
+    this.cameras.main.shake(300, 0.03);
     this.cursors.left.reset();
     this.cursors.right.reset();
     this.cursors.up.reset();
@@ -167,7 +158,6 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
         undefined,
         this,
       );
-      debugDraw(layer, this);
     });
 
     this.lizards = this.physics.add.group({

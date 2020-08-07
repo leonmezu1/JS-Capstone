@@ -18,6 +18,7 @@ import Necromancers from '../gameObjects/enemies/necromancers';
 import Ogres from '../gameObjects/enemies/ogres';
 import Crank from '../gameObjects/items/cranks';
 import Door from '../gameObjects/items/doors';
+import turnBasedFight from '../utils/turnFightHelper';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -39,20 +40,6 @@ export default class MainScene extends Phaser.Scene {
       this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
-    }
-  }
-
-  handlePlayerEnemyCollision(faune, enemy) {
-    const dx = faune.x - enemy.x;
-    const dy = faune.y - enemy.y;
-    this.hit = 1;
-    this.faune.handleDamage(dx, dy);
-
-    sceneEvents.emit('player-damaged', this.faune.getHealth());
-    if (this.faune.getHealth() <= 0) {
-      setTimeout(() => {
-        this.faune.destroy();
-      }, 5000);
     }
   }
 
@@ -93,12 +80,31 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  handlePlayerEnemyCollision(faune, enemy) {
+    turnBasedFight(this.faune, enemy, this);
+  }
+
+  forcedWake(data) {
+    this.faune.setHealth(data.health);
+    this.faune.setScoreNonIcremental(data.score);
+  }
+
+  wake() {
+    this.cameras.main.shake(300, 0.03);
+    this.cursors.left.reset();
+    this.cursors.right.reset();
+    this.cursors.up.reset();
+    this.cursors.down.reset();
+  }
+
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.load.scenePlugin('animatedTiles', AnimatedTiles, 'animatedTiles', 'animatedTiles');
   }
 
   create() {
+    sceneEvents.on('forcedUpdateBottomLeft', this.forcedWake, this);
+    this.sys.events.on('wake', this.wake, this);
     this.scene.run(Handler.scenes.ui);
 
     createFauneAnims(this.anims);

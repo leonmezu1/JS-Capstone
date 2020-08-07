@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
-import debugDraw from '../utils/collisionDebugger';
 import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
@@ -9,6 +8,7 @@ import Lizards from '../gameObjects/enemies/lizards';
 import sceneEvents from '../events/events';
 import promtDiag from '../utils/diagHelper';
 import Wizard from '../gameObjects/characters/wizard';
+import turnBasedFight from '../utils/turnFightHelper';
 
 export default class BottomRightHouseScene extends Phaser.Scene {
   constructor() {
@@ -36,19 +36,6 @@ export default class BottomRightHouseScene extends Phaser.Scene {
     this.faune.setChest(chest);
   }
 
-  handlePlayerEnemyCollision(faune, enemy) {
-    const dx = faune.x - enemy.x;
-    const dy = faune.y - enemy.y;
-    this.hit = 1;
-    this.faune.handleDamage(dx, dy);
-    sceneEvents.emit('player-damaged', this.faune.getHealth());
-    if (this.faune.getHealth() <= 0) {
-      setTimeout(() => {
-        this.faune.destroy();
-      }, 5000);
-    }
-  }
-
   handleKnifeEnemyCollision(knife, enemy) {
     knife.destroy();
     enemy.decreaseHealth(100);
@@ -68,11 +55,30 @@ export default class BottomRightHouseScene extends Phaser.Scene {
     }
   }
 
+  handlePlayerEnemyCollision(faune, enemy) {
+    turnBasedFight(this.faune, enemy, this);
+  }
+
+  forcedWake(data) {
+    this.faune.setHealth(data.health);
+    this.faune.setScoreNonIcremental(data.score);
+  }
+
+  wake() {
+    this.cameras.main.shake(300, 0.03);
+    this.cursors.left.reset();
+    this.cursors.right.reset();
+    this.cursors.up.reset();
+    this.cursors.down.reset();
+  }
+
   preload() {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
+    sceneEvents.on('forcedUpdateBottomLeft', this.forcedWake, this);
+    this.sys.events.on('wake', this.wake, this);
     this.scene.run(Handler.scenes.ui);
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
@@ -152,7 +158,6 @@ export default class BottomRightHouseScene extends Phaser.Scene {
         undefined,
         this,
       );
-      debugDraw(layer, this);
     });
 
     this.lizards = this.physics.add.group({

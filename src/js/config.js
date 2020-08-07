@@ -12,6 +12,7 @@ import MainScene from './Scenes/mainScene';
 import TopRightHouseScene from './Scenes/topRightHouse';
 import TownScene from './Scenes/townScene';
 import UiScene from './Scenes/uiScene';
+import MessageScene from './Scenes/messages';
 
 
 const config = () => {
@@ -33,6 +34,7 @@ const config = () => {
       CastleScene,
       BattleScene,
       BattleUIScene,
+      MessageScene,
     ],
     parent: 'gameContainer',
     physics: {

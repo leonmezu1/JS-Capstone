@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
-import debugDraw from '../utils/collisionDebugger';
 import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
@@ -89,7 +88,7 @@ export default class TownScene extends Phaser.Scene {
       this.knives.world.setBoundsCollision(true);
       this.cameras.main.startFollow(this.faune, true);
       this.scene.run(Handler.scenes.ui);
-      this.scene.sendToBack();
+      this.scene.sendToBack(this);
       this.faune.setChestLog(this.chestLog);
 
       layers.forEach(layer => {
@@ -105,8 +104,6 @@ export default class TownScene extends Phaser.Scene {
           undefined,
           this,
         );
-
-        debugDraw(layer, this);
       });
     } else {
       const cam = this.cameras.main;
