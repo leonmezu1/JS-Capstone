@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
-import debugDraw from '../utils/collisionDebugger';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createLavaFountainAnims from '../gameObjects/anims/lavaFountainAnims';

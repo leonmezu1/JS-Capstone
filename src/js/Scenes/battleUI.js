@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import sceneEvents from '../events/events';
 import { Handler } from './scenesHandler';
 
 const Message = new Phaser.Class({
@@ -75,17 +74,22 @@ const Menu = new Phaser.Class({
     const menuItem = new MenuItem(0, this.menuItems.length * 25, unit, this.scene);
     this.menuItems.push(menuItem);
     this.add(menuItem);
+    return menuItem;
   },
   moveSelectionUp() {
     this.menuItems[this.menuItemIndex].deselect();
-    this.menuItemIndex -= 1;
-    if (this.menuItemIndex < 0) this.menuItemIndex = this.menuItems.length - 1;
+    do {
+      this.menuItemIndex -= 1;
+      if (this.menuItemIndex < 0) this.menuItemIndex = this.menuItems.length - 1;
+    } while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
   },
   moveSelectionDown() {
     this.menuItems[this.menuItemIndex].deselect();
-    this.menuItemIndex += 1;
-    if (this.menuItemIndex >= this.menuItems.length) this.menuItemIndex = 0;
+    do {
+      this.menuItemIndex += 1;
+      if (this.menuItemIndex >= this.menuItems.length) this.menuItemIndex = 0;
+    } while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
   },
   // select the menu as a whole and an element with index from it
@@ -93,12 +97,19 @@ const Menu = new Phaser.Class({
     if (!index) index = 0;
     this.menuItems[this.menuItemIndex].deselect();
     this.menuItemIndex = index;
+    while (!this.menuItems[this.menuItemIndex].active) {
+      this.menuItemIndex += 1;
+      if (this.menuItemIndex >= this.menuItems.length) this.menuItemIndex = 0;
+      if (this.menuItemIndex === index) return;
+    }
     this.menuItems[this.menuItemIndex].select();
+    this.selected = true;
   },
   // deselect this menu
   deselect() {
     this.menuItems[this.menuItemIndex].deselect();
     this.menuItemIndex = 0;
+    this.selected = false;
   },
   confirm() {
     // wen the player confirms his slection, do the action
@@ -116,6 +127,7 @@ const Menu = new Phaser.Class({
       const unit = units[i];
       this.addMenuItem(unit.constructor.name);
     }
+    this.menuItemIndex = 0;
   },
 });
 
@@ -230,12 +242,12 @@ export default class BattleUIScene extends Phaser.Scene {
   }
 
   onKeyInput(event) {
-    if (this.currentMenu) {
+    if (this.currentMenu && this.currentMenu.selected) {
       if (event.code === 'ArrowUp') {
         this.currentMenu.moveSelectionUp();
       } else if (event.code === 'ArrowDown') {
         this.currentMenu.moveSelectionDown();
-      } else if (event.code === 'Space' || event.code === 'ArrowLeft') {
+      } else if (event.code === 'Space') {
         this.currentMenu.confirm();
       }
     }
@@ -285,11 +297,11 @@ export default class BattleUIScene extends Phaser.Scene {
     this.remapEnemies();
     this.input.keyboard.on('keydown', this.onKeyInput, this);
     this.battleScene.events.on('PlayerSelect', this.onPlayerSelect, this);
-    this.events.on('SelectEnemies', this.onSelectEnemies, this);
-    this.events.on('Enemy', this.onEnemy, this);
     this.battleScene.nextTurn();
     this.message = new Message(this, this.battleScene.events);
     this.add.existing(this.message);
-    sceneEvents.on('PlayerSelect', this.onPlayerSelect, this);
+    this.events.on('SelectEnemies', this.onSelectEnemies, this);
+    this.events.on('Enemy', this.onEnemy, this);
+    this.events.on('PlayerSelect', this.onPlayerSelect, this);
   }
 }

@@ -8,6 +8,7 @@ import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import necromancerAnims from '../gameObjects/anims/necromancerAnims';
 import ogreAnims from '../gameObjects/anims/ogreAnims';
+import { Handler } from './scenesHandler';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -20,13 +21,9 @@ export default class BattleScene extends Phaser.Scene {
     if (data.dataToPass !== undefined) {
       this.dataProvided = true;
       this.initScore = data.dataToPass.score;
-      this.initCoins = data.dataToPass.coins;
       this.initHealth = data.dataToPass.health;
-      this.initPosition = data.dataToPass.position;
-      this.initLooking = data.dataToPass.looking;
-      this.chestLog = data.dataToPass.chestLog;
-      this.gameLog = data.dataToPass.gameLog;
       this.enemyType = data.dataToPass.enemyType;
+      this.parentScene = data.dataToPass.parentScene;
     } else {
       this.dataProvided = false;
     }
@@ -61,11 +58,11 @@ export default class BattleScene extends Phaser.Scene {
         x: 300,
         y: 110,
         onStart: () => { this.faune.throwKnife(); this.faune.scaleX = 1.75; this.faune.anims.play('faune-run-side'); },
-        onComplete: () => { this.faune.anims.play('faune-idle-down'); },
+        onComplete: () => { this.faune.anims.play('faune-idle-down'); this.faune.setVelocity(0); },
         duration,
       });
       this.timeline.play();
-      this.events.emit('Message', `Faune attacks ${this.enemyType} with 75 damage power`);
+      // this.events.emit('Message', `Faune attacks ${this.enemyType} with 75 damage power`);
       this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }
   }
@@ -74,6 +71,23 @@ export default class BattleScene extends Phaser.Scene {
     if (this.units[this.index] instanceof Faune) {
       this.events.emit('PlayerSelect', this.index);
     } else {
+      if (!this.enemy.body || !this.enemy) {
+        // this.events.emit('Message', `${this.enemyType} has been defeated`);
+        const dataToPass = {
+          score: this.faune.getScore(),
+          health: this.faune.getHealth(),
+        };
+        this.time.addEvent({
+          delay: 2500,
+          callback: () => {
+            this.scene.stop('BattleUIScene');
+            this.scene.sleep(this);
+            this.scene.wake(Handler.scenes.bottomLeftHouse);
+          },
+          callbackScope: this,
+        });
+        return;
+      }
       const duration = 1000;
       this.timeline = this.tweens.createTimeline();
       this.timeline.add({
@@ -128,14 +142,24 @@ export default class BattleScene extends Phaser.Scene {
       });
       this.timeline.play();
       this.faune.handleDamage(0, 0, false);
-      this.events.emit('Message', `${this.enemyType} attacks Faune with 100 damage power`);
+      // this.events.emit('Message', `${this.enemyType} attacks Faune with 100 damage power`);
       this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }
     this.index = this.index === 0 ? 1 : 0;
   }
 
-  create() {
-    this.add.image(0, 0, 'battleBg').setOrigin(0).setDepth(-100).setScale(0.2);
+  wake() {
+    this.halt = true;
+    this.scene.stop('BattleUIScene');
+    this.scene.run('BattleUIScene');
+    this.builder();
+    this.index = 0;
+  }
+
+  builder() {
+    if(this.timeline) this.timeline.destroy();
+    if (this.faune) this.faune.destroy();
+    this.add.image(0, 0, 'battleBg').setOrigin(-0.0225, 0).setDepth(-100).setScale(0.2);
     this.scene.sendToBack(this);
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
@@ -147,11 +171,14 @@ export default class BattleScene extends Phaser.Scene {
     });
 
     const sceneScale = 1.75;
-    this.scene.run('BattleUIScene');
     this.faune = new Faune(this, 300, 110, 'faune');
     this.faune.setScale(sceneScale);
     this.faune.setCharacterScale(sceneScale);
     this.faune.setKnives(this.knives);
+    if (this.dataProvided) {
+      this.faune.setHealth(this.initHealth);
+      this.faune.setScore(this.initScore);
+    }
     switch (this.enemyType) {
       case 'Lizards':
         this.enemy = new Lizards(this, 100, 100, 'lizard').setScale(sceneScale);
@@ -163,7 +190,7 @@ export default class BattleScene extends Phaser.Scene {
         this.enemy = new Ogres(this, 100, 100, 'lizard').setScale(sceneScale);
         break;
       default:
-        this.enemy = new Ogres(this, 100, 100, 'ogre').setScale(sceneScale);
+        this.enemy = new Lizards(this, 100, 100, 'lizard');
         break;
     }
 
@@ -180,5 +207,16 @@ export default class BattleScene extends Phaser.Scene {
     this.enemies = [this.enemy];
     this.units = [this.faune, this.lizard];
     this.index = 0;
+  }
+
+  create() {
+    if (this.halt === undefined) {
+      this.scene.launch('BattleUIScene');
+      this.builder();
+    } else {
+      if(this.timeline) this.timeline.destroy();
+      if (this.faune) this.faune.destroy();
+    }
+    this.sys.events.on('wake', this.wake, this);
   }
 }
