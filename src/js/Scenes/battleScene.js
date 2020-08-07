@@ -34,38 +34,45 @@ export default class BattleScene extends Phaser.Scene {
 
   receivePlayerSelection(action, target) {
     if (action === 'attack') {
-      this.enemy.decreaseHealth(100);
+      const duration = 1000;
+      this.timeline = this.tweens.createTimeline();
+      this.timeline.add({
+        targets: this.faune,
+        ease: 'Power1',
+        x: this.enemy.body.x + 50,
+        y: this.enemy.body.y + 10,
+        duration,
+        onStart: () => { this.faune.scaleX = -1; this.faune.anims.play('faune-run-side'); },
+        onComplete: () => { this.faune.throwKnife(); this.faune.scaleX = 1; },
+      });
+      this.timeline.add({
+        targets: this.faune,
+        ease: 'Power1',
+        x: 300,
+        y: 110,
+        onStart: () => { this.faune.anims.play('faune-run-side'); },
+        onComplete: () => { this.faune.anims.play('faune-idle-down'); },
+        duration,
+      });
+      this.timeline.play();
+      this.enemy.decreaseHealth(10);
       this.enemy.setTint(0xff0000);
       setTimeout(() => {
         this.enemy.setTint(0xffffff);
       }, 100);
       this.faune.setScore(50);
-      console.log(this.enemy.health);
+      this.time.addEvent({ delay: 1000, callback: this.nextTurn, callbackScope: this });
     }
-    this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });
   }
 
   nextTurn() {
-    this.index += 1;
-    // if there are no more units, we start again from the first one
-    if (this.index >= this.units.length) {
-      this.index = 0;
+    if (this.units[this.index] instanceof Faune) {
+      this.events.emit('PlayerSelect', this.index);
+    } else {
+      this.faune.handleDamage(0, 0, false);
+      this.time.addEvent({ delay: 1000, callback: this.nextTurn, callbackScope: this });
     }
-    if (this.units[this.index]) {
-      // if its player hero
-      if (this.units[this.index] instanceof Faune) {
-        this.events.emit('PlayerSelect', this.index);
-      } else { // else if its enemy unit
-        this.faune.handleDamage(0, 0, false);
-        console.log(this.faune.getHealth());
-        /* // pick random hero
-        const r = Math.floor(Math.random() * this.heroes.length);
-        // call the enemy's attack function
-        this.units[this.index].attack(this.heroes[r]);
-        // add timer for the next turn, so will have smooth gameplay */
-        this.time.addEvent({ delay: 1000, callback: this.nextTurn, callbackScope: this });
-      }
-    }
+    this.index = this.index === 0 ? 1 : 0;
   }
 
   create() {
@@ -74,11 +81,17 @@ export default class BattleScene extends Phaser.Scene {
     createLizardAnims(this.anims);
     necromancerAnims(this.anims);
     ogreAnims(this.anims);
+
+    this.knives = this.physics.add.group({
+      classType: Phaser.Physics.Arcade.Image,
+    });
+
     const sceneScale = 1.75;
     this.scene.run('BattleUIScene');
     this.faune = new Faune(this, 300, 110, 'faune');
     this.faune.setScale(sceneScale);
     this.faune.setCharacterScale(sceneScale);
+    this.faune.setKnives(this.knives);
     switch (this.enemyType) {
       case 'Lizards':
         this.enemy = new Lizards(this, 100, 100, 'lizard').setScale(sceneScale);
@@ -93,10 +106,11 @@ export default class BattleScene extends Phaser.Scene {
         this.enemy = new Lizards(this, 100, 100, 'lizard').setScale(sceneScale);
         break;
     }
+
     this.enemy.destroyMovement();
     this.heroes = [this.faune];
     this.enemies = [this.enemy];
     this.units = [this.faune, this.lizard];
-    this.index = -1;
+    this.index = 0;
   }
 }
