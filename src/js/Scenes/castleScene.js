@@ -128,7 +128,6 @@ export default class CastleScene extends Phaser.Scene {
         undefined,
         this,
       );
-      debugDraw(layer, this);
     });
 
     this.physics.add.collider(
