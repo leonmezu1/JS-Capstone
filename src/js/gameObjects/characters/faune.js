@@ -50,6 +50,10 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     sceneEvents.emit('player-score-changed', this.getScore());
   }
 
+  setScoreNonIcremental(staticScore) {
+    this.score = staticScore;
+  }
+
   setHealth(health) {
     this.health = health;
     sceneEvents.emit('player-health-event', this.getHealth());

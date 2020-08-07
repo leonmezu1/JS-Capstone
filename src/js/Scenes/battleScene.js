@@ -9,12 +9,14 @@ import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import necromancerAnims from '../gameObjects/anims/necromancerAnims';
 import ogreAnims from '../gameObjects/anims/ogreAnims';
 import { Handler } from './scenesHandler';
+import sceneEvents from '../events/events';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
     super({
       key: 'BattleScene',
     });
+    this.turn = 0;
   }
 
   init(data) {
@@ -42,6 +44,7 @@ export default class BattleScene extends Phaser.Scene {
 
   receivePlayerSelection(action) {
     if (action === 'attack') {
+      this.turn = 0;
       const duration = 1000;
       this.timeline = this.tweens.createTimeline();
       this.timeline.add({
@@ -68,96 +71,96 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   nextTurn() {
+    this.turn += 1;
     if (this.units[this.index] instanceof Faune) {
       this.events.emit('PlayerSelect', this.index);
     } else {
       if (!this.enemy.body || !this.enemy) {
         // this.events.emit('Message', `${this.enemyType} has been defeated`);
-        const dataToPass = {
+        const health = this.faune.getHealth();
+        this.wakeData = {
           score: this.faune.getScore(),
-          health: this.faune.getHealth(),
+          health,
         };
         this.time.addEvent({
           delay: 2500,
           callback: () => {
             this.scene.stop('BattleUIScene');
             this.scene.sleep(this);
-            this.scene.wake(Handler.scenes.bottomLeftHouse);
+            setTimeout(() => {
+              sceneEvents.emit('forcedUpdateBottomLeft', this.wakeData);
+            }, 200);
+            this.scene.wake(this.parentScene);
           },
           callbackScope: this,
         });
         return;
       }
-      const duration = 1000;
-      this.timeline = this.tweens.createTimeline();
-      this.timeline.add({
-        targets: this.enemy,
-        ease: 'Power1',
-        x: this.faune.body.x,
-        y: this.faune.body.y,
-        duration: duration / 2,
-      });
-      this.timeline.add({
-        targets: this.enemy,
-        ease: 'Power1',
-        x: this.faune.body.x - 20,
-        y: this.faune.body.y - 20,
-        duration: duration / 8,
-        onComplete: () => { this.faune.setTint(0xff0000); },
-      });
-      this.timeline.add({
-        targets: this.enemy,
-        ease: 'Power1',
-        x: this.faune.body.x,
-        y: this.faune.body.y,
-        duration: duration / 8,
-        onStart: () => { this.faune.setTint(0xffffff); },
-        onComplete: () => { this.faune.setTint(0xff0000); },
-      });
-      this.timeline.add({
-        targets: this.enemy,
-        ease: 'Power1',
-        x: this.faune.body.x - 20,
-        y: this.faune.body.y + 20,
-        duration: duration / 8,
-        onStart: () => { this.faune.setTint(0xffffff); },
-        onComplete: () => { this.faune.setTint(0xff0000); },
-      });
-      this.timeline.add({
-        targets: this.enemy,
-        ease: 'Power1',
-        x: this.faune.body.x,
-        y: this.faune.body.y,
-        duration: duration / 8,
-        onStart: () => { this.faune.setTint(0xffffff); },
-        onComplete: () => { this.faune.setTint(0xff0000); },
-      });
-      this.timeline.add({
-        targets: this.enemy,
-        ease: 'Power1',
-        x: 100,
-        y: 100,
-        onComplete: () => { this.faune.setTint(0xffffff); },
-        duration,
-      });
-      this.timeline.play();
-      this.faune.handleDamage(0, 0, false);
-      // this.events.emit('Message', `${this.enemyType} attacks Faune with 100 damage power`);
+      if (this.turn <= 1) {
+        const duration = 1000;
+        this.timeline = this.tweens.createTimeline();
+        this.timeline.add({
+          targets: this.enemy,
+          ease: 'Power1',
+          x: this.faune.body.x,
+          y: this.faune.body.y,
+          duration: duration / 2,
+        });
+        this.timeline.add({
+          targets: this.enemy,
+          ease: 'Power1',
+          x: this.faune.body.x - 20,
+          y: this.faune.body.y - 20,
+          duration: duration / 8,
+          onComplete: () => { this.faune.setTint(0xff0000); },
+        });
+        this.timeline.add({
+          targets: this.enemy,
+          ease: 'Power1',
+          x: this.faune.body.x,
+          y: this.faune.body.y,
+          duration: duration / 8,
+          onStart: () => { this.faune.setTint(0xffffff); },
+          onComplete: () => { this.faune.setTint(0xff0000); },
+        });
+        this.timeline.add({
+          targets: this.enemy,
+          ease: 'Power1',
+          x: this.faune.body.x - 20,
+          y: this.faune.body.y + 20,
+          duration: duration / 8,
+          onStart: () => { this.faune.setTint(0xffffff); },
+          onComplete: () => { this.faune.setTint(0xff0000); },
+        });
+        this.timeline.add({
+          targets: this.enemy,
+          ease: 'Power1',
+          x: this.faune.body.x,
+          y: this.faune.body.y,
+          duration: duration / 8,
+          onStart: () => { this.faune.setTint(0xffffff); },
+          onComplete: () => { this.faune.setTint(0xff0000); },
+        });
+        this.timeline.add({
+          targets: this.enemy,
+          ease: 'Power1',
+          x: 100,
+          y: 100,
+          onComplete: () => { this.faune.setTint(0xffffff); },
+          duration,
+        });
+        this.timeline.play();
+        this.faune.handleDamage(0, 0, false);
+        // this.events.emit('Message', `${this.enemyType} attacks Faune with 100 damage power`);
+      }
       this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }
     this.index = this.index === 0 ? 1 : 0;
   }
 
-  wake() {
-    this.halt = true;
-    this.scene.stop('BattleUIScene');
-    this.scene.run('BattleUIScene');
-    this.builder();
-    this.index = 0;
-  }
-
   builder() {
-    if(this.timeline) this.timeline.destroy();
+    this.time.removeAllEvents();
+    if (this.timeline) this.timeline.destroy();
     if (this.faune) this.faune.destroy();
     this.add.image(0, 0, 'battleBg').setOrigin(-0.0225, 0).setDepth(-100).setScale(0.2);
     this.scene.sendToBack(this);
@@ -213,10 +216,6 @@ export default class BattleScene extends Phaser.Scene {
     if (this.halt === undefined) {
       this.scene.launch('BattleUIScene');
       this.builder();
-    } else {
-      if(this.timeline) this.timeline.destroy();
-      if (this.faune) this.faune.destroy();
     }
-    this.sys.events.on('wake', this.wake, this);
   }
 }

@@ -69,6 +69,7 @@ const Menu = new Phaser.Class({
         this.heroes = heroes;
         this.x = x;
         this.y = y;
+        this.selected = false;
       },
   addMenuItem(unit) {
     const menuItem = new MenuItem(0, this.menuItems.length * 25, unit, this.scene);

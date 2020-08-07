@@ -10,6 +10,7 @@ import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import Lizards from '../gameObjects/enemies/lizards';
 import Wizard from '../gameObjects/characters/wizard';
 import promtDiag from '../utils/diagHelper';
+import sceneEvents from '../events/events';
 
 export default class BottomLeftHouseScene extends Phaser.Scene {
   constructor() {
@@ -37,14 +38,14 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   handlePlayerEnemyCollision(faune, enemy) {
     const dataToPass = {
       score: this.faune.getScore(),
-      health: this.faune.getHealth,
+      health: this.faune.getHealth(),
       enemyType: enemy.constructor.name,
       parentScene: Handler.scenes.bottomLeftHouse,
     };
     enemy.destroy();
     this.scene.sleep(this);
     if (this.scene.isSleeping(Handler.scenes.battle)) this.scene.stop(Handler.scenes.battle);
-    this.scene.launch(Handler.scenes.battle);
+    this.scene.launch(Handler.scenes.battle, { dataToPass });
   }
 
   handleKnifeEnemyCollision(knife, enemy) {
@@ -70,6 +71,12 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
     }
   }
 
+  forcedWake(data) {
+    console.log(data);
+    this.faune.setHealth(data.health);
+    this.faune.setScoreNonIcremental(data.score);
+  }
+
   wake() {
     this.cursors.left.reset();
     this.cursors.right.reset();
@@ -82,6 +89,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   create() {
+    sceneEvents.on('forcedUpdateBottomLeft', this.forcedWake, this);
     this.sys.events.on('wake', this.wake, this);
     this.scene.run(Handler.scenes.ui);
     const sceneScale = 1.75;
