@@ -32,36 +32,41 @@ export default class BattleScene extends Phaser.Scene {
     }
   }
 
-  receivePlayerSelection(action, target) {
+  handleKnifeEnemyCollision(object1, object2) {
+    object2.destroy();
+    object1.decreaseHealth(75);
+    this.enemy.setTint(0xff0000);
+    setTimeout(() => {
+      this.enemy.setTint(0xffffff);
+    }, 100);
+    this.faune.setScore(50);
+  }
+
+
+  receivePlayerSelection(action) {
     if (action === 'attack') {
       const duration = 1000;
       this.timeline = this.tweens.createTimeline();
       this.timeline.add({
         targets: this.faune,
         ease: 'Power1',
-        x: this.enemy.body.x + 50,
+        x: this.enemy.body.x + 90,
         y: this.enemy.body.y + 10,
         duration,
-        onStart: () => { this.faune.scaleX = -1; this.faune.anims.play('faune-run-side'); },
-        onComplete: () => { this.faune.throwKnife(); this.faune.scaleX = 1; },
+        onStart: () => { this.faune.scaleX = -1.75; this.faune.anims.play('faune-run-side'); },
       });
       this.timeline.add({
         targets: this.faune,
         ease: 'Power1',
         x: 300,
         y: 110,
-        onStart: () => { this.faune.anims.play('faune-run-side'); },
+        onStart: () => { this.faune.throwKnife(); this.faune.scaleX = 1.75; this.faune.anims.play('faune-run-side'); },
         onComplete: () => { this.faune.anims.play('faune-idle-down'); },
         duration,
       });
       this.timeline.play();
-      this.enemy.decreaseHealth(10);
-      this.enemy.setTint(0xff0000);
-      setTimeout(() => {
-        this.enemy.setTint(0xffffff);
-      }, 100);
-      this.faune.setScore(50);
-      this.time.addEvent({ delay: 1000, callback: this.nextTurn, callbackScope: this });
+      this.events.emit('Message', `Faune attacks ${this.enemyType} with 75 damage power`);
+      this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }
   }
 
@@ -69,13 +74,68 @@ export default class BattleScene extends Phaser.Scene {
     if (this.units[this.index] instanceof Faune) {
       this.events.emit('PlayerSelect', this.index);
     } else {
+      const duration = 1000;
+      this.timeline = this.tweens.createTimeline();
+      this.timeline.add({
+        targets: this.enemy,
+        ease: 'Power1',
+        x: this.faune.body.x,
+        y: this.faune.body.y,
+        duration: duration / 2,
+      });
+      this.timeline.add({
+        targets: this.enemy,
+        ease: 'Power1',
+        x: this.faune.body.x - 20,
+        y: this.faune.body.y - 20,
+        duration: duration / 8,
+        onComplete: () => { this.faune.setTint(0xff0000); },
+      });
+      this.timeline.add({
+        targets: this.enemy,
+        ease: 'Power1',
+        x: this.faune.body.x,
+        y: this.faune.body.y,
+        duration: duration / 8,
+        onStart: () => { this.faune.setTint(0xffffff); },
+        onComplete: () => { this.faune.setTint(0xff0000); },
+      });
+      this.timeline.add({
+        targets: this.enemy,
+        ease: 'Power1',
+        x: this.faune.body.x - 20,
+        y: this.faune.body.y + 20,
+        duration: duration / 8,
+        onStart: () => { this.faune.setTint(0xffffff); },
+        onComplete: () => { this.faune.setTint(0xff0000); },
+      });
+      this.timeline.add({
+        targets: this.enemy,
+        ease: 'Power1',
+        x: this.faune.body.x,
+        y: this.faune.body.y,
+        duration: duration / 8,
+        onStart: () => { this.faune.setTint(0xffffff); },
+        onComplete: () => { this.faune.setTint(0xff0000); },
+      });
+      this.timeline.add({
+        targets: this.enemy,
+        ease: 'Power1',
+        x: 100,
+        y: 100,
+        onComplete: () => { this.faune.setTint(0xffffff); },
+        duration,
+      });
+      this.timeline.play();
       this.faune.handleDamage(0, 0, false);
-      this.time.addEvent({ delay: 1000, callback: this.nextTurn, callbackScope: this });
+      this.events.emit('Message', `${this.enemyType} attacks Faune with 100 damage power`);
+      this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
     }
     this.index = this.index === 0 ? 1 : 0;
   }
 
   create() {
+    this.add.image(0, 0, 'battleBg').setOrigin(0).setDepth(-100).setScale(0.2);
     this.scene.sendToBack(this);
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
@@ -103,9 +163,17 @@ export default class BattleScene extends Phaser.Scene {
         this.enemy = new Ogres(this, 100, 100, 'lizard').setScale(sceneScale);
         break;
       default:
-        this.enemy = new Lizards(this, 100, 100, 'lizard').setScale(sceneScale);
+        this.enemy = new Ogres(this, 100, 100, 'ogre').setScale(sceneScale);
         break;
     }
+
+    this.physics.add.collider(
+      this.knives,
+      this.enemy,
+      this.handleKnifeEnemyCollision,
+      undefined,
+      this,
+    );
 
     this.enemy.destroyMovement();
     this.heroes = [this.faune];

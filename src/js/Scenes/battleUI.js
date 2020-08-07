@@ -13,10 +13,10 @@ const Message = new Phaser.Class({
     this.add(graphics);
     graphics.lineStyle(1, 0xffffff, 0.8);
     graphics.fillStyle(0x031f4c, 0.3);
-    graphics.strokeRect(-90, -15, 180, 30);
-    graphics.fillRect(-90, -15, 180, 30);
-    this.text = new Phaser.GameObjects.Text(scene, 0, 0, '', {
-      color: '#ffffff', align: 'center', fontSize: 13, wordWrap: { width: 160, useAdvancedWrap: true },
+    graphics.strokeRect(-60, -18, 220, 40);
+    graphics.fillRect(-60, -18, 220, 40);
+    this.text = new Phaser.GameObjects.Text(scene, 50, 0, '', {
+      color: '#ffffff', align: 'center', fontSize: 13, wordWrap: { width: 200, useAdvancedWrap: true },
     });
     this.add(this.text);
     this.text.setOrigin(0.5);
@@ -270,7 +270,7 @@ export default class BattleUIScene extends Phaser.Scene {
     this.menus = this.add.container();
 
     this.heroesMenu = new HeroesMenu(300, 220, this);
-    this.actionsMenu = new ActionsMenu(180, 225, this);
+    this.actionsMenu = new ActionsMenu(180, 250, this);
     this.enemiesMenu = new EnemiesMenu(55, 220, this);
 
     // the currently selected menu

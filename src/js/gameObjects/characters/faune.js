@@ -160,9 +160,9 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
 
   handleStaticDamage() {
     if (this.healthState === HealthState.DAMAGE) { return; }
+    this.damagedBy(100);
     this.setTint(0xff0000);
     this.healthState = HealthState.DAMAGE;
-    this.damagedBy(100);
     if (this.health <= 0) {
       this.healthState = HealthState.DEAD;
       this.setTint(0xffffff);
