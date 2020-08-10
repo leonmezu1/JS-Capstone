@@ -3,7 +3,6 @@ import createChestAnims from '../gameObjects/anims/chestAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import Faune from '../gameObjects/characters/faune';
 import Chest from '../gameObjects/items/chests';
-import debugDraw from '../utils/collisionDebugger';
 import { Handler } from './scenesHandler';
 import promtDiag from '../utils/diagHelper';
 import createKnightAnims from '../gameObjects/anims/knightAnims';

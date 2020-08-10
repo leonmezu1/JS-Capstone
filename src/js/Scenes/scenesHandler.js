@@ -13,6 +13,7 @@ export const Handler = {
     dialogue: 'DialogueScene',
     castle: 'CastleScene',
     battle: 'BattleScene',
+    menu: 'MenuScene',
   },
   dialogues: {
     first: [
