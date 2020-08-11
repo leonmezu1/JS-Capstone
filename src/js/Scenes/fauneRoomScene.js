@@ -185,7 +185,7 @@ export default class FauneRoomScene extends Phaser.Scene {
         gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
-      this.roomMedley.stop();
+      if (getSystemAudio().music) this.roomMedley.stop();
       this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }

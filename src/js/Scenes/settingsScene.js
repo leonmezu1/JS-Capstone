@@ -33,11 +33,13 @@ export default class SettingsScene extends Phaser.Scene {
     } else if (index < 0) {
       index = 2;
     }
+    if (getSystemAudio().sounds) this.sound.play('cursor');
     this.selectButton(index);
   }
 
   confirmSelection() {
     const button = this.buttons[this.selectedButtonIndex];
+    if (getSystemAudio().sounds) this.sound.play('select');
     button.emit('selected');
   }
 

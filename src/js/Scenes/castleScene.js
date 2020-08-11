@@ -7,6 +7,7 @@ import { Handler } from './scenesHandler';
 import promtDiag from '../utils/diagHelper';
 import createKnightAnims from '../gameObjects/anims/knightAnims';
 import Knight from '../gameObjects/characters/knight';
+import { getSystemAudio } from '../utils/localStorage';
 
 
 export default class CastleScene extends Phaser.Scene {
@@ -44,6 +45,18 @@ export default class CastleScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) {
+      this.roomMedley = this.sound.add('horror_music', {
+        mute: false,
+        volume: 0.125,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.roomMedley.play();
+    }
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
     createChestAnims(this.anims);
@@ -180,6 +193,7 @@ export default class CastleScene extends Phaser.Scene {
         gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
+      if (getSystemAudio().music) this.roomMedley.stop();
       this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }

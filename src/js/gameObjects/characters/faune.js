@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import sceneEvents from '../../events/events';
+import { getSystemAudio } from '../../utils/localStorage';
 
 
 let HealthState;
@@ -87,10 +88,20 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     return this.health;
   }
 
+  fauneDies() {
+    if (getSystemAudio().sounds) this.scene.sound.play('fauneDies');
+    this.healthState = HealthState.DEAD;
+    this.setTint(0xffffff);
+    this.anims.play('faune-faint');
+    this.body.setVelocity(0, 0);
+    this.body.immovable = true;
+  }
+
   damagedBy(damage) {
     if (damage > -1) {
       this.health -= damage;
     }
+    if (getSystemAudio().sounds) this.scene.sound.play('fauneHurt');
     sceneEvents.emit('player-damaged', this.getHealth());
   }
 
@@ -142,6 +153,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     setTimeout(() => {
       knife.destroy();
     }, this.knivesLifeSpan);
+    if (getSystemAudio().sounds) this.scene.sound.play('swing');
   }
 
   handleDamage(dx, dy, movementEnabled = true) {
@@ -152,13 +164,10 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
       this.setVelocity(dir.x, dir.y);
     }
     this.healthState = HealthState.DAMAGE;
+    if (getSystemAudio().sounds) this.scene.sound.play('fauneHurt');
     this.damagedBy(100);
     if (this.health <= 0) {
-      this.healthState = HealthState.DEAD;
-      this.setTint(0xffffff);
-      this.anims.play('faune-faint');
-      this.body.setVelocity(0, 0);
-      this.body.immovable = true;
+      this.fauneDies();
     }
   }
 
@@ -168,11 +177,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.setTint(0xff0000);
     this.healthState = HealthState.DAMAGE;
     if (this.health <= 0) {
-      this.healthState = HealthState.DEAD;
-      this.setTint(0xffffff);
-      this.anims.play('faune-faint');
-      this.body.setVelocity(0, 0);
-      this.body.immovable = true;
+      this.fauneDies();
     }
   }
 

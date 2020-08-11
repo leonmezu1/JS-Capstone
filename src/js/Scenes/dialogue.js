@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class DialogueScene extends Phaser.Scene {
   constructor() {
@@ -136,10 +137,11 @@ export default class DialogueScene extends Phaser.Scene {
   drawDialogue(text) {
     let i = 0;
     this.timedEvent = this.time.addEvent({
-      delay: 150 - (this.dialogSpeed * 40),
+      delay: 150 - (this.dialogSpeed * 45),
       callback: () => {
         if (i <= text.length) {
           this.diagText.setText(text.slice(0, i));
+          if (getSystemAudio().sounds) this.sound.play('message', { volume: 0.12 });
           i += 1;
         } else {
           this.timedEvent.destroy();

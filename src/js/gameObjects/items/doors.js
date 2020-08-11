@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { getSystemAudio } from '../../utils/localStorage';
 
 export default class Door extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -18,5 +19,6 @@ export default class Door extends Phaser.Physics.Arcade.Sprite {
 
   open() {
     this.setTexture('doorOpen');
+    if (getSystemAudio().sounds) this.scene.sound.play('door');
   }
 }

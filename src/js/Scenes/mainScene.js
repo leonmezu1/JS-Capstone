@@ -19,6 +19,7 @@ import Ogres from '../gameObjects/enemies/ogres';
 import Crank from '../gameObjects/items/cranks';
 import Door from '../gameObjects/items/doors';
 import turnBasedFight from '../utils/turnFightHelper';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -81,6 +82,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   handlePlayerEnemyCollision(faune, enemy) {
+    if (getSystemAudio().music) this.roomMedley.stop();
     turnBasedFight(this.faune, enemy, this);
   }
 
@@ -90,6 +92,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   wake() {
+    if (getSystemAudio().music) this.roomMedley.play();
     this.cameras.main.shake(300, 0.03);
     this.cursors.left.reset();
     this.cursors.right.reset();
@@ -103,6 +106,18 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) {
+      this.roomMedley = this.sound.add('warzone_music', {
+        mute: false,
+        volume: 0.125,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.roomMedley.play();
+    }
     sceneEvents.on('forcedUpdateBottomLeft', this.forcedWake, this);
     this.sys.events.on('wake', this.wake, this);
     this.scene.run(Handler.scenes.ui);
@@ -359,6 +374,7 @@ export default class MainScene extends Phaser.Scene {
         gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
+      if (getSystemAudio().music) this.roomMedley.stop();
       this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }

@@ -11,6 +11,7 @@ import promtDiag from '../utils/diagHelper';
 import Knight from '../gameObjects/characters/knight';
 import createKnightAnims from '../gameObjects/anims/knightAnims';
 import turnBasedFight from '../utils/turnFightHelper';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class topRightHouseScene extends Phaser.Scene {
   constructor() {
@@ -46,9 +47,8 @@ export default class topRightHouseScene extends Phaser.Scene {
 
   handlePlayerKnightCollision() {
     if (this.lizards.getLength() === 0) {
-      promtDiag(Handler.dialogues.thanks, 2000, this);
       promtDiag(Handler.dialogues.wizzard, 2000, this);
-      this.faune.setGameLog({ ToptRightHouseclear: true });
+      this.faune.setGameLog({ topRightHouseclear: true });
     } else {
       promtDiag(Handler.dialogues.helpMe, 2000, this);
     }
@@ -59,6 +59,7 @@ export default class topRightHouseScene extends Phaser.Scene {
   }
 
   handlePlayerEnemyCollision(faune, enemy) {
+    if (getSystemAudio().music) this.roomMedley.stop();
     turnBasedFight(this.faune, enemy, this);
   }
 
@@ -68,6 +69,7 @@ export default class topRightHouseScene extends Phaser.Scene {
   }
 
   wake() {
+    if (getSystemAudio().music) this.roomMedley.play();
     this.cameras.main.shake(300, 0.03);
     this.cursors.left.reset();
     this.cursors.right.reset();
@@ -80,6 +82,18 @@ export default class topRightHouseScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) {
+      this.roomMedley = this.sound.add('title_music', {
+        mute: false,
+        volume: 0.025,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.roomMedley.play();
+    }
     this.scene.run(Handler.scenes.ui);
     sceneEvents.on('forcedUpdateBottomLeft', this.forcedWake, this);
     this.sys.events.on('wake', this.wake, this);
@@ -249,6 +263,7 @@ export default class topRightHouseScene extends Phaser.Scene {
         gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
+      if (getSystemAudio().music) this.roomMedley.stop();
       this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }

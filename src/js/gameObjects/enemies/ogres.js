@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { getSystemAudio } from '../../utils/localStorage';
 
 let Direction;
 (function directioner(Direction) {
@@ -39,6 +40,7 @@ export default class Ogres extends Phaser.Physics.Arcade.Sprite {
 
   decreaseHealth(damage) {
     this.health -= damage;
+    if (getSystemAudio().sounds) this.scene.sound.play('enemyHit');
   }
 
   destroy(fromScene) {
@@ -82,6 +84,7 @@ export default class Ogres extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (this.health <= 0) {
+      if (getSystemAudio().sounds) this.scene.sound.play('enemyDies');
       this.destroy();
     }
   }

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { getSystemAudio } from '../utils/localStorage';
 import { Handler } from './scenesHandler';
 
 export default class MenuScene extends Phaser.Scene {
@@ -32,11 +33,13 @@ export default class MenuScene extends Phaser.Scene {
     } else if (index < 0) {
       index = this.buttons.length - 1;
     }
+    if (getSystemAudio().sounds) this.sound.play('cursor');
     this.selectButton(index);
   }
 
   confirmSelection() {
     const button = this.buttons[this.selectedButtonIndex];
+    if (getSystemAudio().sounds) this.sound.play('select');
     button.emit('selected');
   }
 

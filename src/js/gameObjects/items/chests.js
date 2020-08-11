@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { Handler } from '../../Scenes/scenesHandler';
+import { getSystemAudio } from '../../utils/localStorage';
 
 export default class Chest extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -42,6 +43,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         if (this.scene.scene.isActive(Handler.scenes.dialogue)) {
           this.scene.scene.stop(Handler.scenes.dialogue);
         }
+        if (getSystemAudio().sounds) this.scene.sound.play('chestOpen');
         this.scene.scene.run(Handler.scenes.dialogue, { dialogData });
       } else {
         const dialogData = {

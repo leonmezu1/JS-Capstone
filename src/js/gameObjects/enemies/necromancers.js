@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { getSystemAudio } from '../../utils/localStorage';
 
 let Direction;
 (function directioner(Direction) {
@@ -39,8 +40,8 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
 
   decreaseHealth(damage) {
     this.health -= damage;
+    if (getSystemAudio().sounds) this.scene.sound.play('enemyHit');
   }
-
 
   destroy(fromScene) {
     this.moveEvent.destroy();
@@ -82,6 +83,7 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
         break;
     }
     if (this.health <= 0) {
+      if (getSystemAudio().sounds) this.scene.sound.play('enemyDies');
       this.destroy();
     }
   }

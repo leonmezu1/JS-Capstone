@@ -11,6 +11,7 @@ import Wizard from '../gameObjects/characters/wizard';
 import promtDiag from '../utils/diagHelper';
 import sceneEvents from '../events/events';
 import turnBasedFight from '../utils/turnFightHelper';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class BottomLeftHouseScene extends Phaser.Scene {
   constructor() {
@@ -59,6 +60,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   handlePlayerEnemyCollision(faune, enemy) {
+    if (getSystemAudio().music) this.roomMedley.stop();
     turnBasedFight(this.faune, enemy, this);
   }
 
@@ -68,6 +70,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   wake() {
+    if (getSystemAudio().music) this.roomMedley.play();
     this.cameras.main.shake(300, 0.03);
     this.cursors.left.reset();
     this.cursors.right.reset();
@@ -80,6 +83,19 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) {
+      this.roomMedley = this.sound.add('title_music', {
+        mute: false,
+        volume: 0.025,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.roomMedley.play();
+    }
+    this.roomMedley.play();
     sceneEvents.on('forcedUpdateBottomLeft', this.forcedWake, this);
     this.sys.events.on('wake', this.wake, this);
     this.scene.run(Handler.scenes.ui);
@@ -253,6 +269,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
           gameLog: this.faune.getGameLog(),
           looking: 'up',
         };
+        if (getSystemAudio().music) this.roomMedley.stop();
         this.scene.start(Handler.scenes.town, { dataToPass });
       }
     }

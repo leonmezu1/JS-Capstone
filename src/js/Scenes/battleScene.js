@@ -9,6 +9,7 @@ import necromancerAnims from '../gameObjects/anims/necromancerAnims';
 import ogreAnims from '../gameObjects/anims/ogreAnims';
 import sceneEvents from '../events/events';
 import promptMessage from '../utils/messagesHelper';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -97,6 +98,7 @@ export default class BattleScene extends Phaser.Scene {
             setTimeout(() => {
               sceneEvents.emit('forcedUpdateBottomLeft', this.wakeData);
             }, 200);
+            if (getSystemAudio().music) this.battleMedley.stop();
             this.scene.wake(this.parentScene);
           },
           callbackScope: this,
@@ -224,6 +226,18 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) {
+      this.battleMedley = this.sound.add('battle_music', {
+        mute: false,
+        volume: 0.125,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.battleMedley.play();
+    }
     if (this.halt === undefined) {
       this.scene.launch('BattleUIScene');
       this.builder();
