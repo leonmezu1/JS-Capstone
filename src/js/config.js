@@ -7,7 +7,7 @@ import BottomRightHouseScene from './Scenes/bottomRightHouseScene';
 import CastleScene from './Scenes/castleScene';
 import DialogueScene from './Scenes/dialogue';
 import FauneRoomScene from './Scenes/fauneRoomScene';
-import IntroScene from './Scenes/intro';
+// import IntroScene from './Scenes/intro';
 import MainScene from './Scenes/mainScene';
 import TopRightHouseScene from './Scenes/topRightHouse';
 import TownScene from './Scenes/townScene';
@@ -15,6 +15,7 @@ import UiScene from './Scenes/uiScene';
 import MessageScene from './Scenes/messages';
 import MenuScene from './Scenes/menu';
 import SettingsScene from './Scenes/settingsScene';
+import GameOverScene from './Scenes/gameOverScene';
 
 
 const config = () => {
@@ -23,7 +24,7 @@ const config = () => {
     width: 400,
     height: 300,
     scene: [
-      IntroScene,
+      // IntroScene,
       BootScene,
       UiScene,
       DialogueScene,
@@ -39,6 +40,7 @@ const config = () => {
       MessageScene,
       MenuScene,
       SettingsScene,
+      GameOverScene,
     ],
     parent: 'gameContainer',
     physics: {

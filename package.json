@@ -18,6 +18,7 @@
     "phaser-animated-tiles": "^2.0.2"
   },
   "devDependencies": {
+    "@azerion/phaser-input": "^2.0.5",
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",

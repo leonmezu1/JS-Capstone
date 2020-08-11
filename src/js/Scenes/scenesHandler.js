@@ -17,6 +17,7 @@ export const Handler = {
     settings: 'SettingsScene',
     credits: 'CreditsScene',
     scores: 'ScoresScenes',
+    gameOver: 'GameOverScene',
   },
   dialogues: {
     first: [
