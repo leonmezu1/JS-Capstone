@@ -11,6 +11,13 @@ export default class BootScene extends Phaser.Scene {
   preload() {
     this.width = this.game.renderer.width;
     this.height = this.game.renderer.height;
+    this.load.audio('title_music', 'assets/audio/FreeRPGMusicTitleScreen.mp3');
+    this.load.audio('warzone_music', 'assets/audio/FreeRPGMusicWarzone.mp3');
+    this.load.audio('statics_music', 'assets/audio/FreeRPGMusicStatistics.mp3');
+    this.load.audio('seaside_music', 'assets/audio/FreeRPGMusicSeaside.mp3');
+    this.load.audio('town_music', 'assets/audio/FreeRPGMusicInTown.mp3');
+    this.load.audio('horror_music', 'assets/audio/FreeRPGMusicHorror.mp3');
+    this.load.audio('battle_music', 'assets/audio/FreeRPGMusicBattleTwo.mp3');
     this.load.image('dungeon_tile', 'assets/sprites/0x72_DungeonTilesetII_v1.3_extruded.png');
     this.load.image('town_tile', 'assets/sprites/Overworld_extruded.png');
     this.load.image('castle_tile', 'assets/sprites/castle_2_extruded.png');
@@ -25,6 +32,8 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('doorOpen', 'assets/public/items/doors_leaf_open.png');
     this.load.image('doorClosed', 'assets/public/items/doors_leaf_closed.png');
     this.load.image('battleBg', 'assets/public/backgrounds/battleBack2.jpg');
+    this.load.image('glass-panel', 'assets/public/ui/glassPanel.png');
+    this.load.image('cursor-hand', 'assets/public/ui/cursor_hand.png');
     this.load.atlas('lava', 'assets/sprites/lavafountain.png', 'assets/sprites/lavafountain_atlas.json');
     this.load.atlas('pikes', 'assets/sprites/pikes.png', 'assets/sprites/pikes_atlas.json');
     this.load.atlas('treasure', 'assets/public/items/treasure.png', 'assets/public/items/treasure.json');
@@ -113,7 +122,7 @@ export default class BootScene extends Phaser.Scene {
         this.loadingText.destroy();
         this.percentageText.destroy();
         this.assetsText.destroy();
-        this.scene.start(Handler.scenes.fauneRoom);
+        this.scene.start(Handler.scenes.settings);
       }, 2500);
     });
   }

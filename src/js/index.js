@@ -6,7 +6,7 @@ import { fadeInEffect, fadeOutEffect } from './utils/domUtils';
 const { body } = document;
 const spinner = document.querySelector('#spinner');
 
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
   fadeInEffect(body, 800);
   setTimeout(() => {
     fadeInEffect(spinner, 200);
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     fadeOutEffect(spinner, 200);
   }, 2000);
-});
+}); */
 
 
 config();

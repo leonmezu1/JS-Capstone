@@ -7,6 +7,7 @@ import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import createElfAnims from '../gameObjects/anims/elfAnims';
 import promtDiag from '../utils/diagHelper';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class FauneRoomScene extends Phaser.Scene {
   constructor() {
@@ -57,13 +58,24 @@ export default class FauneRoomScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) {
+      this.roomMedley = this.sound.add('title_music', {
+        mute: false,
+        volume: 0.025,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.roomMedley.play();
+    }
     this.cameras.main.fadeIn(3000, 0, 0, 0);
     const sceneScale = 1.75;
     createFauneAnims(this.anims);
     createChestAnims(this.anims);
     createElfAnims(this.anims);
 
-    this.cameras.main.setBackgroundColor('#000');
     this.map = this.make.tilemap({ key: 'fauneRoom_map' });
     this.tileset = this.map.addTilesetImage('Inner', 'room_tile', 16, 16, 1, 2);
     this.floorLayer = this.map.createStaticLayer('Floor', this.tileset);
@@ -173,6 +185,7 @@ export default class FauneRoomScene extends Phaser.Scene {
         gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
+      this.roomMedley.stop();
       this.scene.start(Handler.scenes.town, { dataToPass });
     }
   }

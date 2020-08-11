@@ -4,6 +4,7 @@ import createLizardAnims from '../gameObjects/anims/enemyAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import Faune from '../gameObjects/characters/faune';
+import { getSystemAudio } from '../utils/localStorage';
 
 export default class TownScene extends Phaser.Scene {
   constructor() {
@@ -32,6 +33,18 @@ export default class TownScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music && this.dataProvided) {
+      this.townMedley = this.sound.add('town_music', {
+        mute: false,
+        volume: 0.025,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0,
+      });
+      this.townMedley.play();
+    }
     createFauneAnims(this.anims);
     createLizardAnims(this.anims);
     createChestAnims(this.anims);
@@ -89,6 +102,7 @@ export default class TownScene extends Phaser.Scene {
       this.cameras.main.startFollow(this.faune, true);
       this.scene.run(Handler.scenes.ui);
       this.scene.sendToBack(this);
+      this.scene.bringToTop(Handler.scenes.ui);
       this.faune.setChestLog(this.chestLog);
 
       layers.forEach(layer => {
@@ -139,6 +153,7 @@ export default class TownScene extends Phaser.Scene {
           gameLog: this.gameLog,
           looking: 'up',
         };
+        this.townMedley.stop();
         this.scene.start(Handler.scenes.fauneRoom, { dataToPass });
       } else if (
         this.faune.body.x < 295
@@ -155,6 +170,7 @@ export default class TownScene extends Phaser.Scene {
           gameLog: this.gameLog,
           looking: 'down',
         };
+        this.townMedley.stop();
         this.scene.start(Handler.scenes.bottomRightHouse, { dataToPass });
       } else if (
         this.faune.body.x < 151
@@ -171,6 +187,7 @@ export default class TownScene extends Phaser.Scene {
           gameLog: this.gameLog,
           looking: 'down',
         };
+        this.townMedley.stop();
         this.scene.start(Handler.scenes.bottomLeftHouse, { dataToPass });
       } else if (
         this.faune.body.x < 295
@@ -187,6 +204,7 @@ export default class TownScene extends Phaser.Scene {
           gameLog: this.gameLog,
           looking: 'up',
         };
+        this.townMedley.stop();
         this.scene.start(Handler.scenes.topRightHouse, { dataToPass });
       } else if (
         this.faune.body.x < 612
@@ -203,6 +221,7 @@ export default class TownScene extends Phaser.Scene {
           gameLog: this.gameLog,
           looking: 'up',
         };
+        this.townMedley.stop();
         this.scene.start(Handler.scenes.castle, { dataToPass });
       } else if (
         this.faune.body.x < 778
@@ -218,6 +237,7 @@ export default class TownScene extends Phaser.Scene {
           gameLog: this.gameLog,
           looking: 'up',
         };
+        this.townMedley.stop();
         this.scene.start(Handler.scenes.main, { dataToPass });
       }
     }

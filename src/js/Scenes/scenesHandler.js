@@ -14,6 +14,9 @@ export const Handler = {
     castle: 'CastleScene',
     battle: 'BattleScene',
     menu: 'MenuScene',
+    settings: 'SettingsScene',
+    credits: 'CreditsScene',
+    scores: 'ScoresScenes',
   },
   dialogues: {
     first: [

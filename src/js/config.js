@@ -14,6 +14,7 @@ import TownScene from './Scenes/townScene';
 import UiScene from './Scenes/uiScene';
 import MessageScene from './Scenes/messages';
 import MenuScene from './Scenes/menu';
+import SettingsScene from './Scenes/settingsScene';
 
 
 const config = () => {
@@ -37,6 +38,7 @@ const config = () => {
       BattleUIScene,
       MessageScene,
       MenuScene,
+      SettingsScene,
     ],
     parent: 'gameContainer',
     physics: {
