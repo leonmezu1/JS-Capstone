@@ -15,7 +15,7 @@ export default class CastleScene extends Phaser.Scene {
     super({
       key: Handler.scenes.castle,
     });
-    this.collisionTime = true;
+    this.collisionTimer = true;
   }
 
   handlePlayerChestCollision(faune, chest) {

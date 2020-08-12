@@ -18,7 +18,7 @@ export default class topRightHouseScene extends Phaser.Scene {
     super({
       key: Handler.scenes.topRightHouse,
     });
-    this.collisionTime = true;
+    this.collisionTimer = true;
   }
 
   init(data) {

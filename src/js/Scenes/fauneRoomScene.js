@@ -14,7 +14,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     super({
       key: Handler.scenes.fauneRoom,
     });
-    this.collisionTime = true;
+    this.collisionTimer = true;
   }
 
   init(data) {

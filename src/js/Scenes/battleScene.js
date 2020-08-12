@@ -77,7 +77,7 @@ export default class BattleScene extends Phaser.Scene {
 
   nextTurn() {
     if (this.units[this.index] instanceof Faune && this.turn === 0) {
-      this.events.emit('PlayerSelect', this.index);
+      if (this.faune.health > 0) this.events.emit('PlayerSelect', this.index);
     } else if (this.turn === 1) {
       if (!this.enemy.body || this.enemy.health <= 0) {
         promptMessage(
