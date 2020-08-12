@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@azerion/phaser-input@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@azerion/phaser-input/-/phaser-input-2.0.5.tgz#4bb77ac34e7faaff6de4d92a4fe9596b2a302f34"
-  integrity sha512-fxA2TGFWAtC9r1FU9szO14adsqIB/8NreFznPEQJhqnNQu6gUTQnbC6E/iTl1QWsaDpKzoagMk5HGjqH+1ntcw==
-
 "@babel/cli@^7.10.4":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.10.4.tgz#ba38ad6d0b4b772a67b106934b7c33d656031896"
@@ -2589,6 +2584,11 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+eventemitter3@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
+  integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
+
 eventemitter3@^4.0.0, eventemitter3@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.4.tgz#b5463ace635a083d018bdc7c917b4c5f10a85384"
@@ -3986,6 +3986,11 @@ loglevel@^1.6.8:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.8.tgz#8a25fb75d092230ecd4457270d80b54e28011171"
   integrity sha512-bsU7+gc9AJ2SqpzxwU3+1fedl8zAntbtC5XYlt3s2j1hJcn2PsXSmgN8TaLG/J1/2mod4+cE/3vNL70/c1RNCA==
 
+lokijs@^1.5.9:
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/lokijs/-/lokijs-1.5.10.tgz#57d729b2694882b4b235c5b34ad3e3831ba4521b"
+  integrity sha512-XUCpwfR0cL2WJZECy80rGmDve9MCDVYFZqPGATSHCh0L+qocsPww3VB20d3Pvl0QpSBzWConCZyb6Ov8lzXoPA==
+
 loose-envify@^1.0.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
@@ -4642,6 +4647,11 @@ pako@~1.0.5:
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
 
+papaparse@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.2.0.tgz#97976a1b135c46612773029153dc64995caa3b7b"
+  integrity sha512-ylq1wgUSnagU+MKQtNeVqrPhZuMYBvOSL00DHycFTCxownF95gpLAk1HiHdUW77N8yxRq1qHXLdlIPyBSG9NSA==
+
 parallel-transform@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/parallel-transform/-/parallel-transform-1.2.0.tgz#9049ca37d6cb2182c3b1d2c720be94d14a5814fc"
@@ -4783,6 +4793,16 @@ phaser-animated-tiles@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/phaser-animated-tiles/-/phaser-animated-tiles-2.0.2.tgz#541f9ec3790de92ba11c662049a7234d6dde2f53"
   integrity sha512-tIlaBoG/zOTctsAJuqoJyMSRt4SDmGHPvyjp4OKhtk+f+mNDThoV46N+qkauGDSddsZ2w8le7Sv9M01hNI8mug==
+
+phaser3-rex-plugins@^1.1.23:
+  version "1.1.23"
+  resolved "https://registry.yarnpkg.com/phaser3-rex-plugins/-/phaser3-rex-plugins-1.1.23.tgz#e07a1d04888b7090489d60ee7942c5fad24436ca"
+  integrity sha512-hImSVzYlZB9ZOQeJ7e9rKwYZih/Kc7Ui9XTXYrMY5GImfxIaRPXFDp3cNAkI3csC+8+Ow5b319HYEukZH65QoQ==
+  dependencies:
+    eventemitter3 "^3.1.2"
+    lokijs "^1.5.9"
+    papaparse "^5.2.0"
+    webfontloader "^1.6.28"
 
 phaser@^3.24.0:
   version "3.24.0"
@@ -6389,6 +6409,11 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
+
+webfontloader@^1.6.28:
+  version "1.6.28"
+  resolved "https://registry.yarnpkg.com/webfontloader/-/webfontloader-1.6.28.tgz#db786129253cb6e8eae54c2fb05f870af6675bae"
+  integrity sha1-23hhKSU8tujq5UwvsF+HCvZnW64=
 
 webpack-cli@^3.3.12:
   version "3.3.12"

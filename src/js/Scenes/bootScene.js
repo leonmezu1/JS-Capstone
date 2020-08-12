@@ -13,7 +13,7 @@ export default class BootScene extends Phaser.Scene {
     this.height = this.game.renderer.height;
     this.load.audio('title_music', 'assets/audio/FreeRPGMusicTitleScreen.mp3');
     this.load.audio('warzone_music', 'assets/audio/FreeRPGMusicWarzone.mp3');
-    this.load.audio('statics_music', 'assets/audio/FreeRPGMusicStatistics.mp3');
+    this.load.audio('statistics_music', 'assets/audio/FreeRPGMusicStatistics.mp3');
     this.load.audio('town_music', 'assets/audio/FreeRPGMusicInTown.mp3');
     this.load.audio('horror_music', 'assets/audio/FreeRPGMusicHorror.mp3');
     this.load.audio('battle_music', 'assets/audio/FreeRPGMusicBattleTwo.mp3');

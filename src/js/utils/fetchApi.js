@@ -1,6 +1,8 @@
-/* eslint-disable no-console */
-const postData = async (url = '', data = {}) => {
-  const response = await fetch(url, {
+const gameId = 'iDV2UjgwszfEVCL2K35I';
+const urlgame = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${gameId}/scores/`;
+
+export const postData = async (data = {}) => {
+  const response = await fetch(urlgame, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -15,8 +17,8 @@ const postData = async (url = '', data = {}) => {
   return response.json();
 };
 
-const getData = async (url = '') => {
-  const response = await fetch(url, {
+export const getData = async () => {
+  const response = await fetch(urlgame, {
     method: 'GET',
     mode: 'cors',
     cache: 'no-cache',
@@ -29,17 +31,3 @@ const getData = async (url = '') => {
   });
   return response.json();
 };
-const gameId = 'iDV2UjgwszfEVCL2K35I';
-const url = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${gameId}/scores/`;
-
-try {
-  postData(url, { name: "Faune's bizarre's" }).then(data => { console.log(data); });
-} catch (e) {
-  console.log(e);
-}
-
-try {
-  getData(url);
-} catch (e) {
-  console.log(e);
-}

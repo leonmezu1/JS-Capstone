@@ -45,6 +45,7 @@ export default class MenuScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
+    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
 
     const playButton = this.add.image(width * 0.5, height * 0.2, 'glass-panel')
       .setDisplaySize(150, 50);

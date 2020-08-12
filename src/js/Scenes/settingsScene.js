@@ -44,6 +44,8 @@ export default class SettingsScene extends Phaser.Scene {
   }
 
   create() {
+    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
+
     this.settings = getSystemAudio();
 
     const { width, height } = this.scale;

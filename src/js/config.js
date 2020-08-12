@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import InputTextPlugin from 'phaser3-rex-plugins/plugins/inputtext-plugin';
 import BattleScene from './Scenes/battleScene';
 import BattleUIScene from './Scenes/battleUI';
 import BootScene from './Scenes/bootScene';
@@ -16,7 +17,6 @@ import MessageScene from './Scenes/messages';
 import MenuScene from './Scenes/menu';
 import SettingsScene from './Scenes/settingsScene';
 import GameOverScene from './Scenes/gameOverScene';
-
 
 const config = () => {
   const config = {
@@ -43,6 +43,18 @@ const config = () => {
       GameOverScene,
     ],
     parent: 'gameContainer',
+    dom: {
+      createContainer: true,
+    },
+    plugins: {
+      global: [
+        {
+          key: 'rexInputTextPlugin',
+          plugin: InputTextPlugin,
+          mapping: 'rexUI',
+        },
+      ],
+    },
     physics: {
       default: 'arcade',
       arcade: {
