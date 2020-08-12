@@ -45,6 +45,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('glass-panel', 'assets/public/ui/glassPanel.png');
     this.load.image('cursor-hand', 'assets/public/ui/cursor_hand.png');
     this.load.image('gameOverImage', 'assets/public/backgrounds/GameOver.png');
+    this.load.image('victoryImage', 'assets/public/backgrounds/victory.png');
     this.load.atlas('lava', 'assets/sprites/lavafountain.png', 'assets/sprites/lavafountain_atlas.json');
     this.load.atlas('pikes', 'assets/sprites/pikes.png', 'assets/sprites/pikes_atlas.json');
     this.load.atlas('treasure', 'assets/public/items/treasure.png', 'assets/public/items/treasure.json');
@@ -133,7 +134,7 @@ export default class BootScene extends Phaser.Scene {
         this.loadingText.destroy();
         this.percentageText.destroy();
         this.assetsText.destroy();
-        this.scene.start(Handler.scenes.scores);
+        this.scene.start(Handler.scenes.menu);
       }, 2500);
     });
   }

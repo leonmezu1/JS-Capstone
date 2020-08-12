@@ -1,33 +1,25 @@
 import Phaser from 'phaser';
-import InputText from 'phaser3-rex-plugins/plugins/inputtext';
-import { postData } from '../utils/fetchApi';
 import { getSystemAudio } from '../utils/localStorage';
 import { Handler } from './scenesHandler';
 
-export default class GameOverScene extends Phaser.Scene {
+export default class CreditsScene extends Phaser.Scene {
   constructor() {
     super({
-      key: Handler.scenes.gameOver,
+      key: Handler.scenes.credits,
     });
     this.buttons = [];
     this.selectedButtonIndex = 0;
     this.buttonSelector = Phaser.GameObjects.Image;
   }
 
-  init(data) {
-    if (data.dataToPass !== undefined) {
-      this.dataProvided = true;
-      this.initScore = data.dataToPass.score;
-      this.initCoins = data.dataToPass.coins;
-    } else {
-      this.dataProvided = false;
-    }
+  init() {
+    this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   selectButton(index) {
-    const button = this.buttons[index];
     const currentButton = this.buttons[this.selectedButtonIndex];
     currentButton.setTint(0xffffff);
+    const button = this.buttons[index];
     button.setTint(0x66ff7f);
     this.buttonSelector.x = button.x + button.displayWidth * 0.5;
     this.buttonSelector.y = button.y + 10;
@@ -51,15 +43,7 @@ export default class GameOverScene extends Phaser.Scene {
     button.emit('selected');
   }
 
-  preload() {
-    this.cursors = this.input.keyboard.createCursorKeys();
-  }
-
   create() {
-    if (!this.dataProvided) {
-      this.initScore = 10;
-      this.initCoins = 10;
-    }
     if (getSystemAudio().music) {
       this.Medley = this.sound.add('statistics_music', {
         mute: false,
@@ -72,55 +56,34 @@ export default class GameOverScene extends Phaser.Scene {
       });
       this.Medley.play();
     }
+    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
 
     const { width, height } = this.scale;
 
-    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
-
-    this.add.image(width * 0.5, height * 0.25, 'gameOverImage')
-      .setScale(0.2);
-
-    this.inputText = new InputText(
-      this,
-      width * 0.3,
-      height * 0.30,
-      200,
-      30,
+    this.add.text(
+      width * 0.5,
+      height * 0.4,
+      'All the resources used to develop this software will be listed in this space in future realeases, THANK YOU.',
       {
-        placeholder: 'Type your name',
-        color: '#ffffff',
-        border: 1,
-        backgroundColor: 'transparent',
-        fontSize: 14,
+        color: '#ffffff', fontStretch: 1, align: 'center', fontSize: 16, wordWrap: { width: 250, useAdvancedWrap: true },
       },
     ).setOrigin(0.5);
-    this.add.existing(this.inputText);
+
     this.submitButton = this.add.image(width * 0.5, height * 0.75, 'glass-panel')
       .setDisplaySize(150, 30);
 
-    this.add.text(this.submitButton.x, this.submitButton.y, 'Submit')
+    this.add.text(this.submitButton.x, this.submitButton.y, 'Menu')
       .setOrigin(0.5);
 
     this.buttons.push(this.submitButton);
 
-
     this.buttonSelector = this.add.image(0, 0, 'cursor-hand');
     this.selectButton(0);
-    this.inputText.setFocus();
     this.submitButton.on('selected', () => {
-      if (this.inputText.text === '') {
-        this.inputText.placeholder = 'Name field can\'t be empty';
-      } else if (this.inputText.text.length < 3) {
-        this.inputText.text = '';
-        this.inputText.placeholder = 'Name field lenght must be > 2';
-      } else {
-        postData({ user: this.inputText.text, score: this.initScore + this.initCoins });
-        this.cameras.main.fadeOut(500, 0, 0, 0, 0);
-        setTimeout(() => {
-          if (getSystemAudio().music) this.Medley.stop();
-          this.scene.start(Handler.scenes.scores);
-        }, 1500);
-      }
+      setTimeout(() => {
+        if (getSystemAudio().music) this.Medley.stop();
+        this.scene.start(Handler.scenes.menu);
+      }, 500);
     });
   }
 

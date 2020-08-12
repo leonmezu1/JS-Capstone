@@ -4,10 +4,11 @@ import { postData } from '../utils/fetchApi';
 import { getSystemAudio } from '../utils/localStorage';
 import { Handler } from './scenesHandler';
 
-export default class GameOverScene extends Phaser.Scene {
+
+export default class VictoryScene extends Phaser.Scene {
   constructor() {
     super({
-      key: Handler.scenes.gameOver,
+      key: Handler.scenes.victory,
     });
     this.buttons = [];
     this.selectedButtonIndex = 0;
@@ -72,13 +73,12 @@ export default class GameOverScene extends Phaser.Scene {
       });
       this.Medley.play();
     }
+    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
 
     const { width, height } = this.scale;
 
-    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
-
-    this.add.image(width * 0.5, height * 0.25, 'gameOverImage')
-      .setScale(0.2);
+    this.add.image(width * 0.5, height * 0.25, 'victoryImage')
+      .setScale(1);
 
     this.inputText = new InputText(
       this,
