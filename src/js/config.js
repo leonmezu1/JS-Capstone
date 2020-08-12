@@ -8,7 +8,7 @@ import BottomRightHouseScene from './Scenes/bottomRightHouseScene';
 import CastleScene from './Scenes/castleScene';
 import DialogueScene from './Scenes/dialogue';
 import FauneRoomScene from './Scenes/fauneRoomScene';
-// import IntroScene from './Scenes/intro';
+import IntroScene from './Scenes/intro';
 import MainScene from './Scenes/mainScene';
 import TopRightHouseScene from './Scenes/topRightHouse';
 import TownScene from './Scenes/townScene';
@@ -27,7 +27,7 @@ const config = () => {
     width: 400,
     height: 300,
     scene: [
-      // IntroScene,
+      IntroScene,
       BootScene,
       UiScene,
       DialogueScene,
