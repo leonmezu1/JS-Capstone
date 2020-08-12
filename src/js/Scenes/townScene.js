@@ -5,6 +5,7 @@ import createFauneAnims from '../gameObjects/anims/fauneAnims';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import Faune from '../gameObjects/characters/faune';
 import { getSystemAudio } from '../utils/localStorage';
+import sceneEvents from '../events/events';
 
 export default class TownScene extends Phaser.Scene {
   constructor() {
@@ -23,6 +24,9 @@ export default class TownScene extends Phaser.Scene {
       this.initLooking = data.dataToPass.looking;
       this.chestLog = data.dataToPass.chestLog;
       this.gameLog = data.dataToPass.gameLog;
+      sceneEvents.emit('player-score-changed', this.initScore);
+      sceneEvents.emit('player-coins-changed', this.initCoins);
+      sceneEvents.emit('player-health-event', this.initHealth);
     } else {
       this.dataProvided = false;
     }
@@ -131,6 +135,7 @@ export default class TownScene extends Phaser.Scene {
         cam.zoomTo(1, 4000);
       }, 4000);
     }
+    this.scene.run(Handler.scenes.ui);
     this.scene.sendToBack(this);
 
     this.physics.world.setBounds(0, 0, 790, 790);

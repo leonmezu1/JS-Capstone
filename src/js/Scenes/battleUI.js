@@ -259,9 +259,9 @@ export default class BattleUIScene extends Phaser.Scene {
     const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space);
 
     if (upJustPressed) {
-      this.currentMenu.moveSelectionUp();
+      if (this.currentMenu) this.currentMenu.moveSelectionUp();
     } else if (downJustPressed) {
-      this.currentMenu.moveSelectionDown();
+      if (this.currentMenu) this.currentMenu.moveSelectionDown();
     } else if (spaceJustPressed) {
       if (this.currentMenu) this.currentMenu.confirm();
     }
