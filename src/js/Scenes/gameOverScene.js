@@ -19,11 +19,6 @@ export default class GameOverScene extends Phaser.Scene {
       this.dataProvided = true;
       this.initScore = data.dataToPass.score;
       this.initCoins = data.dataToPass.coins;
-      this.initHealth = data.dataToPass.health;
-      this.initPosition = data.dataToPass.position;
-      this.initLooking = data.dataToPass.looking;
-      this.chestLog = data.dataToPass.chestLog;
-      this.gameLog = data.dataToPass.gameLog;
     } else {
       this.dataProvided = false;
     }
@@ -61,6 +56,10 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
+    if (!this.dataProvided) {
+      this.initScore = 10;
+      this.initCoins = 10;
+    }
     if (getSystemAudio().music) {
       this.Medley = this.sound.add('statistics_music', {
         mute: false,
@@ -73,6 +72,8 @@ export default class GameOverScene extends Phaser.Scene {
       });
       this.Medley.play();
     }
+    this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
+
     const { width, height } = this.scale;
 
     this.add.image(200, 150, 'shieldBG').setScale(0.5).setDepth(-1).setTint(0x3B3A40);
@@ -114,8 +115,12 @@ export default class GameOverScene extends Phaser.Scene {
         this.inputText.text = '';
         this.inputText.placeholder = 'Name field lenght must be > 2';
       } else {
-        postData({ user: this.inputText.text, score: this.initScore + this.initCoins })
-          .then(response => console.log(response));
+        postData({ user: this.inputText.text, score: this.initScore + this.initCoins });
+        this.cameras.main.fadeOut(500, 0, 0, 0, 0);
+        setTimeout(() => {
+          if (getSystemAudio().music) this.Medley.stop();
+          this.scene.start(Handler.scenes.scores);
+        }, 1500);
       }
     });
   }

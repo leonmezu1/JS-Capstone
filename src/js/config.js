@@ -17,6 +17,7 @@ import MessageScene from './Scenes/messages';
 import MenuScene from './Scenes/menu';
 import SettingsScene from './Scenes/settingsScene';
 import GameOverScene from './Scenes/gameOverScene';
+import ScoresScenes from './Scenes/scoresScene';
 
 const config = () => {
   const config = {
@@ -41,6 +42,7 @@ const config = () => {
       MenuScene,
       SettingsScene,
       GameOverScene,
+      ScoresScenes,
     ],
     parent: 'gameContainer',
     dom: {

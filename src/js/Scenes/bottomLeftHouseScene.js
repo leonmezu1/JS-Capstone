@@ -19,6 +19,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
       key: Handler.scenes.bottomLeftHouse,
     });
     this.hit = 0;
+    this.collisionTimer = true;
   }
 
   init(data) {
@@ -51,11 +52,17 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   handlePlayerWizardCollision() {
-    if (this.lizards !== undefined && this.lizards.getChildren().length === 0) {
-      promtDiag(Handler.dialogues.second, 2000, this);
-      this.faune.setGameLog({ bottomLeftHouseclear: true });
-    } else {
-      promtDiag(Handler.dialogues.helpMe, 2000, this);
+    if (this.collisionTimer) {
+      this.collisionTimer = false;
+      setTimeout(() => {
+        this.collisionTimer = true;
+      }, 5000);
+      if (this.lizards !== undefined && this.lizards.getChildren().length === 0) {
+        promtDiag(Handler.dialogues.second, 2000, this);
+        this.faune.setGameLog({ bottomLeftHouseclear: true });
+      } else {
+        promtDiag(Handler.dialogues.helpMe, 2000, this);
+      }
     }
   }
 

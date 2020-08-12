@@ -133,7 +133,7 @@ export default class BootScene extends Phaser.Scene {
         this.loadingText.destroy();
         this.percentageText.destroy();
         this.assetsText.destroy();
-        this.scene.start(Handler.scenes.gameOver);
+        this.scene.start(Handler.scenes.scores);
       }, 2500);
     });
   }

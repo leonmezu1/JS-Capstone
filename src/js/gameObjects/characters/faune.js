@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import sceneEvents from '../../events/events';
+import { Handler } from '../../Scenes/scenesHandler';
 import { getSystemAudio } from '../../utils/localStorage';
 
 
@@ -89,12 +90,23 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
   }
 
   fauneDies() {
+    this.scene.sound.stopAll();
     if (getSystemAudio().sounds) this.scene.sound.play('fauneDies');
     this.healthState = HealthState.DEAD;
     this.setTint(0xffffff);
     this.anims.play('faune-faint');
     this.body.setVelocity(0, 0);
     this.body.immovable = true;
+    this.scene.cameras.main.fadeOut(2000, 0, 0, 0);
+    this.scene.scene.stop(Handler.scenes.ui);
+    const dataToPass = {
+      score: this.getScore(),
+      coins: this.getCoins(),
+    };
+    if (this.scene.scene.isActive('BattleUIScene')) this.scene.scene.stop('BattleUIScene');
+    setTimeout(() => {
+      this.scene.scene.start(Handler.scenes.gameOver, { dataToPass });
+    }, 2000);
   }
 
   damagedBy(damage) {

@@ -15,6 +15,7 @@ export default class CastleScene extends Phaser.Scene {
     super({
       key: Handler.scenes.castle,
     });
+    this.collisionTime = true;
   }
 
   handlePlayerChestCollision(faune, chest) {
@@ -37,7 +38,13 @@ export default class CastleScene extends Phaser.Scene {
   }
 
   handlePlayerKnightCollision() {
-    promtDiag(Handler.dialogues.knight, 2800, this);
+    if (this.collisionTimer) {
+      this.collisionTimer = false;
+      setTimeout(() => {
+        this.collisionTimer = true;
+      }, 5000);
+      promtDiag(Handler.dialogues.knight, 2800, this);
+    }
   }
 
   preload() {

@@ -131,6 +131,7 @@ export default class TownScene extends Phaser.Scene {
         cam.zoomTo(1, 4000);
       }, 4000);
     }
+    this.scene.sendToBack(this);
 
     this.physics.world.setBounds(0, 0, 790, 790);
   }

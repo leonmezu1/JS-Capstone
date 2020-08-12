@@ -14,6 +14,7 @@ export default class FauneRoomScene extends Phaser.Scene {
     super({
       key: Handler.scenes.fauneRoom,
     });
+    this.collisionTime = true;
   }
 
   init(data) {
@@ -40,20 +41,26 @@ export default class FauneRoomScene extends Phaser.Scene {
   }
 
   handlePlayerBrotherCollision() {
-    this.cameras.main.setBounds(0, 0, 790, 790);
-    const timer = 2500;
-    promtDiag(Handler.dialogues.first, timer, this);
-    if (!this.dataProvided) {
+    if (this.collisionTimer) {
+      this.collisionTimer = false;
       setTimeout(() => {
-        this.scene.run(Handler.scenes.town);
-        this.scene.bringToTop(Handler.scenes.town);
-        this.scene.setVisible(false);
-      }, 10000);
+        this.collisionTimer = true;
+      }, 5000);
+      this.cameras.main.setBounds(0, 0, 790, 790);
+      const timer = 2500;
+      promtDiag(Handler.dialogues.first, timer, this);
+      if (!this.dataProvided) {
+        setTimeout(() => {
+          this.scene.run(Handler.scenes.town);
+          this.scene.bringToTop(Handler.scenes.town);
+          this.scene.setVisible(false);
+        }, 10000);
 
-      setTimeout(() => {
-        this.scene.stop(Handler.scenes.town);
-        this.scene.setVisible(true);
-      }, 18000);
+        setTimeout(() => {
+          this.scene.stop(Handler.scenes.town);
+          this.scene.setVisible(true);
+        }, 18000);
+      }
     }
   }
 
@@ -167,7 +174,8 @@ export default class FauneRoomScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 370, 300);
     this.cameras.main.startFollow(this.faune, true);
     this.scene.run(Handler.scenes.ui);
-    this.scene.sendToBack();
+    this.scene.sendToBack(this);
+    this.scene.bringToTop(Handler.scenes.ui);
   }
 
   update() {

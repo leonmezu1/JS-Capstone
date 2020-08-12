@@ -44,7 +44,8 @@ export default class BattleScene extends Phaser.Scene {
 
   receivePlayerSelection(action) {
     if (action === 'attack') {
-      this.turn = 0;
+      this.turn = 1;
+      this.index = 1;
       const duration = 1000;
       this.timeline = this.tweens.createTimeline();
       this.timeline.add({
@@ -60,7 +61,7 @@ export default class BattleScene extends Phaser.Scene {
         ease: 'Power1',
         x: 300,
         y: 110,
-        onStart: () => { this.faune.throwKnife(); this.faune.scaleX = 1.75; this.faune.anims.play('faune-run-side'); },
+        onStart: () => { if (this.faune.scaleX === -1.75) this.faune.throwKnife(); this.faune.scaleX = 1.75; this.faune.anims.play('faune-run-side'); },
         onComplete: () => { this.faune.anims.play('faune-idle-down'); this.faune.setVelocity(0); },
         duration,
       });
@@ -75,11 +76,10 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   nextTurn() {
-    this.turn += 1;
-    if (this.units[this.index] instanceof Faune) {
+    if (this.units[this.index] instanceof Faune && this.turn === 0) {
       this.events.emit('PlayerSelect', this.index);
-    } else {
-      if (!this.enemy.body || !this.enemy) {
+    } else if (this.turn === 1) {
+      if (!this.enemy.body || this.enemy.health <= 0) {
         promptMessage(
           [`${this.enemyType} has been defeated`],
           2000,
@@ -98,15 +98,16 @@ export default class BattleScene extends Phaser.Scene {
             setTimeout(() => {
               sceneEvents.emit('forcedUpdateBottomLeft', this.wakeData);
             }, 200);
-            if (getSystemAudio().music) this.battleMedley.stop();
+            if (getSystemAudio().music) this.sound.stopAll();
             this.scene.wake(this.parentScene);
           },
           callbackScope: this,
         });
         return;
       }
-      if (this.turn <= 1) {
+      if (this.turn === 1) {
         const duration = 1000;
+        if (this.timeline) this.timeline.destroy();
         this.timeline = this.tweens.createTimeline();
         this.timeline.add({
           targets: this.enemy,
@@ -166,9 +167,12 @@ export default class BattleScene extends Phaser.Scene {
           this,
         );
       }
-      this.time.addEvent({ delay: 2500, callback: this.nextTurn, callbackScope: this });
+      this.turn = 0;
+      this.index = 0;
+      setTimeout(() => {
+        this.nextTurn();
+      }, 2500);
     }
-    this.index = this.index === 0 ? 1 : 0;
   }
 
   builder() {
@@ -221,11 +225,12 @@ export default class BattleScene extends Phaser.Scene {
     this.enemy.destroyMovement();
     this.heroes = [this.faune];
     this.enemies = [this.enemy];
-    this.units = [this.faune, this.lizard];
+    this.units = [this.faune, this.enemy];
     this.index = 0;
   }
 
   create() {
+    this.turn = 0;
     if (getSystemAudio().music === true) {
       this.battleMedley = this.sound.add('battle_music', {
         mute: false,

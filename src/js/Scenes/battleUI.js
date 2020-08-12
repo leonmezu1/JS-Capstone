@@ -178,6 +178,10 @@ export default class BattleUIScene extends Phaser.Scene {
     };
   }
 
+  init() {
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+
   createInnerWindow(x, y, rectWidth, rectHeight) {
     this.graphics.fillStyle(this.windowColor, this.windowAlpha);
     this.graphics.fillRect(x + 1, y + 1, rectWidth - 1, rectHeight - 1);
@@ -204,18 +208,6 @@ export default class BattleUIScene extends Phaser.Scene {
     this.enemiesMenu.deselect();
     this.currentMenu = null;
     this.battleScene.receivePlayerSelection('attack', index);
-  }
-
-  onKeyInput(event) {
-    if (this.currentMenu && this.currentMenu.selected) {
-      if (event.code === 'ArrowUp') {
-        this.currentMenu.moveSelectionUp();
-      } else if (event.code === 'ArrowDown') {
-        this.currentMenu.moveSelectionDown();
-      } else if (event.code === 'Space') {
-        this.currentMenu.confirm();
-      }
-    }
   }
 
   onPlayerSelect(id) {
@@ -255,11 +247,23 @@ export default class BattleUIScene extends Phaser.Scene {
     this.battleScene = this.scene.get('BattleScene');
     this.remapHeroes();
     this.remapEnemies();
-    this.input.keyboard.on('keydown', this.onKeyInput, this);
     this.battleScene.events.on('PlayerSelect', this.onPlayerSelect, this);
     this.battleScene.nextTurn();
     this.events.on('SelectEnemies', this.onSelectEnemies, this);
     this.events.on('Enemy', this.onEnemy, this);
-    this.events.on('PlayerSelect', this.onPlayerSelect, this);
+  }
+
+  update() {
+    const upJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+    const downJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.down);
+    const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space);
+
+    if (upJustPressed) {
+      this.currentMenu.moveSelectionUp();
+    } else if (downJustPressed) {
+      this.currentMenu.moveSelectionDown();
+    } else if (spaceJustPressed) {
+      if (this.currentMenu) this.currentMenu.confirm();
+    }
   }
 }

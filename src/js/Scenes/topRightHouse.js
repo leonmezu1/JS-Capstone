@@ -18,6 +18,7 @@ export default class topRightHouseScene extends Phaser.Scene {
     super({
       key: Handler.scenes.topRightHouse,
     });
+    this.collisionTime = true;
   }
 
   init(data) {
@@ -46,11 +47,17 @@ export default class topRightHouseScene extends Phaser.Scene {
   }
 
   handlePlayerKnightCollision() {
-    if (this.lizards.getLength() === 0) {
-      promtDiag(Handler.dialogues.wizzard, 2000, this);
-      this.faune.setGameLog({ topRightHouseclear: true });
-    } else {
-      promtDiag(Handler.dialogues.helpMe, 2000, this);
+    if (this.collisionTimer) {
+      this.collisionTimer = false;
+      setTimeout(() => {
+        this.collisionTimer = true;
+      }, 5000);
+      if (this.lizards.getLength() === 0) {
+        promtDiag(Handler.dialogues.wizzard, 2000, this);
+        this.faune.setGameLog({ topRightHouseclear: true });
+      } else {
+        promtDiag(Handler.dialogues.helpMe, 2000, this);
+      }
     }
   }
 
