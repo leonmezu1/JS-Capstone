@@ -70,15 +70,15 @@ You can interact with another characters just by colliding with them, if the int
 
 ### Fighting
 
-When the turn based fight is engaged you will interact the scene through a menu which will indicate you the available options for you
+When the turn based fight is engaged, you will interact the scene through a menu which will indicate you the available options
 
 ## Road map
 
-It's my desire to keep developing and enhancing this game, in the next, you will be able to see desired features for the game in this section soon
+It's my desire to keep developing and enhancing this game, in the next realeases you will be able to see desired features for the game in this section
 
 ## Prerequisites and instructions
 
-To actively develop the game and / or modify, add features, or experiment with it you will need a prepared development environment with:
+To actively develop the game and / or modify features, or experiment with it, you will need a prepared development environment with:
 
 - Node Js installed
 
@@ -86,7 +86,7 @@ To actively develop the game and / or modify, add features, or experiment with i
 
 ### Instructions
 
-Create a local instance by cloning the repo *Remember to choose the latest branch*
+Create a local instance of the project by cloning the repository *Remember to choose the latest branch*
 
 - SSH
 
@@ -116,7 +116,7 @@ This instance will be running at the port **7000** in your local host
 
 ## Acknowledgements
 
-Although the game plot, maps, dialogues, are my intellectual work **THIS GAME** would not be developed with all of the magnificent work of the creators of the art used here, which includes:
+Although the game plot, maps and dialogues are my intellectual work, **THIS GAME** would not have been developed with all of the magnificent work of the creators of the art used here, which includes:
 
 - Sounds and Music
 - Sprites

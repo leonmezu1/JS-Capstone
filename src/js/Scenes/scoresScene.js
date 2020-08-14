@@ -45,6 +45,11 @@ export default class ScoresScenes extends Phaser.Scene {
     button.emit('selected');
   }
 
+  submit() {
+    if (getSystemAudio().music) this.Medley.stop();
+    this.scene.start(Handler.scenes.menu);
+  }
+
   create() {
     if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music) {
@@ -102,8 +107,8 @@ export default class ScoresScenes extends Phaser.Scene {
     this.buttonSelector = this.add.image(0, 0, 'cursor-hand');
     this.selectButton(0);
     menuButton.on('selected', () => {
-      if (getSystemAudio().music) this.Medley.stop();
-      this.scene.start(Handler.scenes.menu);
+      this.selectedButtonIndex = 0;
+      this.submit();
     });
   }
 

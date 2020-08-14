@@ -11,7 +11,8 @@
     "lint": "npx eslint ./src/ --fix",
     "build": "webpack --mode production",
     "watch": "webpack --w --mode production",
-    "start": "webpack-dev-server --w --mode development --open --config ./webpack.config.js "
+    "start": "webpack-dev-server --w --mode development --open --config ./webpack.config.js ",
+    "test": "jest"
   },
   "dependencies": {
     "phaser": "^3.24.0",
@@ -30,6 +31,7 @@
     "eslint-config-airbnb-base": "14.1.x",
     "eslint-plugin-import": "2.20.x",
     "file-loader": "^6.0.0",
+    "jest": "^26.4.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",

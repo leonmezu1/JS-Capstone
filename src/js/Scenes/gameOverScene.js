@@ -126,7 +126,7 @@ export default class GameOverScene extends Phaser.Scene {
     this.selectButton(0);
     this.inputText.setFocus();
     this.submitButton.on('selected', () => {
-      this.submit();
+      this.selectedButtonIndex = 0;
     });
   }
 
@@ -141,6 +141,7 @@ export default class GameOverScene extends Phaser.Scene {
       this.selectNextButton(1);
     } else if (spaceJustPressed) {
       this.confirmSelection();
+      this.submit();
     }
   }
 }
