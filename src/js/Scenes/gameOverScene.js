@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext';
 import { postData } from '../utils/fetchApi';

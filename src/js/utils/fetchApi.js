@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import 'regenerator-runtime';
 
 const gameId = 'iDV2UjgwszfEVCL2K35I';

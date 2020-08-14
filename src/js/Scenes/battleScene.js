@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import Faune from '../gameObjects/characters/faune';
 import Lizards from '../gameObjects/enemies/lizards';

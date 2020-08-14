@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles';
 import { Handler } from './scenesHandler';

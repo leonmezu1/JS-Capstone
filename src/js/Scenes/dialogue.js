@@ -1,4 +1,5 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 import sceneEvents from '../events/events';
@@ -30,9 +31,6 @@ export default class DialogueScene extends Phaser.Scene {
     this.eventCounter = 0;
     this.visible = true;
     this.dialogText = '';
-    this.dialog;
-    this.graphics;
-    this.closeBtn;
 
     this.createWindow();
   }

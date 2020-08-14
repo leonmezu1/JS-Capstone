@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import sceneEvents from '../events/events';
 import createDragonAnims from '../gameObjects/anims/dragonAnims';

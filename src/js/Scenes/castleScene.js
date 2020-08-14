@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import createChestAnims from '../gameObjects/anims/chestAnims';
 import createFauneAnims from '../gameObjects/anims/fauneAnims';

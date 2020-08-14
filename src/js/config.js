@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import InputTextPlugin from 'phaser3-rex-plugins/plugins/inputtext-plugin';
 import BattleScene from './Scenes/battleScene';
@@ -21,6 +23,7 @@ import ScoresScenes from './Scenes/scoresScene';
 import VictoryScene from './Scenes/victoryScene';
 import CreditsScene from './Scenes/creditsScene';
 import finalBattleScene from './Scenes/finalBattleScene';
+
 
 const config = () => {
   const config = {

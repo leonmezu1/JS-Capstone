@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import { getData } from '../utils/fetchApi';
 import { getSystemAudio } from '../utils/localStorage';

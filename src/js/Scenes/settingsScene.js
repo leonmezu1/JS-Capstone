@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import { getSystemAudio, setSystemAudio } from '../utils/localStorage';
 import { Handler } from './scenesHandler';

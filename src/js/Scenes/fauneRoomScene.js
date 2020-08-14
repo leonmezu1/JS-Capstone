@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 import { Handler } from './scenesHandler';
 import Faune from '../gameObjects/characters/faune';

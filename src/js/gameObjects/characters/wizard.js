@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Phaser from 'phaser';
 
 export default class Wizard extends Phaser.Physics.Arcade.Sprite {
