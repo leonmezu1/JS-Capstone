@@ -66,7 +66,7 @@ The **Space bar** will let Faune perform attacks or interact with some game elem
 
 Also the **Space bar** acts as confirmation button for the user interface menus
 
-You can interact with another characters just by colliding with them, is the interaction is available you will see a dialogue prompt pop up in the screen
+You can interact with another characters just by colliding with them, if the interaction is available you will see a dialogue prompt pop up in the screen
 
 ### Fighting
 
