@@ -110,7 +110,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
         this.scene.scene.stop(Handler.scenes.battle);
       }
       this.scene.scene.start(Handler.scenes.gameOver, { dataToPass });
-    }, 2000);
+    }, 2100);
   }
 
   damagedBy(damage) {
