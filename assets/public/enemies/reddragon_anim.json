@@ -1,0 +1,276 @@
+{
+    "anims": [
+        {
+            "key": "right",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 10,
+            "frames": [
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_0"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_1"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_2"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_3"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_4"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_5"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_6"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_7"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_8"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_9"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_10"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_11"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_12"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_13"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyright_14"
+                }
+            ]
+        },
+        {
+            "key": "left",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 10,
+            "frames": [
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_0"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_1"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_2"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_3"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_4"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_5"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_6"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_7"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_8"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_9"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_10"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_11"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_12"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_13"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyleft_14"
+                }
+            ]
+        },
+        {
+            "key": "up",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 10,
+            "frames": [
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_0"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_1"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_2"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_3"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_4"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_5"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_6"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_7"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_8"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_9"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_10"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_11"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_12"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_13"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflyup_14"
+                }
+            ]
+        },
+        {
+            "key": "down",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 10,
+            "frames": [
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_0"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_1"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_2"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_3"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_4"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_5"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_6"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_7"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_8"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_9"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_10"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_11"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_12"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_13"
+                },
+                {
+                    "key": "reddragon",
+                    "frame": "reddragonflydown_14"
+                }
+            ]
+        }
+    ]
+}

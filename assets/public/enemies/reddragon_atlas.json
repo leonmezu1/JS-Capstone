@@ -1,0 +1,840 @@
+{
+    "frames": [
+        {
+            "filename": "reddragonflydown_0",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_1",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_2",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_3",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_4",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 161
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_5",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 161
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_6",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 161
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_7",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 161
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_8",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 322
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_9",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 322
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_10",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 322
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_11",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 322
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_12",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 483
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_13",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 483
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_14",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 483
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflydown_attack",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 483
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_0",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 644
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_1",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 644
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_2",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 644
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_3",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 644
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_4",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 805
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_5",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 805
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_6",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 805
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_7",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 805
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_8",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 966
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_9",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 966
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_10",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 966
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_11",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 966
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_12",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 1127
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_13",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 1127
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_14",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 1127
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyleft_attack",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 1127
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_0",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 1288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_1",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 1288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_2",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 1288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_3",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 1288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_4",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 1449
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_5",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 1449
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_6",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 1449
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_7",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 1449
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_8",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 1610
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_9",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 1610
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_10",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 1610
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_11",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 1610
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_12",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 1771
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_13",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 1771
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_14",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 1771
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyright_attack",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 1771
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_0",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 1932
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_1",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 1932
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_2",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 1932
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_3",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 1932
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_4",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 2093
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_5",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 2093
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_6",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 2093
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_7",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 2093
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_8",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 2254
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_9",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 2254
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_10",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 2254
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_11",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 2254
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_12",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 0,
+                "y": 2415
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_13",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 205,
+                "y": 2415
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_14",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 410,
+                "y": 2415
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "reddragonflyup_attack",
+            "frame": {
+                "w": 205,
+                "h": 161,
+                "x": 615,
+                "y": 2415
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

@@ -19,7 +19,7 @@
          "name":"Floor",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
@@ -428,7 +428,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -10879,7 +10879,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -11304,7 +11304,42 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":8,
+         "name":"Switch",
+         "objects":[
+                {
+                 "gid":390,
+                 "height":16,
+                 "id":991,
+                 "name":"s2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":96
+                }, 
+                {
+                 "gid":390,
+                 "height":16,
+                 "id":992,
+                 "name":"s1",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":160,
+                 "y":1456
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -11975,38 +12010,26 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "id":8,
-         "name":"Switch",
+         "id":9,
+         "name":"Portal",
          "objects":[
                 {
-                 "gid":390,
+                 "gid":389,
                  "height":16,
-                 "id":991,
-                 "name":"s2",
+                 "id":1047,
+                 "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":128,
-                 "y":96
-                }, 
-                {
-                 "gid":390,
-                 "height":16,
-                 "id":992,
-                 "name":"s1",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":160,
-                 "y":1456
+                 "x":1216,
+                 "y":544
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -12014,8 +12037,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":1047,
+ "nextlayerid":10,
+ "nextobjectid":1049,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.1",
