@@ -32,6 +32,8 @@ The main objective of this project is to build a turn based Role Play Game (RPG)
 You can play the game right away through this link 📎
 [Faune half time demon slayer](https://faune.netlify.app/)
 
+> *You might need to refresh the page if the cursors are held in the menu, this is due to a assets timing issue*
+
 ## The game
 
 You will be playing the role of Faune, a mythic supernatural teenager, who has to save her town from the evil forces that try to destroy the reign!
