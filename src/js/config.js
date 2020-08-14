@@ -20,6 +20,7 @@ import GameOverScene from './Scenes/gameOverScene';
 import ScoresScenes from './Scenes/scoresScene';
 import VictoryScene from './Scenes/victoryScene';
 import CreditsScene from './Scenes/creditsScene';
+import finalBattleScene from './Scenes/finalBattleScene';
 
 const config = () => {
   const config = {
@@ -47,6 +48,7 @@ const config = () => {
       ScoresScenes,
       VictoryScene,
       CreditsScene,
+      finalBattleScene,
     ],
     parent: 'gameContainer',
     dom: {

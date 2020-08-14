@@ -47,7 +47,7 @@ export default class VictoryScene extends Phaser.Scene {
   }
 
   confirmSelection() {
-    const button = this.buttons[this.selectedButtonIndex];
+    const button = this.buttons[0];
     if (getSystemAudio().sounds) this.sound.play('select');
     button.emit('selected');
   }
@@ -61,6 +61,7 @@ export default class VictoryScene extends Phaser.Scene {
       this.initScore = 10;
       this.initCoins = 10;
     }
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music) {
       this.Medley = this.sound.add('statistics_music', {
         mute: false,

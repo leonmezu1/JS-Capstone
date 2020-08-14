@@ -52,6 +52,7 @@ export default class CastleScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music === true) {
       this.roomMedley = this.sound.add('horror_music', {
         mute: false,

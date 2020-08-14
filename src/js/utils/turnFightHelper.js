@@ -4,7 +4,7 @@ const turnBasedFight = (character, enemy, scene) => {
   const dataToPass = {
     score: character.getScore(),
     health: character.getHealth(),
-    enemyType: enemy.constructor.name,
+    enemyType: enemy.characterType,
     parentScene: scene.scene.key,
   };
   enemy.destroy();

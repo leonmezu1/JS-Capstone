@@ -37,6 +37,7 @@ export default class TownScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music) this.sound.stopAll();
     if (getSystemAudio().music && this.dataProvided) {
       this.townMedley = this.sound.add('town_music', {
         mute: false,

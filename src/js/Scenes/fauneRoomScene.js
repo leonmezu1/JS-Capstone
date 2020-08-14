@@ -8,6 +8,7 @@ import createChestAnims from '../gameObjects/anims/chestAnims';
 import createElfAnims from '../gameObjects/anims/elfAnims';
 import promtDiag from '../utils/diagHelper';
 import { getSystemAudio } from '../utils/localStorage';
+import promptMessage from '../utils/messagesHelper';
 
 export default class FauneRoomScene extends Phaser.Scene {
   constructor() {
@@ -15,6 +16,7 @@ export default class FauneRoomScene extends Phaser.Scene {
       key: Handler.scenes.fauneRoom,
     });
     this.collisionTimer = true;
+    this.halt = false;
   }
 
   init(data) {
@@ -50,6 +52,7 @@ export default class FauneRoomScene extends Phaser.Scene {
       const timer = 2500;
       promtDiag(Handler.dialogues.first, timer, this);
       if (!this.dataProvided) {
+        this.halt = true;
         setTimeout(() => {
           this.scene.run(Handler.scenes.town);
           this.scene.bringToTop(Handler.scenes.town);
@@ -59,12 +62,14 @@ export default class FauneRoomScene extends Phaser.Scene {
         setTimeout(() => {
           this.scene.stop(Handler.scenes.town);
           this.scene.setVisible(true);
+          this.halt = false;
         }, 18000);
       }
     }
   }
 
   create() {
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music === true) {
       this.roomMedley = this.sound.add('title_music', {
         mute: false,
@@ -193,8 +198,12 @@ export default class FauneRoomScene extends Phaser.Scene {
         gameLog: this.faune.getGameLog(),
         looking: 'down',
       };
-      if (getSystemAudio().music) this.roomMedley.stop();
-      this.scene.start(Handler.scenes.town, { dataToPass });
+      if (!this.halt) {
+        if (getSystemAudio().music) this.roomMedley.stop();
+        this.scene.start(Handler.scenes.town, { dataToPass });
+      } else {
+        promptMessage(['Wait for the dialogue to end'], 2000, this);
+      }
     }
   }
 }

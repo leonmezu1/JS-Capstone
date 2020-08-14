@@ -34,6 +34,7 @@ export default class Lizards extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
     this.body.offset.y = 12;
+    this.characterType = 'Lizard';
     this.health = 100;
     scene.add.existing(this);
   }
@@ -91,6 +92,7 @@ export default class Lizards extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (this.health <= 0) {
+      if (getSystemAudio().sounds) this.scene.sound.play('enemyDies');
       this.destroy();
     }
   }

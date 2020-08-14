@@ -156,7 +156,12 @@ export default class BattleScene extends Phaser.Scene {
           ease: 'Power1',
           x: 100,
           y: 100,
-          onComplete: () => { this.faune.setTint(0xffffff); },
+          onComplete: () => {
+            this.turn = 0;
+            this.index = 0;
+            this.faune.setTint(0xffffff);
+            this.nextTurn();
+          },
           duration,
         });
         this.timeline.play();
@@ -167,11 +172,6 @@ export default class BattleScene extends Phaser.Scene {
           this,
         );
       }
-      this.turn = 0;
-      this.index = 0;
-      setTimeout(() => {
-        this.nextTurn();
-      }, 2500);
     }
   }
 
@@ -200,13 +200,13 @@ export default class BattleScene extends Phaser.Scene {
       this.faune.setScore(this.initScore);
     }
     switch (this.enemyType) {
-      case 'Lizards':
+      case 'Lizard':
         this.enemy = new Lizards(this, 100, 100, 'lizard').setScale(sceneScale);
         break;
-      case 'Necromancers':
+      case 'Necromancer':
         this.enemy = new Necromancers(this, 100, 100, 'lizard').setScale(sceneScale);
         break;
-      case 'Ogres':
+      case 'Ogre':
         this.enemy = new Ogres(this, 100, 100, 'lizard').setScale(sceneScale);
         break;
       default:
@@ -231,6 +231,7 @@ export default class BattleScene extends Phaser.Scene {
 
   create() {
     this.turn = 0;
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music === true) {
       this.battleMedley = this.sound.add('battle_music', {
         mute: false,

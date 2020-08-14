@@ -16,32 +16,40 @@ const randomDirection = (exclude) => {
   }
   return newDirection;
 };
-export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
+export default class Dragon extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene, x, y, texture, frame);
+    this.scene = scene;
     this.direction = Direction.RIGHT;
-    this.anims.play('necro-idle');
+    this.anims.play('dragon-up');
     scene.physics.world.on(
       Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this,
     );
     this.moveEvent = scene.time.addEvent({
-      delay: 4000,
+      delay: 3000,
       callback: () => {
         this.direction = randomDirection(this.direction);
       },
       loop: true,
     });
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
-    this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
-    this.body.offset.y = 12;
-    this.characterType = 'Necromancer';
-    this.health = 300;
+    this.body.setSize(this.body.width * 0.20, this.body.height * 0.15);
+    this.body.offset.y = 65;
+    this.characterType = 'Dragon';
+    this.health = 1000;
     scene.add.existing(this);
   }
 
   decreaseHealth(damage) {
     this.health -= damage;
     if (getSystemAudio().sounds) this.scene.sound.play('enemyHit');
+  }
+
+  checkHealth() {
+    if (this.health <= 0) {
+      if (getSystemAudio().sounds) this.scene.sound.play('enemyDies');
+      this.destroy();
+    }
   }
 
   destroy(fromScene) {
@@ -54,6 +62,17 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
     this.moveEvent.destroy();
   }
 
+  enableMovement() {
+    this.direction = Direction.RIGHT;
+    this.moveEvent = this.scene.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.direction = randomDirection(this.direction);
+      },
+      loop: true,
+    });
+  }
+
   handleTileCollision(gO) {
     if (gO !== this) {
       return;
@@ -63,7 +82,7 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
 
   preUpdate(t, dt) {
     super.preUpdate(t, dt);
-    const speed = 50;
+    const speed = 200;
     switch (this.direction) {
       case Direction.UP:
         this.setVelocity(0, -speed);
@@ -83,9 +102,12 @@ export default class Necromancers extends Phaser.Physics.Arcade.Sprite {
       default:
         break;
     }
+
     if (this.health <= 0) {
       if (getSystemAudio().sounds) this.scene.sound.play('enemyDies');
-      this.destroy();
+      if (getSystemAudio().music === true) this.scene.sound.stopAll();
+      if (getSystemAudio().music) this.scene.sound.play('town_music', { volume: 0.175 });
+      this.destroy(true);
     }
   }
 }

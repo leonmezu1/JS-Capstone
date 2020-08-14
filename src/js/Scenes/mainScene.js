@@ -27,6 +27,7 @@ export default class MainScene extends Phaser.Scene {
       key: Handler.scenes.main,
     });
     this.hit = 0;
+    this.portalTimer = true;
   }
 
   init(data) {
@@ -106,6 +107,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music === true) {
       this.roomMedley = this.sound.add('warzone_music', {
         mute: false,
@@ -141,6 +143,7 @@ export default class MainScene extends Phaser.Scene {
     this.switchObjectsLayer = this.map.getObjectLayer('Switch');
     this.doorsObjectsLayer = this.map.getObjectLayer('Doors');
     this.LizardsLayer = this.map.getObjectLayer('Lizards');
+    this.portalLayer = this.map.getObjectLayer('Portal');
     this.wallLayers.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, 2000, 2000);
 
@@ -160,6 +163,14 @@ export default class MainScene extends Phaser.Scene {
 
     this.pikes = this.physics.add.staticGroup({
       classType: Pikes,
+    });
+
+    this.portals = this.physics.add.staticGroup({
+      classType: Phaser.Physics.Arcade.Image,
+      createCallback: (go) => {
+        const ogGo = go;
+        ogGo.body.onCollide = true;
+      },
     });
 
     this.lavaFountains = this.physics.add.staticGroup({
@@ -208,6 +219,10 @@ export default class MainScene extends Phaser.Scene {
 
     this.pikesObjectsLayer.objects.forEach(pikeTile => {
       this.pikes.get(pikeTile.x + 8, pikeTile.y - 8, 'pikes');
+    });
+
+    this.portalLayer.objects.forEach(portalTile => {
+      this.portals.get(portalTile.x + 8, portalTile.y - 8, 'portal');
     });
 
     this.lavaFountainsObjectsLayer.objects.forEach(fountain => {
@@ -346,6 +361,27 @@ export default class MainScene extends Phaser.Scene {
       this.faune,
       this.cranks,
       this.handlePlayerCrankCollision,
+      undefined,
+      this,
+    );
+
+    this.physics.add.collider(
+      this.faune,
+      this.portals,
+      () => {
+        if (this.portalTimer) {
+          this.portalTimer = false;
+          this.cameras.main.shake(500);
+          const dataToPass = {
+            score: this.faune.getScore(),
+            coins: this.faune.getCoins(),
+            health: this.faune.getHealth(),
+          };
+          setTimeout(() => {
+            this.scene.start(Handler.scenes.finalBattle, { dataToPass });
+          }, 500);
+        }
+      },
       undefined,
       this,
     );

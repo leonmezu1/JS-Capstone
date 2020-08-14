@@ -44,6 +44,7 @@ export default class CreditsScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music) {
       this.Medley = this.sound.add('statistics_music', {
         mute: false,

@@ -34,6 +34,7 @@ export default class Ogres extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
     this.body.setSize(this.body.width * 0.5, this.body.height * 0.4);
     this.body.offset.y = 12;
+    this.characterType = 'Ogre';
     this.health = 375;
     scene.add.existing(this);
   }

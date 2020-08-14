@@ -11,7 +11,7 @@
     "lint": "npx eslint ./src/ --fix",
     "build": "webpack --mode production",
     "watch": "webpack --w --mode production",
-    "start": "webpack-dev-server --mode development --open --config ./webpack.config.js "
+    "start": "webpack-dev-server --w --mode development --open --config ./webpack.config.js "
   },
   "dependencies": {
     "phaser": "^3.24.0",

@@ -46,7 +46,7 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   confirmSelection() {
-    const button = this.buttons[this.selectedButtonIndex];
+    const button = this.buttons[0];
     if (getSystemAudio().sounds) this.sound.play('select');
     button.emit('selected');
   }
@@ -55,11 +55,29 @@ export default class GameOverScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
+  submit() {
+    if (this.inputText.text === '') {
+      this.inputText.placeholder = 'Name field can\'t be empty';
+    } else if (this.inputText.text.length < 3) {
+      this.inputText.text = '';
+      this.inputText.placeholder = 'Name field lenght must be > 2';
+    } else {
+      postData({ user: this.inputText.text, score: this.initScore + this.initCoins });
+      this.cameras.main.fadeOut(500, 0, 0, 0, 0);
+      setTimeout(() => {
+        if (getSystemAudio().music) this.Medley.stop();
+        this.scene.start(Handler.scenes.scores);
+      }, 1500);
+    }
+  }
+
   create() {
+    if (this.scene.isActive('BattleUIScene')) this.scene.stop('BattleUIScene');
     if (!this.dataProvided) {
       this.initScore = 10;
       this.initCoins = 10;
     }
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music) {
       this.Medley = this.sound.add('statistics_music', {
         mute: false,
@@ -108,19 +126,7 @@ export default class GameOverScene extends Phaser.Scene {
     this.selectButton(0);
     this.inputText.setFocus();
     this.submitButton.on('selected', () => {
-      if (this.inputText.text === '') {
-        this.inputText.placeholder = 'Name field can\'t be empty';
-      } else if (this.inputText.text.length < 3) {
-        this.inputText.text = '';
-        this.inputText.placeholder = 'Name field lenght must be > 2';
-      } else {
-        postData({ user: this.inputText.text, score: this.initScore + this.initCoins });
-        this.cameras.main.fadeOut(500, 0, 0, 0, 0);
-        setTimeout(() => {
-          if (getSystemAudio().music) this.Medley.stop();
-          this.scene.start(Handler.scenes.scores);
-        }, 1500);
-      }
+      this.submit();
     });
   }
 

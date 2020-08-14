@@ -90,6 +90,7 @@ export default class BottomLeftHouseScene extends Phaser.Scene {
   }
 
   create() {
+    if (getSystemAudio().music === true) this.sound.stopAll();
     if (getSystemAudio().music === true) {
       this.roomMedley = this.sound.add('title_music', {
         mute: false,

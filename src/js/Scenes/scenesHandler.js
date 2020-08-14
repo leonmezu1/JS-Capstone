@@ -19,6 +19,7 @@ export const Handler = {
     scores: 'ScoresScenes',
     gameOver: 'GameOverScene',
     victory: 'VictoryScene',
+    finalBattle: 'finalBattleScene',
   },
   dialogues: {
     first: [

@@ -90,7 +90,7 @@ const Menu = new Phaser.Class({
     this.clear();
     for (let i = 0; i < units.length; i += 1) {
       const unit = units[i];
-      this.addMenuItem(unit.constructor.name);
+      this.addMenuItem(unit.characterType);
     }
     this.menuItemIndex = 0;
   },
@@ -211,9 +211,11 @@ export default class BattleUIScene extends Phaser.Scene {
   }
 
   onPlayerSelect(id) {
-    this.heroesMenu.select(id);
-    this.actionsMenu.select(0);
-    this.currentMenu = this.actionsMenu;
+    setTimeout(() => {
+      this.heroesMenu.select(id);
+      this.actionsMenu.select(0);
+      this.currentMenu = this.actionsMenu;
+    }, 500);
   }
 
   onSelectEnemies() {

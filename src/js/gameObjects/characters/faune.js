@@ -31,6 +31,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(this.body.width * 0.2, this.body.height * 0.3);
     this.body.offset.y = 16;
     this.setDepth(500);
+    this.characterType = 'Faune';
     this.anims.play('faune-idle-down');
     scene.add.existing(this);
   }
@@ -171,7 +172,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     if (getSystemAudio().sounds) this.scene.sound.play('swing');
   }
 
-  handleDamage(dx, dy, movementEnabled = true) {
+  handleDamage(dx, dy, movementEnabled = true, damage = false) {
     if (this.healthState === HealthState.DAMAGE) { return; }
     if (movementEnabled) {
       const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200);
@@ -180,7 +181,11 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     }
     this.healthState = HealthState.DAMAGE;
     if (getSystemAudio().sounds) this.scene.sound.play('fauneHurt');
-    this.damagedBy(100);
+    if (damage !== false) {
+      this.damagedBy(damage);
+    } else {
+      this.damagedBy(100);
+    }
     if (this.health <= 0) {
       this.fauneDies();
     }

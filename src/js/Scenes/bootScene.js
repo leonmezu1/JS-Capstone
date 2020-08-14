@@ -39,6 +39,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('knife', 'assets/public/weapons/weapon_knife.png');
     this.load.image('switchLeft', 'assets/public/items/crank_left.png');
     this.load.image('switchRight', 'assets/public/items/crank_right.png');
+    this.load.image('portal', 'assets/public/items/portal.png');
     this.load.image('doorOpen', 'assets/public/items/doors_leaf_open.png');
     this.load.image('doorClosed', 'assets/public/items/doors_leaf_closed.png');
     this.load.image('battleBg', 'assets/public/backgrounds/battleBack2.jpg');
@@ -56,6 +57,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.atlas('ogre', 'assets/public/enemies/ogre.png', 'assets/public/enemies/ogre_atlas.json');
     this.load.atlas('wizard', 'assets/public/character/wizard.png', 'assets/public/character/wizard_atlas.json');
     this.load.atlas('lizard', 'assets/public/enemies/lizard.png', 'assets/public/enemies/lizard.json');
+    this.load.atlas('reddragon', 'assets/public/enemies/reddragon.png', 'assets/public/enemies/reddragon_atlas.json');
     this.load.tilemapTiledJSON('dungeon_map', 'assets/maps/dungeon.json');
     this.load.tilemapTiledJSON('town_map', 'assets/maps/town.json');
     this.load.tilemapTiledJSON('fauneRoom_map', 'assets/maps/fauneHouse.json');
@@ -63,6 +65,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('bottomLeftHouse_map', 'assets/maps/bottomLeftHouse.json');
     this.load.tilemapTiledJSON('bottomRightHouse_map', 'assets/maps/bottomRightHouse.json');
     this.load.tilemapTiledJSON('castle_map', 'assets/maps/castleInner.json');
+    this.load.tilemapTiledJSON('finalBattle_map', 'assets/maps/finalBattle.json');
 
 
     this.loadingBar = this.add.graphics({
@@ -134,7 +137,7 @@ export default class BootScene extends Phaser.Scene {
         this.loadingText.destroy();
         this.percentageText.destroy();
         this.assetsText.destroy();
-        this.scene.start(Handler.scenes.menu);
+        this.scene.start(Handler.scenes.fauneRoom);
       }, 2500);
     });
   }
