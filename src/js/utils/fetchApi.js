@@ -1,3 +1,5 @@
+import 'regenerator-runtime';
+
 const gameId = 'iDV2UjgwszfEVCL2K35I';
 const urlgame = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${gameId}/scores/`;
 

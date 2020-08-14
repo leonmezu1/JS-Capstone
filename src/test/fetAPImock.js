@@ -1,3 +1,7 @@
+import 'regenerator-runtime';
+
+const fetch = require('node-fetch');
+
 const gameId = 'iDV2UjgwszfEVCL2K35I';
 const urlgame = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${gameId}/scores/`;
 
