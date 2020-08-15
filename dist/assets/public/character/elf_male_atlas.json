@@ -1,0 +1,125 @@
+{
+    "frames": [
+        {
+            "filename": "elf_m_hit_anim_f0",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_idle_anim_f0",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 16,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_idle_anim_f1",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 0,
+                "y": 28
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_idle_anim_f2",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 16,
+                "y": 28
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_idle_anim_f3",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 32,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_run_anim_f0",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 32,
+                "y": 28
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_run_anim_f1",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 48,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_run_anim_f2",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 48,
+                "y": 28
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "elf_m_run_anim_f3",
+            "frame": {
+                "w": 16,
+                "h": 28,
+                "x": 0,
+                "y": 56
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

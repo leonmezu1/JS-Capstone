@@ -1,0 +1,28 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url('assets/public/backgrounds/mainBackground2.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+#gameContainer {
+  display: flex;
+  width: 90vw;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  padding-top: 2rem;
+  align-items: center;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+}
